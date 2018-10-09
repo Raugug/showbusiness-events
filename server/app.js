@@ -1,17 +1,18 @@
 require('dotenv').config();
 
-const bodyParser   = require('body-parser');
+const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const express      = require('express');
-const favicon      = require('serve-favicon');
-const hbs          = require('hbs');
-const mongoose     = require('mongoose');
-const logger       = require('morgan');
-const path         = require('path');
+const express = require('express');
+const favicon = require('serve-favicon');
+const hbs = require('hbs');
+const mongoose = require('mongoose');
+const logger = require('morgan');
+const path = require('path');
 
-const session    = require("express-session");
+const session = require("express-session");
 const MongoStore = require('connect-mongo')(session);
-const flash      = require("connect-flash");
+const flash = require("connect-flash");
+const cors = require('cors');
     
 
 mongoose
@@ -29,6 +30,17 @@ const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.
 const app = express();
 
 // Middleware Setup
+var whitelist = [
+  'http://localhost:3000'
+];
+var corsOptions = {
+  origin: function(origin, callback){
+      var originIsWhitelisted = whitelist.indexOf(origin) !== -1;
+      callback(null, originIsWhitelisted);
+  },
+  credentials: true
+};
+app.use(cors(corsOptions));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -61,7 +73,7 @@ hbs.registerHelper('ifUndefined', (value, options) => {
   
 
 // default value for title local
-app.locals.title = 'Express - Generated with IronGenerator';
+app.locals.title = 'Show Business Events';
 
 
 // Enable authentication using session + passport
@@ -69,6 +81,7 @@ app.use(session({
   secret: 'irongenerator',
   resave: true,
   saveUninitialized: true,
+  cookie: { maxAge: 30000000 },
   store: new MongoStore( { mongooseConnection: mongoose.connection })
 }))
 app.use(flash());
@@ -79,7 +92,7 @@ const index = require('./routes/index');
 app.use('/', index);
 
 const authRoutes = require('./routes/auth');
-app.use('/auth', authRoutes);
+app.use('/api/auth', authRoutes);
       
 
 module.exports = app;
