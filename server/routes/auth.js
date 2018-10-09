@@ -49,7 +49,7 @@ router.post('/signup', (req, res, next) => {
 
     const salt     = bcrypt.genSaltSync(10);
     const hashPass = bcrypt.hashSync(password, salt);
-
+    console.log('USER TO CREATE');
     return new User({
       username,
       password: hashPass
@@ -57,7 +57,7 @@ router.post('/signup', (req, res, next) => {
   })
   .then( savedUser => login(req, savedUser)) // Login the user using passport
   .then( user => res.json({status: 'signup & login successfully', user})) // Answer JSON
-  .catch(e => next(e));
+  .catch(e => console.log(e));
 });
 
 router.post('/login', (req, res, next) => {
