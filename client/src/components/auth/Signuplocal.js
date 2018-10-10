@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AuthService from './AuthService'
-import Map from '../maps/Map'
+import SimpleMap from '../maps/Map'
 
 class Signuplocal extends Component {
   constructor(props){
@@ -76,13 +76,12 @@ class Signuplocal extends Component {
 
           <div class="form-group">
             <label for="map">Location</label>
-            <Map />
+            <SimpleMap />
           </div>
 
           
           <input type="submit" value="Sign up" />
         </form>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRIT2iw6rPE6wpIGJK2jfCsKYmMcEXfUc"></script>
         <script src="../maps/addMap.js"></script>
 
       </div>
