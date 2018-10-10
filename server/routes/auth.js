@@ -34,6 +34,10 @@ router.post('/signup', (req, res, next) => {
     type: 'Point',
     coordinates: [Number(req.body.latitude), Number(req.body.longitude)]
   }
+  if(placeType=="User"){
+    location.coordinates[0]=0;
+    location.coordinates[1]=0;
+  }
 
   console.log('username', username)
   console.log('password', password)

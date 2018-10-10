@@ -7,12 +7,12 @@ const userSchema = new Schema({
   email: String,
   isPlace: Boolean,
   photo: String,
-  placeType: { type: String, enum: ['Bar', 'Theater', 'Club', 'Cafe', "Client"] },
+  placeType: { type: String, enum: ['Bar', 'Theater', 'Club', 'Cafe', "User"] },
   eventsHost: [{ type: Schema.Types.ObjectId, ref: "Event" }],
   eventsGo: [{ type: Schema.Types.ObjectId, ref: "Event" }],
   favUsers: [{ type: Schema.Types.ObjectId, ref: "User" }],
   favPlaces: [{ type: Schema.Types.ObjectId, ref: "User" }],
-  location: { type: { type: String }, coordinates: [Number] }
+  location: { type: { type: String, default: 'Point'}, coordinates: [Number], default:[0,0] }
 }, {
   timestamps: {
     createdAt: 'created_at',

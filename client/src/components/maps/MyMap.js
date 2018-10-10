@@ -23,10 +23,13 @@ class MyMap extends Component {
   }
   onMapLoad = (map) => {
     let marker;
-    
+    let clickPos= {
+      lat:0,
+      lng:0
+    };
   
     map.addListener('click', (e) =>{
-      const clickPos = {
+      clickPos = {
         lat:e.latLng.lat(),
         lng:e.latLng.lng()
       }
