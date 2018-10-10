@@ -8,7 +8,11 @@ class Map extends Component {
     }
 
     render() {
-        return (<div id="map">
+        return (
+            <div id="map">
+
+                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRIT2iw6rPE6wpIGJK2jfCsKYmMcEXfUc"></script>
+
             </div>);
         
     }

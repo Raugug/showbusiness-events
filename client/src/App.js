@@ -5,6 +5,7 @@ import { Switch, Route } from 'react-router-dom';
 // import ProjectDetails from './components/projects/ProjectDetails';
 import Navbar from './components/navbar/Navbar';
 import Signup from './components/auth/Signup';
+import Signuplocal from './components/auth/Signuplocal';
 import Login from './components/auth/Login';
 import AuthService from './components/auth/AuthService';
 import Contents from './components/contents/Contents'
@@ -65,6 +66,7 @@ class App extends Component {
             <Navbar userInSession={this.state.loggedInUser} logout={this.logout} />
             <Switch>
               <Route exact path='/signup' render={() => <Signup getUser={this.getTheUser}/>}/>
+              <Route exact path='/signuplocal' render={() => <Signuplocal getUser={this.getTheUser}/>}/>
               <Route exact path='/login' render={() => <Login getUser={this.getTheUser}/>}/>
             </Switch>
           </header>

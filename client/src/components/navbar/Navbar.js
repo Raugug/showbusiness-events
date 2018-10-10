@@ -34,6 +34,7 @@ class Navbar extends Component {
           <nav className="nav-style">
             <ul>
             <li><Link to='/signup'>Signup</Link></li>
+            <li><Link to='/signuplocal'>Have a place? Signup as Place</Link></li>
             <li><Link to='/login'>Login</Link></li>
             </ul>
           </nav>

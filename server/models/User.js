@@ -7,18 +7,18 @@ const userSchema = new Schema({
   email: String,
   isPlace: Boolean,
   photo: String,
-  placeType: { type: String, enum: ['Bar', 'Play', 'Concert', 'session'] },
+  placeType: { type: String, enum: ['Bar', 'Theater', 'Club', 'Cafe'] },
   eventsHost: [{ type: Schema.Types.ObjectId, ref: "Event" }],
   eventsGo: [{ type: Schema.Types.ObjectId, ref: "Event" }],
   favUsers: [{ type: Schema.Types.ObjectId, ref: "User" }],
-  favPlaces: [{ type: Schema.Types.ObjectId, ref: "User" }]
-  //location: { type: { type: String }, coordinates: [Number] }
+  favPlaces: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  location: { type: { type: String }, coordinates: [Number] }
 }, {
   timestamps: {
     createdAt: 'created_at',
     updatedAt: 'updated_at'
   }
 });
-//userSchema.index({ location: '2dsphere' });
+userSchema.index({ location: '2dsphere' });
 const User = mongoose.model('User', userSchema);
 module.exports = User;

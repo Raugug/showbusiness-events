@@ -5,7 +5,7 @@ const eventSchema = new Schema({
   place: { type: Schema.Types.ObjectId, ref: "User" },
   description: String,
   date: String,
-  type: { type: String, enum: ['Standup', 'Play', 'Concert', 'session'] },
+  type: { type: String, enum: ['Standup', 'Play', 'Concert', 'Session'] },
   interested: [{ type: Schema.Types.ObjectId, ref: "User" }],
   
 }, {
