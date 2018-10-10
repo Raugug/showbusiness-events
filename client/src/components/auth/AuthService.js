@@ -8,8 +8,9 @@ class AuthService {
     });
   }
 
-  signup = (username, password, password2) => {
-    return this.service.post('/signup', {username, password, password2})
+  signup = (username, password, password2, email, placeType, latitude, longitude) => {
+    console.log("EN SIGNUP SERVICE", username, password, password2, email, placeType, latitude, longitude)
+    return this.service.post('/signup', {username, password, password2, email, placeType, latitude, longitude})
     .then(response => response.data)
   }
 

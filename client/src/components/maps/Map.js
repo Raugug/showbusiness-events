@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
-import Marker from 'google-map-react';
-//import Marker from 'google-maps-react';
+//import Marker from 'google-map-react';
 import geolocalize from './geolocalize'
 
  
-//const Marker = ({ text }) => <div>{text}</div>;
+const Marker = props => {
+    //console.log(props)
+    return <div className="Marker"><img src='http://maps.google.com/mapfiles/ms/icons/red-dot.png' alt="ALT"/>
+            </div>
+  }
  
 class SimpleMap extends Component {
     static defaultProps = {
@@ -19,40 +22,38 @@ class SimpleMap extends Component {
         super(props);
         
         this.state = {
-          markers: [
-            {
-              title: "Marker",
-              name: "Name",
-              position: { lat: 40.3827563, lng: -3.692763 }
-            }
-          ]
+            marker:
+              {
+                title: "Marker",
+                position: { lat: '', lng: '' }
+              }
         };
         this.onClick = this.onClick.bind(this);
       }
-    
-      onClick(t, map, coord) {
-          console.log("COORD IN ONCLICK", coord);
-        const { latLng } = coord;
-        const lat = latLng.lat();
-        const lng = latLng.lng();
-    
-        this.setState(previousState => {
-          return {
-            markers: [
-              ...previousState.markers,
+      onClick = ({x, y, lat, lng, event}) => {
+          this.props.getLoc(lat, lng)
+          this.setState({
+            marker:
               {
-                title: "",
-                name: "",
-                position: { lat, lng }
+                title: "Marker",
+                position: { lat: lat, lng: lng }
               }
-            ]
-          };
-        });
-      }
+          });
+        };
+        setPosOnForm = (lat, lng) => {
+            console.log("ENTRA")
+            document.addEventListener('DOMContentLoaded', () => {
+                console.log("ENTRA 2")
+                document.getElementById('lat-pos').value = lat;
+                document.getElementById('lng-pos').value = lng;
+            }, false);
+        
+        }
   
 
  
   render() {
+    console.log(this.state)
     return (
       // Important! Always set the container height explicitly
       <div style={{ height: '50vh', width: '100%' }}>
@@ -62,14 +63,11 @@ class SimpleMap extends Component {
           defaultZoom={this.props.zoom}
           onClick={this.onClick}
         >
-        {this.state.markers.map((marker, index) => (
             <Marker
-              key={index}
-              title={marker.title}
-              name={marker.name}
-              position={marker.position}
+            lat={this.state.marker.position.lat}
+            lng={this.state.marker.position.lng}
+            title={'COSAS'}
             />
-          ))}
           
         </GoogleMapReact>
       </div>

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import AuthService from './AuthService'
 import SimpleMap from '../maps/Map'
+import MyMap from '../maps/MyMap'
 
 class Signuplocal extends Component {
   constructor(props){
     super(props);
-    this.state = { username: '', password: '', password2: '', type:'', latitude: '', longitude: ''};
+    this.state = { username: '', password: '', password2: '', email:'', placeType:'', latitude: '', longitude: ''};
     this.service = new AuthService();
   }
     
@@ -14,15 +15,19 @@ class Signuplocal extends Component {
     const username = this.state.username;
     const password = this.state.password;
     const password2 = this.state.password2;
+    const email = this.state.email;
+    const placeType = this.state.placeType;
     const latitude = this.state.latitude;
     const longitude = this.state.longitude;
 
-    this.service.signup(username, password, password2, latitude, longitude)
+    this.service.signup(username, password, password2, email, placeType, latitude, longitude)
     .then( response => {
         this.setState({
             username: "", 
             password: "",
             password2: "",
+            email: "",
+            placeType: "",
             latitude: "",
             longitude: ""
         });
@@ -35,9 +40,19 @@ class Signuplocal extends Component {
     const {name, value} = event.target;
     this.setState({[name]: value});
   }
+
+  getLocation = (lat, long) => {
+    console.log("LATLONG", lat, long)
+    let copy = {lat: lat, long: long}
+    //let copy = !this.state.isOn 
+    this.setState({latitude: copy.lat, longitude: copy.long})
+    //console.log("STATE", this.state)
+
+  }
       
 
   render() {
+    console.log("STATE EN RENDER", this.state)
     return(
       <div>
         
@@ -60,8 +75,13 @@ class Signuplocal extends Component {
           </fieldset>
 
           <div class="form-group">
+            <label for="email-input"> Email </label>
+            <input type="email" name="email" value={this.state.email} onChange={ e => this.handleChange(e)} />
+          </div>
+
+          <div class="form-group">
             <label for="level-input">Type of local</label>
-            <select name="type" class="form-control">
+            <select name="placeType" onChange={ e => this.handleChange(e)} class="form-control">
               <option value="Bar" selected>Bar</option>
               <option value="Theater">Theater</option>
               <option value="Club">Club</option>
@@ -76,7 +96,19 @@ class Signuplocal extends Component {
 
           <div class="form-group">
             <label for="map">Location</label>
-            <SimpleMap />
+            <SimpleMap getLoc={this.getLocation}/>
+          </div>
+
+          <div>
+            <MyMap
+              id="myMap"
+              options={{
+                center: { lat: 40.3827563, lng: -3.692763 },
+                zoom: 10
+              }}
+              
+              getLoc={this.getLocation}
+            />
           </div>
 
           

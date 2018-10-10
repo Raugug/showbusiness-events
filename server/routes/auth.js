@@ -29,10 +29,15 @@ const login = (req, user) => {
 // SIGNUP
 router.post('/signup', (req, res, next) => {
 
-  const {username, password, password2} = req.body;
+  const {username, email, placeType="User", password, password2} = req.body;
+  let location = {
+    type: 'Point',
+    coordinates: [Number(req.body.latitude), Number(req.body.longitude)]
+  }
 
   console.log('username', username)
   console.log('password', password)
+  console.log('location', location)
 
   //CHECK FIELDS
   if (!username || !password || !password2){
@@ -52,7 +57,10 @@ router.post('/signup', (req, res, next) => {
     console.log('USER TO CREATE');
     return new User({
       username,
-      password: hashPass
+      password: hashPass,
+      email,
+      placeType,
+      location
     }).save();
   })
   .then( savedUser => login(req, savedUser)) // Login the user using passport
