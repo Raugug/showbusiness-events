@@ -2,11 +2,13 @@ const mongoose = require('mongoose');
 const Schema   = mongoose.Schema;
 
 const eventSchema = new Schema({
+  title: String,
   place: { type: Schema.Types.ObjectId, ref: "User" },
   description: String,
+  artist: String,
   date: String,
   type: { type: String, enum: ['Standup', 'Play', 'Concert', 'Session'] },
-  interested: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  joined: [{ type: Schema.Types.ObjectId, ref: "User" }],
   
 }, {
   timestamps: {

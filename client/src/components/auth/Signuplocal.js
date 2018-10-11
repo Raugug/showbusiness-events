@@ -60,7 +60,7 @@ class Signuplocal extends Component {
 
         <form onSubmit={this.handleFormSubmit}>
         <div class="form-group">
-            <label>Username:</label>
+            <label>Username</label>
             <input type="text" name="username" value={this.state.username} onChange={ e => this.handleChange(e)} class="form-control"/>
         </div>
           
@@ -70,7 +70,7 @@ class Signuplocal extends Component {
           </div>
 
           <div class="form-group">
-            <label>Repeat Password:</label>
+            <label>Repeat Password</label>
             <input type="password" name="password2" value={this.state.password2} onChange={ e => this.handleChange(e)} class="form-control"/>
             </div>
 
@@ -80,7 +80,7 @@ class Signuplocal extends Component {
           </div>
 
           <div class="form-group">
-            <label for="placeType">Type of local </label>
+            <label for="placeType">Type of local</label>
             <select name="placeType" onChange={ e => this.handleChange(e)} class="form-control">
               <option disabled selected value> -- select an option -- </option>
               <option value="Bar">Bar</option>
@@ -115,7 +115,7 @@ class Signuplocal extends Component {
           
 
           
-          <input type="submit" value="Sign up" />
+          <button class="btn btn-success"> Sign Up </button>
         </form>
         <script src="../maps/addMap.js"></script>
 

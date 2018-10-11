@@ -9,7 +9,7 @@
 }
 
 .App-main {
-  background-color: #282c34;
+  background-color: #F93;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -17,6 +17,8 @@
   justify-content: center;
   font-size: calc(10px + 1vmin);
   color: white;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .App-link {

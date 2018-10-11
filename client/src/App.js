@@ -11,6 +11,8 @@ import Login from './components/auth/Login';
 import AuthService from './components/auth/AuthService';
 import Contents from './components/contents/Contents'
 import Footer from './components/navbar/Footer';
+import Profile from './components/user/Profile';
+import EventCreate from './components/events/EventCreate';
 
 class App extends Component {
 
@@ -49,6 +51,17 @@ class App extends Component {
     }
   }
 
+  /* componentWillUnmount(){
+    let copy =this.state;
+    this.setState(copy)
+    //this.fetchUser()
+  } */
+  componentWillUpdate(){
+    //let copy =this.state;
+    //this.setState(copy)
+    this.fetchUser()
+  }
+
   render() {
     this.fetchUser()
 
@@ -59,7 +72,10 @@ class App extends Component {
             <Navbar userInSession={this.state.loggedInUser} logout={this.logout} />
           </header>
           <main className="App-main">
-          <Contents></Contents>
+          <Switch>
+              <Route exact path='/profile' render={() => <Profile getUser={this.state.loggedInUser}/>}/>
+              <Route exact path='/newevent' render={() => <EventCreate getUser={this.state.loggedInUser}/>}/>
+            </Switch>
           </main>
           <footer>
           <Footer></Footer>
@@ -78,6 +94,7 @@ class App extends Component {
               <Route exact path='/signup' render={() => <Signup getUser={this.getTheUser}/>}/>
               <Route exact path='/signuplocal' render={() => <Signuplocal getUser={this.getTheUser}/>}/>
               <Route exact path='/login' render={() => <Login getUser={this.getTheUser}/>}/>
+              <Route exact path='/profile' render={() => <Profile getUser={this.getTheUser}/>}/>
             </Switch>
           </main>
           <footer>

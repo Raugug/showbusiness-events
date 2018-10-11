@@ -38,23 +38,28 @@ class Login extends Component {
     this.setState({ [name]: value });
   }
 
+  componentWillUnmount(){
+    this.setState({ username: '', password: '' })
+
+  }
+
   render() {
 
     return (<div>
-      <h3>Please, login to our site</h3>
+      <h3>What are you waiting for?</h3>
 
       <form onSubmit={this.handleFormSubmit}>
-        <fieldset>
-          <label>Username:</label>
-          <input type="text" name="username" value={this.state.username} onChange={e => this.handleChange(e)} />
-        </fieldset>
+        <div class="form-group">
+            <label>Username</label>
+            <input type="text" name="username" value={this.state.username} onChange={e => this.handleChange(e)} class="form-control" />
+        </div>
 
-        <fieldset>
-          <label>Password:</label>
-          <input type="password" name="password" value={this.state.password} onChange={e => this.handleChange(e)} />
-        </fieldset>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" name="password" value={this.state.password} onChange={e => this.handleChange(e)} class="form-control" />
+        </div>
 
-        <input type="submit" value="Login" />
+        <button class="btn btn-success"> Log In </button>
       </form>
 
       <h1>{this.state.error ? 'Error' : ''}</h1>
