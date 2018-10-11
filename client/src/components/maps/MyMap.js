@@ -28,11 +28,19 @@ class MyMap extends Component {
       lng:0
     };
   
-    map.addListener('click', (e) =>{
+    /* map.addListener('click', (e) =>{
       clickPos = {
         lat:e.latLng.lat(),
         lng:e.latLng.lng()
-      }
+      } */
+      map.addListener('click', function(e) {
+        clickPos = {
+          lat:e.latLng.lat(),
+          lng:e.latLng.lng()
+        }
+        console.log(clickPos);
+        marker.setPosition(clickPos);
+      });
       
       geolocalize().then(center => {
         map.setCenter(center);
@@ -40,7 +48,16 @@ class MyMap extends Component {
           position: center,
           map: map
         });
-        marker.setPosition(clickPos);
+        //marker.setPosition(clickPos);
+        this.props.getLoc(clickPos.lat, clickPos.lng)
+      //marker.setPosition(clickPos);
+      this.setState({
+        marker:
+          {
+            title: "Marker",
+            position: { lat: clickPos.lat, lng: clickPos.lng }
+          }
+      })
         console.log("MARKER: ", marker);
       });
 
@@ -50,7 +67,7 @@ class MyMap extends Component {
           title: 'Hello!'
         }); */
       
-      this.props.getLoc(clickPos.lat, clickPos.lng)
+      /* this.props.getLoc(clickPos.lat, clickPos.lng)
       //marker.setPosition(clickPos);
       this.setState({
         marker:
@@ -58,8 +75,8 @@ class MyMap extends Component {
             title: "Marker",
             position: { lat: clickPos.lat, lng: clickPos.lng }
           }
-      })
-    });
+      }) */
+    //});
 
     
   }

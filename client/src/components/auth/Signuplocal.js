@@ -59,30 +59,31 @@ class Signuplocal extends Component {
         <h3>Create your local account:</h3>
 
         <form onSubmit={this.handleFormSubmit}>
-          <fieldset>
+        <div class="form-group">
             <label>Username:</label>
-            <input type="text" name="username" value={this.state.username} onChange={ e => this.handleChange(e)}/>
-          </fieldset>
+            <input type="text" name="username" value={this.state.username} onChange={ e => this.handleChange(e)} class="form-control"/>
+        </div>
           
-          <fieldset>
-            <label>Password:</label>
-            <input type="password" name="password" value={this.state.password} onChange={ e => this.handleChange(e)} />
-          </fieldset>
-
-          <fieldset>
-            <label>Repeat Password:</label>
-            <input type="password" name="password2" value={this.state.password2} onChange={ e => this.handleChange(e)} />
-          </fieldset>
-
           <div class="form-group">
-            <label for="email-input"> Email </label>
-            <input type="email" name="email" value={this.state.email} onChange={ e => this.handleChange(e)} />
+            <label>Password:</label>
+            <input type="password" name="password" value={this.state.password} onChange={ e => this.handleChange(e)} class="form-control"/>
           </div>
 
           <div class="form-group">
-            <label for="level-input">Type of local</label>
+            <label>Repeat Password:</label>
+            <input type="password" name="password2" value={this.state.password2} onChange={ e => this.handleChange(e)} class="form-control"/>
+            </div>
+
+          <div class="form-group">
+            <label for="email"> Email </label>
+            <input type="email" name="email" value={this.state.email} onChange={ e => this.handleChange(e)} class="form-control"/>
+          </div>
+
+          <div class="form-group">
+            <label for="placeType">Type of local </label>
             <select name="placeType" onChange={ e => this.handleChange(e)} class="form-control">
-              <option value="Bar" selected>Bar</option>
+              <option disabled selected value> -- select an option -- </option>
+              <option value="Bar">Bar</option>
               <option value="Theater">Theater</option>
               <option value="Club">Club</option>
               <option value="Cafe">Coffee shop</option>
@@ -96,10 +97,8 @@ class Signuplocal extends Component {
 
           <div class="form-group">
             <label for="map">Location</label>
-            <SimpleMap getLoc={this.getLocation}/>
-          </div>
-
-          <div>
+            {/* <SimpleMap getLoc={this.getLocation}/> */}
+            <div>
             <MyMap
               id="myMap"
               options={{
@@ -109,7 +108,11 @@ class Signuplocal extends Component {
               
               getLoc={this.getLocation}
             />
+            </div>
+
           </div>
+
+          
 
           
           <input type="submit" value="Sign up" />
