@@ -1,4 +1,5 @@
 import axios from 'axios';
+import moment from 'moment';
 
 class EventService {
   constructor() {
@@ -11,13 +12,14 @@ class EventService {
   create = (title, description, artist, artistURL, video, date, time, type, place) => {
     console.log("EN EVENT SERVICE", title, description, artist, artistURL, video, date, time, type, place)
     return this.service.post('/create', {title, description, artist, artistURL, video, date, time, type, place})
-    .then(response => response.data)
+    .then(response =>response.data)
   }
 
-  /* login = (username, password) => {
-    return this.service.post('/login', {username, password})
+  getall = () => {
+    return this.service.get('/all')
     .then(response => response.data)
   }
+  /* 
 
   loggedin = () => {
     return this.service.get('/currentUser',)

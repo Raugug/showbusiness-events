@@ -42,6 +42,9 @@ class Navbar extends Component {
           :
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
+              <a class="nav-link" href="/all"> All Events <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
               <a class="nav-link" href="/myprogram"> My Events <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item active">

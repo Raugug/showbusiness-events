@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 import EventService from './EventService'
+import {Link} from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
+import { Redirect } from 'react-router'
+
+
 
 
 class EventCreate extends Component {
@@ -16,8 +21,9 @@ class EventCreate extends Component {
   
       this.service.create(title, description, artist, artistURL, video, date, time, type, place)
       .then( response => {
-          this.setState({redirect: false, title: '', description: '', artist: '', artistURL:'',video:'', date:'', time:'', type:'', place:this.props.getUser._id});
-          console.log("EVENT CREATED IN FRONT", response.event)
+          this.setState({redirect: true, title: '', description: '', artist: '', artistURL:'',video:'', date:'', time:'', type:'', place:this.props.getUser._id});
+          //console.log("EVENT CREATED IN FRONT", response.event)
+          console.log("EVENT CREATED IN FRONT", this.state.redirect)
       })
       .catch( error => console.log(error) )
     }
@@ -31,7 +37,9 @@ class EventCreate extends Component {
   
     render() {
       console.log("STATE IN FORM AFTER CHANGE", this.state)
-      if(!this.state.redirect){
+      if(this.state.redirect){
+          return <Redirect to='/'/>;
+        }
 
       return(
         <div>
@@ -110,14 +118,12 @@ class EventCreate extends Component {
               <label>Description</label>
               <textarea class="form-control" name="description" rows="3" value={this.state.password} onChange={e => this.handleChange(e)}></textarea>
             </div>
-            
-            <button class="btn btn-success"> Create </button>
+        
+            <button class="btn btn-success">CREATE</button>
           </form>
   
         </div>
       )
-          }
-          else {}
     }
   }
   
