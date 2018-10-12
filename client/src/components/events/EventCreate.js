@@ -5,19 +5,19 @@ import EventService from './EventService'
 class EventCreate extends Component {
     constructor(props){
       super(props);
-      this.state = { title: '', description: '', artist: '', artistURL:'', date:'', time:'', type:'', place:this.props.getUser._id };
+      this.state = { redirect: false, title: '', description: '', artist: '', artistURL:'', video:'', date:'', time:'', type:'', place:this.props.getUser._id };
       this.service = new EventService();
     }
       
     handleFormSubmit = (event) => {
       event.preventDefault();
-      let {title, description, artist, artistURL, date, time, type, place} = this.state;
+      let {title, description, artist, artistURL, video, date, time, type, place} = this.state;
       //const place = this.props.getUser
   
-      this.service.create(title, description, artist, artistURL, date, time, type, place)
+      this.service.create(title, description, artist, artistURL, video, date, time, type, place)
       .then( response => {
-          this.setState({title: '', description: '', artist: '', artistURL:'', date:'', time:'', type:'', place:this.props.getUser._id});
-          //this.props.getUser(response.user)
+          this.setState({redirect: false, title: '', description: '', artist: '', artistURL:'',video:'', date:'', time:'', type:'', place:this.props.getUser._id});
+          console.log("EVENT CREATED IN FRONT", response.event)
       })
       .catch( error => console.log(error) )
     }
@@ -31,6 +31,7 @@ class EventCreate extends Component {
   
     render() {
       console.log("STATE IN FORM AFTER CHANGE", this.state)
+      if(!this.state.redirect){
 
       return(
         <div>
@@ -48,8 +49,13 @@ class EventCreate extends Component {
             </div>
 
             <div class="form-group">
-              <label>Artist Link</label>
+              <label>Artist Site Link</label>
               <input type="text" name="artistURL" value={this.state.artistURL} onChange={e => this.handleChange(e)} class="form-control" />
+            </div>
+
+            <div class="form-group">
+              <label>Youtube Link</label>
+              <input type="text" name="video" value={this.state.video} onChange={e => this.handleChange(e)} class="form-control" />
             </div>
 
             <div class="form-group">
@@ -110,6 +116,8 @@ class EventCreate extends Component {
   
         </div>
       )
+          }
+          else {}
     }
   }
   

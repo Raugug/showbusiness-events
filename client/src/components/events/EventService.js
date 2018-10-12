@@ -8,10 +8,10 @@ class EventService {
     });
   }
 
-  create = (title, description, artist, artistURL, date, time, type, place) => {
-    console.log("EN EVENT SERVICE", title, description, artist, artistURL, date, time, type, place)
-    /* return this.service.post('/create', {title, place, description, artist, date, type})
-    .then(response => response.data) */
+  create = (title, description, artist, artistURL, video, date, time, type, place) => {
+    console.log("EN EVENT SERVICE", title, description, artist, artistURL, video, date, time, type, place)
+    return this.service.post('/create', {title, description, artist, artistURL, video, date, time, type, place})
+    .then(response => response.data)
   }
 
   /* login = (username, password) => {
