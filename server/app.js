@@ -90,9 +90,10 @@ require('./passport')(app);
 
 const index = require('./routes/index');
 app.use('/', index);
-
 const authRoutes = require('./routes/auth');
 app.use('/api/auth', authRoutes);
+const eventRoutes = require('./routes/event');
+app.use('/api/event', authRoutes);
       
 
 module.exports = app;

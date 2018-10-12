@@ -3,13 +3,13 @@ import axios from 'axios';
 class EventService {
   constructor() {
     this.service = axios.create({
-      baseURL: 'http://localhost:3001/api/events',
+      baseURL: 'http://localhost:3001/api/event',
       withCredentials: true
     });
   }
 
-  create = (title, place, description, artist, date, type) => {
-    console.log("EN EVENT SERVICE", title, place, description, artist, date, type)
+  create = (title, description, artist, artistURL, date, time, type, place) => {
+    console.log("EN EVENT SERVICE", title, description, artist, artistURL, date, time, type, place)
     /* return this.service.post('/create', {title, place, description, artist, date, type})
     .then(response => response.data) */
   }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
+//import { render } from 'react-dom';
 import geolocalize from './geolocalize'
 
 class MyMap extends Component {

@@ -9,7 +9,7 @@ import Signup from './components/auth/Signup';
 import Signuplocal from './components/auth/Signuplocal';
 import Login from './components/auth/Login';
 import AuthService from './components/auth/AuthService';
-import Contents from './components/contents/Contents'
+//import Contents from './components/contents/Contents'
 import Footer from './components/navbar/Footer';
 import Profile from './components/user/Profile';
 import EventCreate from './components/events/EventCreate';

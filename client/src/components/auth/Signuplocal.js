@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AuthService from './AuthService'
-import SimpleMap from '../maps/Map'
+//import SimpleMap from '../maps/Map'
 import MyMap from '../maps/MyMap'
 
 class Signuplocal extends Component {

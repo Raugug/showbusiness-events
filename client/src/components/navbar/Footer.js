@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 import './Footer.css';
 
 class Footer extends Component {
@@ -48,11 +48,11 @@ class Footer extends Component {
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-5">
                         <ul class="list-unstyled list-inline social text-center">
-                            <li class="list-inline-item"><a href="javascript:void();"><i class="fa fa-facebook"></i></a></li>
-                            <li class="list-inline-item"><a href="javascript:void();"><i class="fa fa-twitter"></i></a></li>
-                            <li class="list-inline-item"><a href="javascript:void();"><i class="fa fa-instagram"></i></a></li>
-                            <li class="list-inline-item"><a href="javascript:void();"><i class="fa fa-google-plus"></i></a></li>
-                            <li class="list-inline-item"><a href="javascript:void();" target="_blank"><i class="fa fa-envelope"></i></a></li>
+                            <li class="list-inline-item"><a href="/"><i class="fa fa-facebook"></i></a></li>
+                            <li class="list-inline-item"><a href="/"><i class="fa fa-twitter"></i></a></li>
+                            <li class="list-inline-item"><a href="/"><i class="fa fa-instagram"></i></a></li>
+                            <li class="list-inline-item"><a href="/"><i class="fa fa-google-plus"></i></a></li>
+                            <li class="list-inline-item"><a href="/" target="_blank"><i class="fa fa-envelope"></i></a></li>
                         </ul>
                     </div>
                     <hr></hr>
@@ -60,7 +60,7 @@ class Footer extends Component {
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-2 text-center text-white">
                         
-                        <p class="h6">&copy;<a class="text-green ml-2" href="https://www.linkedin.com/in/raulguiagarcia/" target="_blank">Raúl Guía García</a></p>
+                        <p class="h6">&copy;<a class="text-green ml-2" href="https://www.linkedin.com/in/raulguiagarcia/" >Raúl Guía García</a></p>
                     </div>
                     <hr></hr>
                 </div>	
