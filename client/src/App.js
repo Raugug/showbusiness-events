@@ -13,7 +13,7 @@ import AuthService from './components/auth/AuthService';
 import Footer from './components/navbar/Footer';
 import Profile from './components/user/Profile';
 import EventCreate from './components/events/EventCreate';
-import ListEvents from './components/events/List';
+import ListEvents from './components/events/ListEvents';
 
 class App extends Component {
 
