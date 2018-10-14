@@ -5,7 +5,7 @@ const userSchema = new Schema({
   username: String,
   password: String,
   email: String,
-  isPlace: Boolean,
+  address: String,
   photo: String,
   placeType: { type: String, enum: ['Bar', 'Theater', 'Club', 'Cafe', "User"] },
   eventsHost: [{ type: Schema.Types.ObjectId, ref: "Event" }],

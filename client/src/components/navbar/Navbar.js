@@ -22,7 +22,7 @@ class Navbar extends Component {
     if (user) {
     return (
       <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="/">IMG</a>
+        <a class="navbar-brand" href="/"><img src="https://res.cloudinary.com/dvd0xwpmc/image/upload/v1539530818/showbusiness/logo.png" alt="Logo"/></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -70,14 +70,18 @@ class Navbar extends Component {
           <ul class="navbar-nav mr-auto">
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="/profile" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                PHOTO
+              <img src={user.photo} alt="Logo"/>
+               {user.username}
               </a>
               <div class="dropdown-menu" style={{width:'100'}} aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="/profile">Profile</a>
               </div>
             </li>
-            <li class="nav-item active">
-              <a class="nav-link" onClick={this.handleLogout} href="/login">Log out</a>
+            
+          </ul>
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active" >
+              <a class="nav-link" id="logoutlink" onClick={this.handleLogout} href="/login">Log out <span class="sr-only">(current)</span></a>
             </li>
           </ul>
 
@@ -86,7 +90,7 @@ class Navbar extends Component {
   } else {
     return (
       <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="/">IMG</a>
+        <a class="navbar-brand" href="/"><img src="https://res.cloudinary.com/dvd0xwpmc/image/upload/v1539530818/showbusiness/logo.png" alt="Logo"/></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>

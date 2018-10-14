@@ -8,9 +8,27 @@ class AuthService {
     });
   }
 
-  signup = (username, password, password2, email, placeType, latitude, longitude) => {
-    console.log("EN SIGNUP SERVICE", username, password, password2, email, placeType, latitude, longitude)
-    return this.service.post('/signup', {username, password, password2, email, placeType, latitude, longitude})
+  signup = (username, password, password2, email, photo, placeType, address, latitude, longitude) => {
+    console.log("EN SIGNUP SERVICE", username, password, password2, email, photo, placeType, address, latitude, longitude)
+
+    const formData = new FormData();
+    formData.append("username", username)
+    formData.append("password", password)
+    formData.append("password2", password2)
+    formData.append("email", email)
+    formData.append("photo", photo)
+    formData.append("placeType", placeType)
+    formData.append("address", address)
+    formData.append("latitude", latitude)
+    formData.append("longitude", longitude)
+
+    console.log('DEBUG formData', formData.get("photo"));
+    return this.service.post('/signup', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    //return this.service.post('/signup', {username, password, password2, email, placeType, photo, latitude, longitude})
     .then(response => response.data)
   }
 

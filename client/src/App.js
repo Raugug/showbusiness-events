@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import './App.css';
+import './App.scss';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { Switch, Route } from 'react-router-dom';
-// import ProjectList from './components/projects/ProjectList';
-// import ProjectDetails from './components/projects/ProjectDetails';
 import Navbar from './components/navbar/Navbar';
 import Signup from './components/auth/Signup';
 import Signuplocal from './components/auth/Signuplocal';

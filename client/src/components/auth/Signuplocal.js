@@ -6,7 +6,7 @@ import MyMap from '../maps/MyMap'
 class Signuplocal extends Component {
   constructor(props){
     super(props);
-    this.state = { username: '', password: '', password2: '', email:'', placeType:'', latitude: '', longitude: ''};
+    this.state = { username: '', password: '', password2: '', email:'', photo: '', placeType:'', address: '', latitude: '', longitude: ''};
     this.service = new AuthService();
   }
     
@@ -16,18 +16,22 @@ class Signuplocal extends Component {
     const password = this.state.password;
     const password2 = this.state.password2;
     const email = this.state.email;
+    const photo = this.state.photo;
     const placeType = this.state.placeType;
+    const address = this.state.address;
     const latitude = this.state.latitude;
     const longitude = this.state.longitude;
 
-    this.service.signup(username, password, password2, email, placeType, latitude, longitude)
+    this.service.signup(username, password, password2, email, photo, placeType, address, latitude, longitude)
     .then( response => {
         this.setState({
             username: "", 
             password: "",
             password2: "",
             email: "",
+            photo: "",
             placeType: "",
+            address: "",
             latitude: "",
             longitude: ""
         });
@@ -39,6 +43,12 @@ class Signuplocal extends Component {
   handleChange = (event) => {
     const {name, value} = event.target;
     this.setState({[name]: value});
+  }
+
+  handleChangePhoto = (event) => {
+    this.setState({
+      photo: event.target.files[0]
+    })
   }
 
   getLocation = (lat, long) => {
@@ -80,6 +90,11 @@ class Signuplocal extends Component {
           </div>
 
           <div class="form-group">
+            <label for="photo">Profile Picture</label>
+            <input type="file" name="photo" id="photo" onChange={e => this.handleChangePhoto(e)} class="form-control" />
+          </div>
+
+          <div class="form-group">
             <label for="placeType">Type of local</label>
             <select name="placeType" onChange={ e => this.handleChange(e)} class="form-control">
               <option disabled selected value> -- select an option -- </option>
@@ -89,6 +104,11 @@ class Signuplocal extends Component {
               <option value="Cafe">Coffee shop</option>
             </select>
           </div>
+
+          <div class="form-group">
+            <label>Address</label>
+            <input type="text" name="address" value={this.state.address} onChange={ e => this.handleChange(e)} class="form-control"/>
+        </div>
 
           <div class="form-group">
             <input id="lat-pos" type="hidden" name="latitude" value={this.state.latitude} onChange={ e => this.handleChange(e)} />

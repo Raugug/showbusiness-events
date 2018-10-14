@@ -9,9 +9,30 @@ class EventService {
     });
   }
 
-  create = (title, description, artist, artistURL, video, date, time, type, place) => {
-    console.log("EN EVENT SERVICE", title, description, artist, artistURL, video, date, time, type, place)
-    return this.service.post('/create', {title, description, artist, artistURL, video, date, time, type, place})
+  create = (title, description, artist, photo, artistURL, video, date, datestr, time, price, type, place) => {
+    console.log("EN EVENT SERVICE", title, description, artist, photo, artistURL, video, date, datestr, time, price, type, place)
+
+    const formData = new FormData();
+    formData.append("title", title)
+    formData.append("description", description)
+    formData.append("artist", artist)
+    formData.append("photo", photo)
+    formData.append("artistURL", artistURL)
+    formData.append("video", video)
+    formData.append("date", date)
+    formData.append("datestr", datestr)
+    formData.append("time", time)
+    formData.append("price", price)
+    formData.append("type", type)
+    formData.append("place", place)
+
+    console.log('DEBUG formData', formData.get("photo"));
+    return this.service.post('/create', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    //return this.service.post('/create', {title, description, artist, artistURL, video, date, time, type, place})
     .then(response =>response.data)
   }
 

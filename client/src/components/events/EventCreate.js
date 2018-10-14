@@ -10,18 +10,20 @@ import { Redirect } from 'react-router'
 class EventCreate extends Component {
     constructor(props){
       super(props);
-      this.state = { redirect: false, title: '', description: '', artist: '', artistURL:'', video:'', date:'', time:'', type:'', place:this.props.getUser._id };
+      this.state = { redirect: false, title: '', description: '', artist: '', photo: null, artistURL:'', video:'',
+                     date:'', datestr:'', time:'', price: '', type:'', place:this.props.getUser._id };
       this.service = new EventService();
     }
       
     handleFormSubmit = (event) => {
       event.preventDefault();
-      let {title, description, artist, artistURL, video, date, time, type, place} = this.state;
+      let {title, description, artist, photo, artistURL, video, date, time, price, type, place} = this.state;
       //const place = this.props.getUser
   
-      this.service.create(title, description, artist, artistURL, video, date, time, type, place)
+      this.service.create(title, description, artist, photo, artistURL, video, date, date, time, price, type, place)
       .then( response => {
-          this.setState({redirect: true, title: '', description: '', artist: '', artistURL:'',video:'', date:'', time:'', type:'', place:this.props.getUser._id});
+          this.setState({redirect: true, title: '', description: '', artist: '', photo: null, artistURL:'',video:'',
+                         date:'', datestr: '', time:'', price:'', type:'', place:this.props.getUser._id});
           //console.log("EVENT CREATED IN FRONT", response.event)
           console.log("EVENT CREATED IN FRONT", this.state.redirect)
       })
@@ -32,6 +34,11 @@ class EventCreate extends Component {
       const {name, value} = event.target;
       this.setState({[name]: value});
       //console.log("STATE IN FORM CHANGE FUNC", this.state)
+    }
+    handleChangePhoto = (event) => {
+      this.setState({
+        photo: event.target.files[0]
+      })
     }
         
   
@@ -57,6 +64,11 @@ class EventCreate extends Component {
             </div>
 
             <div class="form-group">
+            <label for="photo">Event Photo</label>
+            <input type="file" name="photo" id="photo" onChange={e => this.handleChangePhoto(e)} class="form-control" />
+          </div>
+
+            <div class="form-group">
               <label>Artist Site Link</label>
               <input type="text" name="artistURL" value={this.state.artistURL} onChange={e => this.handleChange(e)} class="form-control" />
             </div>
@@ -77,31 +89,11 @@ class EventCreate extends Component {
                 min="00:00" max="23:59" required class="form-control" value={this.state.time} onChange={e => this.handleChange(e)} />
             </div>
 
-            {/* <div class="form-group">
-              <label for="time-input">Time</label>
-              <select name="time" class="form-control">
-              <option disabled selected value> -- select an option -- </option>
-                <option value="16:00">16:00</option>
-                <option value="16:30">18:00</option>
-                <option value="17:00">17:00</option>
-                <option value="17:30">17:30</option>
-                <option value="18:00">18:00</option>
-                <option value="18:30">18:30</option>
-                <option value="19:00">19:00</option>
-                <option value="19:30">19:30</option>
-                <option value="20:00">20:00</option>
-                <option value="20:30">20:30</option>
-                <option value="21:00">21:00</option>
-                <option value="21:30">21:30</option>
-                <option value="22:00">22:00</option>
-                <option value="22:30">22:30</option>
-                <option value="23:00">23:00</option>
-                <option value="23:30">23:30</option>
-                <option value="00:00">00:00</option>
-                <option value="00:00">00:30</option>
-                <option value="00:00">01:00</option>
-              </select>
-            </div> */}
+            <div class="form-group">
+              <label>Price</label>
+              <input type="text" name="price" value={this.state.price} onChange={e => this.handleChange(e)} class="form-control" />
+            </div>
+
 
             <div class="form-group">
             <label for="type">Type</label>

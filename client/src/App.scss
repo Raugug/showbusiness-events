@@ -1,0 +1,73 @@
+.App {
+  text-align: center;
+  color: white;
+  background: url("https://res.cloudinary.com/dvd0xwpmc/image/upload/v1539531286/showbusiness/cityligths.jpg");
+  background-size: cover;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+}
+
+.App-main {
+  //background-color: #F93;
+  min-height: 100vh;
+  width: 90%;
+  margin: 50px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 1vmin);
+  font-weight: bolder;
+  color: white;
+  //text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  padding-top: 30px;
+  padding-bottom: 20px;
+  text-shadow: 2px 2px black;
+  h3 {
+    font-weight: bolder;
+  }
+  
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+a {
+  color: white;
+  cursor: pointer;
+}
+
+fieldset {
+  border: 0;
+}
+
+.navbar-brand {
+  img {
+    width: 50px;
+    height: 50px;
+  }
+}
+.nav-link{
+  img {
+    width: 50px;
+    height: 50px;
+    border-radius:50%;
+    margin-right: 5px;
+  }
+  #logoutlink {
+    margin: 0 auto;
+  }
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -3,6 +3,9 @@ const passport = require('passport');
 const router = express.Router();
 const User = require("../models/User");
 const bodyParser = require('body-parser');
+const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
+const uploadCloud = require('../config/cloudinary.js');
+
 
 
 // Bcrypt to encrypt passwords
@@ -27,9 +30,11 @@ const login = (req, user) => {
 }
 
 // SIGNUP
-router.post('/signup', (req, res, next) => {
-
-  const {username, email, placeType="User", password, password2} = req.body;
+router.post('/signup', [ensureLoggedOut(), uploadCloud.single('photo')], (req, res, next) => {
+  console.log("ENTRA")
+  console.log("REQ FILE", req.file)
+  //console.log("FILE URL", req.file.url)
+  const {username, email, placeType="User", address, password, password2} = req.body;
   let location = {
     type: 'Point',
     coordinates: [Number(req.body.latitude), Number(req.body.longitude)]
@@ -42,6 +47,13 @@ router.post('/signup', (req, res, next) => {
   console.log('username', username)
   console.log('password', password)
   console.log('location', location)
+
+  //CHECK IF PHOTO
+  if (!req.file){
+    //res.status(500).json({message:'You must provide a supported image file'})
+    next(new Error('You must provide a supported image file'));
+  }
+  const photo = req.file.url;
 
   //CHECK FIELDS
   if (!username || !password || !password2){
@@ -64,6 +76,8 @@ router.post('/signup', (req, res, next) => {
       password: hashPass,
       email,
       placeType,
+      address, 
+      photo,
       location
     }).save();
   })

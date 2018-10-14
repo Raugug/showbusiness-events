@@ -6,13 +6,18 @@ const Event = require("../models/Event");
 const bodyParser = require('body-parser');
 const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
 const moment = require('moment')
+const uploadCloud = require('../config/cloudinary.js');
+
 
 
 //CREATE EVENT
-router.post('/create', ensureLoggedIn(), (req, res, next)=>{
-    let {title, description, artist, artistURL, video, date, time, type, place} = req.body;
+router.post('/create', [ensureLoggedIn(), uploadCloud.single('photo')], (req, res, next)=>{
+    let {title, description, artist, artistURL, video, date, datestr, time, price, type, place} = req.body;
+    const photo = req.file.url;
+    console.log("ENTRA")
     console.log('USE LOGED',req.user)
-    Event.create({title, description, artist, artistURL, video, date, time, type, place})
+  console.log("REQ FILE", req.file)
+    Event.create({title, description, artist, photo, artistURL, video, date, datestr, time, price, type, place})
     .then(event => 
         User.findByIdAndUpdate(event.place, {$push: {eventsHost: event._id}})
         .then(user =>
