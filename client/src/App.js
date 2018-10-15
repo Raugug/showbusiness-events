@@ -7,12 +7,13 @@ import Signup from './components/auth/Signup';
 import Signuplocal from './components/auth/Signuplocal';
 import Login from './components/auth/Login';
 import AuthService from './components/auth/AuthService';
-//import Contents from './components/contents/Contents'
 import Footer from './components/navbar/Footer';
 import Profile from './components/user/Profile';
 import EditProfile from './components/user/EditProfile';
 import EventCreate from './components/events/EventCreate';
 import ListEvents from './components/events/ListEvents';
+import Event from './components/events/Event'
+
 
 class App extends Component {
 
@@ -51,15 +52,8 @@ class App extends Component {
     }
   }
 
-  /* componentWillUnmount(){
-    let copy =this.state;
-    this.setState(copy)
-    //this.fetchUser()
-  } */
   componentWillUpdate(){
-    //let copy =this.state;
-    //this.setState(copy)
-    this.fetchUser()
+    //this.fetchUser()
   }
 
   render() {
@@ -74,9 +68,12 @@ class App extends Component {
           <main className="App-main">
           <Switch>
               <Route exact path='/all' render={() => <ListEvents getUser={this.state.loggedInUser}/>}/>
-              <Route exact path='/profile' render={() => <Profile getUser={this.state.loggedInUser}/>}/>
+              <Route exact path='/profile' render={() => <Profile user={this.state.loggedInUser}/>}/>
               <Route exact path='/newevent' render={() => <EventCreate getUser={this.state.loggedInUser}/>}/>
-              <Route exact path='/user/edit' render={() => <EditProfile getUser={this.state.loggedInUser}/>}/>
+              <Route exact path='/user/edit' render={() => <EditProfile update={(res) =>this.setState({loggedInUser: res})} 
+                                                                        user={this.state.loggedInUser}/>}/>
+              <Route exact path={"/event/:id"} render={(props)=> <Event id={props.match.params.id} events={this.state.events}/>}/>
+
             </Switch>
           </main>
           <footer>
@@ -96,7 +93,7 @@ class App extends Component {
               <Route exact path='/signup' render={() => <Signup getUser={this.getTheUser}/>}/>
               <Route exact path='/signuplocal' render={() => <Signuplocal getUser={this.getTheUser}/>}/>
               <Route exact path='/login' render={() => <Login getUser={this.getTheUser}/>}/>
-              <Route exact path='/profile' render={() => <Profile getUser={this.getTheUser}/>}/>
+              <Route exact path='/profile' render={() => <Profile user={this.getTheUser}/>}/>
             </Switch>
           </main>
           <footer>

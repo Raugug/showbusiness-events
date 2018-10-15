@@ -8,10 +8,16 @@ class UserService {
     });
   }
 
-  edit = (id, username, email) => {
-      console.log("En METODO EDIT", username, email)
-    return this.service.put(`/edit`, { id, username, email})
+  edit = (id, username, email, placeType) => {
+      console.log("En METODO EDIT", username, email, placeType)
+    return this.service.put(`/edit`, { id, username, email, placeType})
     .then(response => response.data)
+  }
+  getuser = (id) => {
+    console.log("id En METODO GET", id)
+    return this.service.get(`/${id}`)
+    .then(response => response.data)
+
   }
 }
 

@@ -2,30 +2,42 @@ import React, { Component } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import './Profile.scss';
 import PlaceMap from './PlaceMap'
+import { Switch, Route } from 'react-router-dom';
+import EditProfile from './EditProfile';
+import UserService from './UserService'
+
 
 class Profile extends Component {
     constructor(props){
         super(props);
         this.state = {}
-        //console.log("initial state", this.state)
+        
+        this.service = new UserService();
     }
 
     componentWillReceiveProps(){
         const state = this.props.getUser
         this.setState({state})
-        console.log("LAT", state)
+        console.log("RECIEVE", state)
+    }
+    componentWillMount(){
+        this.service.getuser(this.props.user._id).then(response => {
+            this.setState(response)})
+        //this.setState({state})
+        console.log("WILLMOUNT", this.state)
+
     }
 
-    componentWillMount(){
+    componentDidMount(){
         const state = this.props.getUser
         this.setState({state})
-        console.log("LATWILL", state)
+        console.log("DIDMOUNT", state)
 
     }
 
     render(){
-        console.log("STATE EN RENDER", this.state)
-        let {username, password, email, photo, placeType, address, eventsHost, eventsGo, favUsers, favPlaces, location} = this.props.getUser
+        console.log("props EN RENDER", this.props)
+        let {username, password, email, photo, placeType, address, eventsHost, eventsGo, favUsers, favPlaces, location} = this.props.user
         if (placeType==="User")
         return(
             <div className="main-profile">
@@ -67,7 +79,7 @@ class Profile extends Component {
                     <iframe width="560" height="315" src="https://www.youtube.com/embed/INtBu0RNDn8" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
                 </div>
                 
-
+            <Route exact path='/user/edit' render={() => <EditProfile updated getUser={this.state.loggedInUser}/>}/>
             </div>
         )
         else
@@ -94,7 +106,7 @@ class Profile extends Component {
                     </div>
 
                 </div>
-                        <button class="btn btn-warning"><Link to='/user/edit'>EDIT</Link></button>
+                <button class="btn btn-warning"><Link to='/user/edit'>EDIT</Link></button>
                 
                 <div className="list-profile">
                     <hr/>
@@ -115,8 +127,8 @@ class Profile extends Component {
                     </ul>
                 </div>
                 
-
-            </div>
+{/*                 <Route exact path='/user/edit' render={() => <EditProfile updated getUser={this.state.loggedInUser}/>}/>
+ */}            </div>
 
         )
         

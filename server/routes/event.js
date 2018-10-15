@@ -59,4 +59,10 @@ router.get('/thismonth', (req, res, next) => {
     ).catch(e => console.log(e))
 })
 
+router.get('/:eventId', (req, res, next) => {
+    Event.findById(req.params.eventId).populate('place').then(event => 
+        res.status(200).json(event))
+        .catch(e => console.log(e))
+    })
+
 module.exports = router;

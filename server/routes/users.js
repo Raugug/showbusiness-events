@@ -33,7 +33,7 @@ router.get('/edit/:userId', (req, res, next) => {
   
 //PUT EDIT
 router.put('/edit', (req, res, next)=> {
-    let {id, username, email} = req.body;
+    let {id, username, email, placeType} = req.body;
     console.log("ENTRA EN PUT", id)
     
     
@@ -50,12 +50,23 @@ router.put('/edit', (req, res, next)=> {
     if (foundUser) {
         throw new Error('Username already exists');
     }}).catch(e => console.log(e)); */
+    if (placeType == "User"){
 
-    User.findByIdAndUpdate(id, {username, email}, {new:true})
-    .then( user =>{
-        console.log("DENTROH", user) 
-        res.status(200).json(user)}) // Answer JSON
-    .catch(e => console.log(e));
+        User.findByIdAndUpdate(id, {username, email}, {new:true})
+        .then( user =>{
+            console.log("DENTROH", user) 
+            res.status(200).json(user)}) // Answer JSON
+            .catch(e => console.log(e));
+    }
+    else{
+
+        User.findByIdAndUpdate(id, {username, email, placeType}, {new:true})
+        .then( user =>{
+            console.log("DENTROH", user) 
+            res.status(200).json(user)}) // Answer JSON
+            .catch(e => console.log(e));
+
+    }
     })
 //})
 

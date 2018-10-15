@@ -40,12 +40,13 @@ class EventService {
     return this.service.get('/all')
     .then(response => response.data)
   }
-  /* 
+  
 
-  loggedin = () => {
-    return this.service.get('/currentUser',)
+  getEvent = (id) => {
+    return this.service.get(`/${id}`)
     .then(response => response.data)
   }
+  /* 
 
   logout = () => {
     return this.service.get('/logout',)

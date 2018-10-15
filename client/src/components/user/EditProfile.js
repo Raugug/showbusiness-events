@@ -3,15 +3,21 @@ import { Link, NavLink } from 'react-router-dom';
 import './Profile.scss';
 import PlaceMap from './PlaceMap'
 import UserService from './UserService'
+//import Profile from './Profile';
 import { Redirect } from 'react-router'
+//import { Switch, Route } from 'react-router-dom';
 
-class Profile extends Component {
+
+class EditProfile extends Component {
     constructor(props){
         super(props);
-        this.state = this.props.getUser
+
+        this.state = this.props.user
         this.state.redirect = false;
         this.state.error = false;
+
         this.service = new UserService();
+
         console.log(this.state)
     }
 
@@ -20,23 +26,22 @@ class Profile extends Component {
         const id = this.state._id;
         const username = this.state.username;
         const email = this.state.email;
+        const placeType = this.state.placeType;
     
-        this.service.edit(id, username, email)
+        this.service.edit(id, username, email, placeType)
           .then(response => {
             this.setState({
-              id: id,
-              username: username,
-              email: email,
               redirect: true
             });
-    
-            this.props.getUser(response)
+            console.log("RESP EDIT", response)
+            this.props.update(response)
           })
           .catch(error => {
             this.setState({
               id: id,
               username: username,
               email: email,
+              placeType: placeType,
               redirect: false,
               error: true
             });
@@ -46,18 +51,14 @@ class Profile extends Component {
       handleChange = (event) => {
         const { name, value } = event.target;
         this.setState({ [name]: value });
-      }
-
-     /*  componentWillUpdate(){
-          this.setState
-      } */
+      } 
 
 
     render(){
         console.log("STATE EN RENDER", this.state)
         let {username, password, email, photo, placeType, address, eventsHost, eventsGo, favUsers, favPlaces, location} = this.state
         if(this.state.redirect){
-            return <Redirect to='/profile' getUser={this.state.loggedInUser}/>;
+            return <Redirect to='/profile'/>;
           }
         if (placeType==="User")
         return (<div>
@@ -78,58 +79,42 @@ class Profile extends Component {
             </form>
       
             <h1>{this.state.error ? 'Error' : ''}</h1>
+            
           </div>)
         else
-        return (
-            <div className="main-profile">
-                <div className="content-profile">
-                    <div className="left-profile-place">
-                        <img src={photo} alt=""/>
-                        <h4>{username}</h4>
-                        <h4>{email}</h4>
-                        <h4>{placeType}</h4>
-                        <h4>{address}</h4>
-                    </div>
-                    <div className="rigth-profile">
-                        
-                        
-                        {location ? <PlaceMap
-                        id="placeMap"
-                        options={{
-                            center: { lat: location.coordinates[0], lng: location.coordinates[1] },
-                            zoom: 15
-                        }}
-                        adr={address} />: <div/>}
-                    </div>
+        return (<div>
+            <h3>Edit your place data</h3>
+      
+            <form onSubmit={this.handleFormSubmit}>
+              <div class="form-group">
+                  <label>Placename</label>
+                  <input type="text" name="username" value={this.state.username} onChange={e => this.handleChange(e)} class="form-control" />
+              </div>
+      
+              <div class="form-group">
+                  <label>Email</label>
+                  <input type="email" name="email" value={this.state.email} onChange={e => this.handleChange(e)} class="form-control" />
+              </div>
 
+                <div class="form-group">
+                    <label for="placeType">Type of local</label>
+                    <select name="placeType" onChange={e => this.handleChange(e)} class="form-control">
+                        <option disabled selected value> -- select an option -- </option>
+                        <option value="Bar">Bar</option>
+                        <option value="Theater">Theater</option>
+                        <option value="Club">Club</option>
+                        <option value="Cafe">Coffee shop</option>
+                    </select>
                 </div>
-                        <button class="btn btn-warning"><Link to='/user/edit'>EDIT</Link></button>
-                
-                <div className="list-profile">
-                    <hr/>
-                    <h1>Program</h1>
-                    <hr/>
-                    <ul className="eventsList">
-                        <li>Evento</li>
-                        <li>Evento 2</li>
-                    </ul>
-                    <hr/>
-                    
-                    <hr/>
-                    <h1>Followers</h1>
-                    <hr/>
-                    <ul className="eventsList">
-                        <li>User 1</li>
-                        <li>User 2</li>
-                    </ul>
-                </div>
-                
-
-            </div>
-
-        )
+      
+              <button class="btn btn-warning"> EDIT </button>
+            </form>
+      
+            <h1>{this.state.error ? 'Error' : ''}</h1>
+            
+          </div>)
         
     }
 }
 
-export default Profile;
+export default EditProfile;

@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import EventService from './EventService'
+import EventService from './EventService';
+import { Switch, Route } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import './ListEvent.scss'
+import Event from './Event'
 
 
 class ListEvents extends Component {
@@ -33,13 +36,14 @@ class ListEvents extends Component {
                         return(
                             <li>
                                 <div>
-                                    <a href="" >{e.title}</a>
+                                    <a href={"/event/"+e._id} >{e.title}</a>
                                 </div>
                             </li>
                         )
                     })
                     }
                 </ul>
+                <Route exact path={"event/:id"} render={(props)=> <Event id={props.match.params.id} events={this.state.events}/>}/>
             </div>
         )
     }
