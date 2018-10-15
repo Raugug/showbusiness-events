@@ -10,6 +10,7 @@ import AuthService from './components/auth/AuthService';
 //import Contents from './components/contents/Contents'
 import Footer from './components/navbar/Footer';
 import Profile from './components/user/Profile';
+import EditProfile from './components/user/EditProfile';
 import EventCreate from './components/events/EventCreate';
 import ListEvents from './components/events/ListEvents';
 
@@ -75,6 +76,7 @@ class App extends Component {
               <Route exact path='/all' render={() => <ListEvents getUser={this.state.loggedInUser}/>}/>
               <Route exact path='/profile' render={() => <Profile getUser={this.state.loggedInUser}/>}/>
               <Route exact path='/newevent' render={() => <EventCreate getUser={this.state.loggedInUser}/>}/>
+              <Route exact path='/user/edit' render={() => <EditProfile getUser={this.state.loggedInUser}/>}/>
             </Switch>
           </main>
           <footer>

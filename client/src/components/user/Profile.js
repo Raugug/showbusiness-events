@@ -6,13 +6,21 @@ import PlaceMap from './PlaceMap'
 class Profile extends Component {
     constructor(props){
         super(props);
-        this.state = {location: ''}
+        this.state = {}
+        //console.log("initial state", this.state)
     }
 
     componentWillReceiveProps(){
-        const location = this.props.getUser.location
-        this.setState({location: location})
-        console.log("LAT", location)
+        const state = this.props.getUser
+        this.setState({state})
+        console.log("LAT", state)
+    }
+
+    componentWillMount(){
+        const state = this.props.getUser
+        this.setState({state})
+        console.log("LATWILL", state)
+
     }
 
     render(){
