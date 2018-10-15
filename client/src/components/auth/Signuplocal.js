@@ -52,7 +52,7 @@ class Signuplocal extends Component {
   }
 
   getLocation = (lat, long) => {
-    console.log("LATLONG", lat, long)
+    console.log("LATLONG EN PADRE", lat, long)
     let copy = {lat: lat, long: long}
     //let copy = !this.state.isOn 
     this.setState({latitude: copy.lat, longitude: copy.long})
@@ -123,7 +123,7 @@ class Signuplocal extends Component {
               id="myMap"
               options={{
                 center: { lat: 40.3827563, lng: -3.692763 },
-                zoom: 10
+                zoom: 14
               }}
               
               getLoc={this.getLocation}

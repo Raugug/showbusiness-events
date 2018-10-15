@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import EventService from './EventService'
+import './ListEvent.scss'
 
 
 class ListEvents extends Component {
@@ -32,7 +33,7 @@ class ListEvents extends Component {
                         return(
                             <li>
                                 <div>
-                                    {e.title}
+                                    <a href="" >{e.title}</a>
                                 </div>
                             </li>
                         )
