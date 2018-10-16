@@ -14,7 +14,7 @@ class Profile extends Component {
     constructor(props){
         super(props);
         this.state = {username:'', password:'', email:'', photo:'', placeType:'',
-                      address:'', eventsHost:[], eventsGo: '', favUsers:'', favPlaces:'', location:''}
+                      address:'', eventsHost:[], eventsGo: [], favUsers:'', favPlaces:'', location:''}
         this.service = UserService;
         if(this.props.id){
             this.service.getuser(this.props.id).then(response => this.setState(response))
@@ -65,8 +65,18 @@ class Profile extends Component {
                     <h1>My Events</h1>
                     <hr/>
                     <ul className="eventsList">
-                        <li>Evento</li>
-                        <li>Evento 2</li>
+                        {eventsGo.map(event =>{
+                            return  <li >
+                                    <div className="eventInList">
+                                        <div>
+                                        <Icon icon={calendar}/><p>{event.datestr}</p>
+                                        <Icon icon={clock}/><p>{event.time}</p>
+                                        </div>
+                                        <Link to={"/event/"+event._id}>{event.title}</Link>
+                                    </div>
+                                    </li>
+
+                        })}
                     </ul>
                     <hr/>
                     <h1>My Places</h1>

@@ -39,6 +39,14 @@ class Event extends Component {
             this.setState(response.event);
         })
     }
+    handleLeave = (e) => {
+        e.preventDefault();
+        UserService.unjoinevent(this.props.user._id, this.props.id).then(response => {
+            console.log("response UNjoinevent", response)
+            this.props.update(response.user)
+            this.setState(response.event);
+        })
+    }
 
     render (){
         let {title, description, artist, photo, artistURL, video, date, datestr, time, price, type, place, joined} = this.state;
@@ -66,11 +74,15 @@ class Event extends Component {
                         <div><Icon icon={calendar}/><p>{datestr}</p></div>
                         <div><Icon icon={clock}/><p>{time}</p></div>
                     </div>
-                    {(isInJoined.length==0)?
-                                <div className="buttons">
-                                    <button class="btn btn-success" onClick={(e)=> this.handleJoin(e)}>JOIN</button>
-                                </div>
-                                :<div/>}
+                    {(isInJoined.length == 0) ?
+                        <div className="buttons">
+                            <button class="btn btn-success" onClick={(e) => this.handleJoin(e)}>JOIN</button>
+                        </div>
+                        :
+                        <div className="buttons">
+                            <button class="btn btn-danger" onClick={(e) => this.handleLeave(e)}>LEAVE</button>
+                        </div>
+                    }
                     <div className="content-profile">
                     <div className="left-profile-place">
                         <img src={place.photo} alt=""/>
