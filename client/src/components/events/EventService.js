@@ -1,7 +1,7 @@
 import axios from 'axios';
 import moment from 'moment';
 
-class EventService {
+class _EventService {
   constructor() {
     this.service = axios.create({
       baseURL: 'http://localhost:3001/api/event',
@@ -54,4 +54,5 @@ class EventService {
   } */
 }
 
-export default EventService;
+export const EventService = new _EventService()
+

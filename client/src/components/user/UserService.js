@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-class UserService {
+class _UserService {
   constructor() {
     this.service = axios.create({
       baseURL: 'http://localhost:3001/api/user',
@@ -21,4 +21,4 @@ class UserService {
   }
 }
 
-export default UserService;
+export const UserService = new _UserService();

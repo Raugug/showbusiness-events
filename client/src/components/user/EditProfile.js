@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import './Profile.scss';
 import PlaceMap from './PlaceMap'
-import UserService from './UserService'
+import {UserService} from './UserService'
 //import Profile from './Profile';
 import { Redirect } from 'react-router'
 //import { Switch, Route } from 'react-router-dom';
@@ -16,7 +16,7 @@ class EditProfile extends Component {
         this.state.redirect = false;
         this.state.error = false;
 
-        this.service = new UserService();
+        this.service = UserService;
 
         console.log(this.state)
     }
@@ -27,14 +27,15 @@ class EditProfile extends Component {
         const username = this.state.username;
         const email = this.state.email;
         const placeType = this.state.placeType;
+        const that = this;
     
         this.service.edit(id, username, email, placeType)
           .then(response => {
+            that.props.update(response)
+            
             this.setState({
               redirect: true
             });
-            console.log("RESP EDIT", response)
-            this.props.update(response)
           })
           .catch(error => {
             this.setState({

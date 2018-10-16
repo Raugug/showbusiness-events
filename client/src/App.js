@@ -52,8 +52,13 @@ class App extends Component {
     }
   }
 
-  componentWillUpdate(){
-    //this.fetchUser()
+  componentWillMount(){
+    this.fetchUser()
+  }
+
+  update = (res) => {
+    this.setState({loggedInUser: res})
+
   }
 
   render() {
@@ -68,11 +73,12 @@ class App extends Component {
           <main className="App-main">
           <Switch>
               <Route exact path='/all' render={() => <ListEvents getUser={this.state.loggedInUser}/>}/>
-              <Route exact path='/profile' render={() => <Profile user={this.state.loggedInUser}/>}/>
+              <Route exact path='/profile' render={() => <Profile update={this.fetchUser} user={this.state.loggedInUser}/>}/>
               <Route exact path='/newevent' render={() => <EventCreate getUser={this.state.loggedInUser}/>}/>
-              <Route exact path='/user/edit' render={() => <EditProfile update={(res) =>this.setState({loggedInUser: res})} 
-                                                                        user={this.state.loggedInUser}/>}/>
+              <Route exact path='/user/edit' render={() => <EditProfile update={this.update} user={this.state.loggedInUser}/>}/>
               <Route exact path={"/event/:id"} render={(props)=> <Event id={props.match.params.id} events={this.state.events}/>}/>
+              <Route exact path={"/user/:id"} render={(props)=> <Profile id={props.match.params.id} user={this.state.loggedInUser}/>}/>
+              <Route exact path={"/place/:id"} render={(props)=> <Profile id={props.match.params.id} user={this.state.loggedInUser}/>}/>
 
             </Switch>
           </main>
@@ -93,7 +99,7 @@ class App extends Component {
               <Route exact path='/signup' render={() => <Signup getUser={this.getTheUser}/>}/>
               <Route exact path='/signuplocal' render={() => <Signuplocal getUser={this.getTheUser}/>}/>
               <Route exact path='/login' render={() => <Login getUser={this.getTheUser}/>}/>
-              <Route exact path='/profile' render={() => <Profile user={this.getTheUser}/>}/>
+              <Route exact path='/profile' render={() => <Profile user={this.state.loggedInUser}/>}/>
             </Switch>
           </main>
           <footer>

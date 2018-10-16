@@ -6,7 +6,7 @@ passport.serializeUser((loggedInUser, cb) => {
 });
 
 passport.deserializeUser((userIdFromSession, cb) => {
-  User.findById(userIdFromSession)
+  User.findById(userIdFromSession).populate('eventsHost')
   .then(userDocument => {
     cb(null, userDocument);
   })

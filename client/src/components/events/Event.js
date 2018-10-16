@@ -3,7 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 import './Event.scss';
 //import PlaceMap from './PlaceMap'
 import { Redirect } from 'react-router'
-import EventService from './EventService'
+import {EventService} from './EventService'
 import { EPROTO } from 'constants';
 import Icon from 'react-icons-kit';
 import {calendar} from 'react-icons-kit/icomoon/calendar'
@@ -15,7 +15,7 @@ class Event extends Component {
     constructor(props) {
         super(props)
         this.state = {title: '', description:'', artist:'', photo:'', artistURL:'', video:'', date:'', datestr:'', time:'', price:'', type:'', place:''}
-        this.service = new EventService();
+        this.service = EventService;
     }
 
     componentWillMount(){
@@ -41,7 +41,7 @@ class Event extends Component {
                     </div>
                     <div className="header-right">
                         <h1>{title}</h1>
-                        <h3>By</h3>
+                        <h3>by</h3>
                         <h1>{artist}</h1>
                     </div>
                 </div>
@@ -57,7 +57,7 @@ class Event extends Component {
                     <div className="content-profile">
                     <div className="left-profile-place">
                         <img src={place.photo} alt=""/>
-                        <h4>{place.username}</h4>
+                        <h4><Link to={"/place/"+place._id}>{place.username}</Link></h4>
                         <h4>{place.address}</h4>
                         <h4>{place.placeType}</h4>
                         <h4>{place.email}</h4>
@@ -82,7 +82,7 @@ class Event extends Component {
                     <button className="btn btn-primary">BUY</button>
                     </div>
                     <hr/>
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/INtBu0RNDn8" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    <iframe width="560" height="315" src={"//www.youtube.com/embed/"+video} frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
                     <h3>Users joined</h3>
                     <hr/>

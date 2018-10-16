@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import EventService from './EventService'
+import {EventService} from './EventService'
 import {Link} from 'react-router-dom';
 import { Switch, Route } from 'react-router-dom';
 import { Redirect } from 'react-router'
@@ -12,7 +12,7 @@ class EventCreate extends Component {
       super(props);
       this.state = { redirect: false, title: '', description: '', artist: '', photo: null, artistURL:'', video:'',
                      date:'', datestr:'', time:'', price: '', type:'', place:this.props.getUser._id };
-      this.service = new EventService();
+      this.service = EventService;
     }
       
     handleFormSubmit = (event) => {
@@ -40,6 +40,24 @@ class EventCreate extends Component {
         photo: event.target.files[0]
       })
     }
+
+    getId = (url) => {
+      let regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+      let match = url.match(regExp);
+  
+      if (match && match[2].length == 11) {
+          return match[2];
+      } else {
+          return 'error';
+      }
+    }
+    handleChangeVideo = (event) => {
+      let myId = this.getId(event.target.value);
+      this.setState({
+        video: myId
+      })
+    }
+
         
   
     render() {
@@ -75,7 +93,7 @@ class EventCreate extends Component {
 
             <div class="form-group">
               <label>Youtube Link</label>
-              <input type="text" name="video" value={this.state.video} onChange={e => this.handleChange(e)} class="form-control" />
+              <input type="text" name="video" value={this.state.video} onChange={e => this.handleChangeVideo(e)} class="form-control" />
             </div>
 
             <div class="form-group">

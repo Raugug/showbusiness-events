@@ -11,6 +11,17 @@
         margin: 10px auto;
         text-decoration: none;
     }
+    .eventInList{
+        display: flex;
+        justify-content: space-evenly;
+        *{
+            display: flex;
+            p{
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+        }
+    }
         
 
 

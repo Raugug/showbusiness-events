@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import EventService from './EventService';
+import {EventService} from './EventService';
 import { Switch, Route } from 'react-router-dom';
 import { Link, NavLink } from 'react-router-dom';
 import './ListEvent.scss'
@@ -10,7 +10,7 @@ class ListEvents extends Component {
     constructor(props){
         super(props);
         this.state = {events:[]};
-        this.service = new EventService();
+        this.service = EventService;
         
     }
 
