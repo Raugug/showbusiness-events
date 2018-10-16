@@ -16,7 +16,9 @@ class Profile extends Component {
         this.state = {username:'', password:'', email:'', photo:'', placeType:'',
                       address:'', eventsHost:[], eventsGo: '', favUsers:'', favPlaces:'', location:''}
         this.service = UserService;
-        
+        if(this.props.id){
+            this.service.getuser(this.props.id).then(response => this.setState(response))
+        }
         console.log("PROPS En CONSTRUCTOR", this.props.id, this.props.user)
     }
 

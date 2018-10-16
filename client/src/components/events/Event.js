@@ -4,6 +4,7 @@ import './Event.scss';
 //import PlaceMap from './PlaceMap'
 import { Redirect } from 'react-router'
 import {EventService} from './EventService'
+import {UserService} from '../user/UserService'
 import { EPROTO } from 'constants';
 import Icon from 'react-icons-kit';
 import {calendar} from 'react-icons-kit/icomoon/calendar'
@@ -14,12 +15,13 @@ import PlaceMap from '../user/PlaceMap'
 class Event extends Component {
     constructor(props) {
         super(props)
-        this.state = {title: '', description:'', artist:'', photo:'', artistURL:'', video:'', date:'', datestr:'', time:'', price:'', type:'', place:''}
+        this.state = {title: '', description:'', artist:'', photo:'', artistURL:'', 
+                      video:'', date:'', datestr:'', time:'', price:'', type:'', place:'', joined:[]}
         this.service = EventService;
     }
 
     componentWillMount(){
-        console.log("PROPS EN DETAIL", this.props.id)
+        console.log("PROPS EN DETAIL", this.props.id, this.props.user)
         this.service.getEvent(this.props.id).then((event) =>
         {
 
@@ -29,10 +31,20 @@ class Event extends Component {
         console.log("STATE EN CONST", this.state)
 
     }
+    handleJoin = (e) => {
+        e.preventDefault();
+        UserService.joinevent(this.props.user._id, this.props.id).then(response => {
+            console.log("response joinevent", response)
+            this.props.update(response.user)
+            this.setState(response.event);
+        })
+    }
 
     render (){
-        let {title, description, artist, photo, artistURL, video, date, datestr, time, price, type, place} = this.state;
-        console.log("PLACE", artist)
+        let {title, description, artist, photo, artistURL, video, date, datestr, time, price, type, place, joined} = this.state;
+        let isInJoined =this.state.joined.filter(userjoined => {
+            return (userjoined._id===this.props.user._id)
+        })
         return(
             <div className="main-event">
                 <div className="header-event">
@@ -51,9 +63,14 @@ class Event extends Component {
                     <p>{description}</p>
                     <br/>
                     <div className="datetime">
-                    <div><Icon icon={calendar}/><p>{datestr}</p></div>
-                    <div><Icon icon={clock}/><p>{time}</p></div>
+                        <div><Icon icon={calendar}/><p>{datestr}</p></div>
+                        <div><Icon icon={clock}/><p>{time}</p></div>
                     </div>
+                    {(isInJoined.length==0)?
+                                <div className="buttons">
+                                    <button class="btn btn-success" onClick={(e)=> this.handleJoin(e)}>JOIN</button>
+                                </div>
+                                :<div/>}
                     <div className="content-profile">
                     <div className="left-profile-place">
                         <img src={place.photo} alt=""/>
@@ -87,8 +104,13 @@ class Event extends Component {
                     <h3>Users joined</h3>
                     <hr/>
                     <ul className="favsList">
-                        <li>User 1</li>
-                        <li>User 2</li>
+                    {joined.map(user =>
+                        <li>
+                            <img src={user.photo} alt=""/>
+                            <h4><Link to={"/user/"+user._id}>{user.username}</Link></h4>
+                        </li>
+                        
+                        )}
                     </ul>
                 
 

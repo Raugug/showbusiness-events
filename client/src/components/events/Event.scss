@@ -72,3 +72,17 @@
         justify-content: center;
     }
 }
+.favsList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    li{
+        padding-right: 1%;
+        img{
+            width: 100px;
+            height: 100px;
+            border-radius:50%;
+        }
+
+    }
+}

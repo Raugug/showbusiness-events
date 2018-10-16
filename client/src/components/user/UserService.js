@@ -19,6 +19,42 @@ class _UserService {
     .then(response => response.data)
 
   }
+
+  joinevent = (id, eventId) => {
+    console.log("service joinevent", id, eventId)
+    return this.service.put(`/add/joinevent`, {id, eventId})
+    .then(response => response.data)
+  }
+
+  favuser = (id, favId) => {
+    console.log("service favuser", id, favId)
+    return this.service.put(`/add/favuser`, {id, favId})
+    .then(response => response.data)
+  }
+
+  followplace = (id, placeId) => {
+    console.log("service followplace", id, placeId)
+    return this.service.put(`/add/followplace`, {id, placeId})
+    .then(response => response.data)
+  }
+
+  unjoinevent = (id, eventId) => {
+    console.log("service unjoinevent", id, eventId)
+    return this.service.put(`/delete/joinevent`, {id, eventId})
+    .then(response => response.data)
+  }
+
+  unfavuser = (id, favId) => {
+    console.log("service unfavuser", id, favId)
+    return this.service.put(`/delete/favuser`, {id, favId})
+    .then(response => response.data)
+  }
+
+  unfollowplace = (id, placeId) => {
+    console.log("service unfollowplace", id, placeId)
+    return this.service.put(`/delete/followplace`, {id, placeId})
+    .then(response => response.data)
+  }
 }
 
 export const UserService = new _UserService();

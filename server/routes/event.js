@@ -17,11 +17,12 @@ router.post('/create', [ensureLoggedIn(), uploadCloud.single('photo')], (req, re
     console.log("ENTRA")
     console.log('USE LOGED',req.user)
   console.log("REQ FILE", req.file)
-    Event.create({title, description, artist, photo, artistURL, video, date, datestr, time, price, type, place})
+    Event.create({title, description, artist, photo, artistURL, video, date, datestr, time, price, type, place}).populate('place').populate('joined')
     .then(event => 
-        User.findByIdAndUpdate(event.place, {$push: {eventsHost: event._id}})
+        User.findByIdAndUpdate(event.place, {$push: {eventsHost: event._id}}).populate('eventsGo').populate('favUsers')
+        .populate('eventsHost').populate('favPlaces').populate('followUsers').populate('followPlaces')
         .then(user =>
-            res.json({status: 'EVENT CREATED IN BACK, USER UPDATED', user})
+            res.json({status: 'EVENT CREATED IN BACK, USER UPDATED', user, event})
 
             )
     ).catch(e => next(e))
@@ -29,7 +30,7 @@ router.post('/create', [ensureLoggedIn(), uploadCloud.single('photo')], (req, re
 
 //EVENTS LIST
 router.get('/all', (req, res, next) => {
-    Event.find().populate('place').then(events => 
+    Event.find().populate('place').populate('joined').then(events => 
         res.json({status: 'ALL EVENTS', events})
     ).catch(e => console.log(e))
 })
@@ -38,7 +39,7 @@ router.get('/all', (req, res, next) => {
 router.get('/today', (req, res, next) => {
     let thisweek = moment().endOf('day')
     console.log("THIS WEEK", today)
-    Event.find({date: { $lte: thisweek }}).populate('place').then(events => 
+    Event.find({date: { $lte: thisweek }}).populate('place').populate('joined').then(events => 
         res.json({status: 'EVENTS THIS WEEK', events})
     ).catch(e => console.log(e))
 })
@@ -46,7 +47,7 @@ router.get('/today', (req, res, next) => {
 router.get('/thisweek', (req, res, next) => {
     let thisweek = moment().endOf('isoWeek')
     console.log("THIS WEEK", thisweek)
-    Event.find({date: { $lte: thisweek }}).populate('place').then(events => 
+    Event.find({date: { $lte: thisweek }}).populate('place').populate('joined').then(events => 
         res.json({status: 'EVENTS THIS WEEK', events})
     ).catch(e => console.log(e))
 })
@@ -54,13 +55,13 @@ router.get('/thisweek', (req, res, next) => {
 router.get('/thismonth', (req, res, next) => {
     let thismonth = moment().endOf('month')
     console.log("THIS MONTH", thismonth)
-    Event.find({date: { $lte: thismonth }}).populate('place').then(events => 
+    Event.find({date: { $lte: thismonth }}).populate('place').populate('joined').then(events => 
         res.json({status: 'EVENTS THIS MONTH', events})
     ).catch(e => console.log(e))
 })
 
 router.get('/:eventId', (req, res, next) => {
-    Event.findById(req.params.eventId).populate('place').then(event => 
+    Event.findById(req.params.eventId).populate('place').populate('joined').then(event => 
         res.status(200).json(event))
         .catch(e => console.log(e))
     })

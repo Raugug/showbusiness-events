@@ -1,11 +1,11 @@
 const express = require('express');
 const User = require('../models/User');
+const Event = require("../models/Event");
 const router = express.Router();
 const passport = require('passport');
 const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
 
-
-router.get('/myprofile', ensureLoggedIn(), (req, res, next) => {
+/* router.get('/myprofile', ensureLoggedIn(), (req, res, next) => {
     User.findById(req.user._id)
     .then(user => {
       let owner= true;
@@ -14,24 +14,118 @@ router.get('/myprofile', ensureLoggedIn(), (req, res, next) => {
         playerStr: JSON.stringify(player)
       });
     }).catch(err => next(err))
-});
+}); */
 
 // GET PROFILE BY ID
 router.get('/:userId', /* ensureLoggedIn('../auth/currentuser'), */ (req, res, next) => {
     console.log("ENTRA EN GET POR ID")
     const userId = req.params.userId;
-    User.findById(userId)
+    User.findById(userId).populate('eventsGo').populate('favUsers')
+    .populate('eventsHost').populate('favPlaces').populate('followUsers').populate('followPlaces')
     .then(user => res.status(200).json(user))
 })
 
 //GET EDIT FORM
 router.get('/edit/:userId', (req, res, next) => {
     const userId = req.params.userId;
-    User.findById(userId)
+    User.findById(userId).populate('eventsGo').populate('favUsers')
+    .populate('eventsHost').populate('favPlaces').populate('followUsers').populate('followPlaces')
     .then(user => res.status(200).json(user))
 })
-  
-//PUT EDIT
+
+//PUT ADD EVENT, ADD PLACE, ADD FAVUSER
+router.put('/add/joinevent', (req, res, next)=> {
+    let {id, eventId} = req.body;
+    //console.log("ENTRA EN PUT", id, eventId)
+    User.findByIdAndUpdate(id, {$push: {eventsGo: eventId}}, {new:true}).populate('eventsGo').populate('favUsers')
+    .populate('eventsHost').populate('favPlaces').populate('followUsers').populate('followPlaces')
+        .then( user =>{
+            Event.findByIdAndUpdate(eventId, {$push: {joined: id}}, {new:true}).populate('place').populate('joined')
+                .then(event=>{
+                    res.status(200).json({user, event})}) // Answer JSON
+        })
+        .catch(e => console.log(e));
+})
+
+router.put('/add/favuser', (req, res, next)=> {
+    let {id, favId} = req.body;
+    //console.log("ENTRA EN PUT", id, eventId)
+    User.findByIdAndUpdate(id, {$push: {favUsers: favId}}, {new:true}).populate('eventsGo').populate('favUsers')
+    .populate('eventsHost').populate('favPlaces').populate('followUsers').populate('followPlaces')
+        .then( user =>{
+            User.findByIdAndUpdate(favId, {$push: {followUsers: id}}, {new:true}).populate('eventsGo').populate('favUsers')
+            .populate('eventsHost').populate('favPlaces').populate('followUsers').populate('followPlaces')
+                .then(userfollowed => {
+                    res.status(200).json({user, userfollowed})}) // Answer JSON
+
+        }) 
+        .catch(e => console.log(e));
+})
+
+router.put('/add/followplace', (req, res, next)=> {
+    let {id, placeId} = req.body;
+    //console.log("ENTRA EN PUT", id, eventId)
+    User.findByIdAndUpdate(id, {$push: {favPlaces: placeId}}, {new:true}).populate('eventsGo').populate('favUsers')
+    .populate('eventsHost').populate('favPlaces').populate('followUsers').populate('followPlaces')
+        .then( user =>{ 
+            User.findByIdAndUpdate(placeId, {$push: {followPlaces: id}}, {new:true}).populate('eventsGo').populate('favUsers')
+            .populate('eventsHost').populate('favPlaces').populate('followUsers').populate('followPlaces')
+                .then(placefollowed => {
+                    res.status(200).json({user, placefollowed})}) // Answer JSON
+
+        }) 
+        .catch(e => console.log(e));
+})
+
+//PUT DELETE EVENT, DELETE PLACE, DELETE FAVUSER
+
+router.put('/delete/joinevent', (req, res, next)=> {
+    let {id, eventId} = req.body;
+    //console.log("ENTRA EN PUT", id, eventId)
+    User.findByIdAndUpdate(id, {$pull: {eventsGo: eventId}}, {new:true}).populate('eventsGo').populate('favUsers')
+    .populate('eventsHost').populate('favPlaces').populate('followUsers').populate('followPlaces')
+        .then( user =>{
+            Event.findByIdAndUpdate(eventId, {$pull: {joined: id}}, {new:true}).populate('place').populate('joined')
+                .then(event=>{
+                    res.status(200).json({user, event})}) // Answer JSON
+        })
+        .catch(e => console.log(e));
+})
+
+router.put('/delete/favuser', (req, res, next)=> {
+    let {id, favId} = req.body;
+    //console.log("ENTRA EN PUT", id, eventId)
+    User.findByIdAndUpdate(id, {$pull: {favUsers: favId}}, {new:true}).populate('eventsGo').populate('favUsers')
+    .populate('eventsHost').populate('favPlaces').populate('followUsers').populate('followPlaces')
+        .then( user =>{
+            User.findByIdAndUpdate(favId, {$pull: {followUsers: id}}, {new:true}).populate('eventsGo').populate('favUsers')
+            .populate('eventsHost').populate('favPlaces').populate('followUsers').populate('followPlaces')
+                .then(userfollowed => {
+                    res.status(200).json({user, userfollowed})}) // Answer JSON
+
+        }) 
+        .catch(e => console.log(e));
+})
+
+router.put('/delete/followplace', (req, res, next)=> {
+    let {id, placeId} = req.body;
+    //console.log("ENTRA EN PUT", id, eventId)
+    User.findByIdAndUpdate(id, {$pull: {favPlaces: placeId}}, {new:true}).populate('eventsGo').populate('favUsers')
+    .populate('eventsHost').populate('favPlaces').populate('followUsers').populate('followPlaces')
+        .then( user =>{ 
+            User.findByIdAndUpdate(placeId, {$pull: {followPlaces: id}}, {new:true}).populate('eventsGo').populate('favUsers')
+            .populate('eventsHost').populate('favPlaces').populate('followUsers').populate('followPlaces')
+                .then(placefollowed => {
+                    res.status(200).json({user, placefollowed})}) // Answer JSON
+
+        }) 
+        .catch(e => console.log(e));
+})
+
+
+
+
+////PUT EDIT
 router.put('/edit', (req, res, next)=> {
     let {id, username, email, placeType} = req.body;
     console.log("ENTRA EN PUT", id)
@@ -52,7 +146,8 @@ router.put('/edit', (req, res, next)=> {
     }}).catch(e => console.log(e)); */
     if (placeType == "User"){
 
-        User.findByIdAndUpdate(id, {username, email}, {new:true})
+        User.findByIdAndUpdate(id, {username, email}, {new:true}).populate('eventsGo').populate('favUsers')
+        .populate('favPlaces').populate('followUsers').populate('followPlaces').populate('eventsHost')
         .then( user =>{
             console.log("DENTROH", user) 
             res.status(200).json(user)}) // Answer JSON
@@ -60,7 +155,8 @@ router.put('/edit', (req, res, next)=> {
     }
     else{
 
-        User.findByIdAndUpdate(id, {username, email, placeType}, {new:true})
+        User.findByIdAndUpdate(id, {username, email, placeType}, {new:true}).populate('eventsGo').populate('favUsers')
+        .populate('favPlaces').populate('followUsers').populate('followPlaces').populate('eventsHost')
         .then( user =>{
             console.log("DENTROH", user) 
             res.status(200).json(user)}) // Answer JSON

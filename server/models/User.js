@@ -12,6 +12,8 @@ const userSchema = new Schema({
   eventsGo: [{ type: Schema.Types.ObjectId, ref: "Event" }],
   favUsers: [{ type: Schema.Types.ObjectId, ref: "User" }],
   favPlaces: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  followUsers: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  followPlaces: [{ type: Schema.Types.ObjectId, ref: "User" }],
   location: { type: { type: String, default: 'Point'}, coordinates: [Number], default:[0,0] }
 }, {
   timestamps: {
