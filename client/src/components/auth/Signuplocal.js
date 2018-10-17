@@ -117,7 +117,6 @@ class Signuplocal extends Component {
 
           <div class="form-group">
             <label for="map">Location</label>
-            {/* <SimpleMap getLoc={this.getLocation}/> */}
             <div>
             <MyMap
               id="myMap"

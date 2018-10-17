@@ -13,6 +13,8 @@ import EditProfile from './components/user/EditProfile';
 import EventCreate from './components/events/EventCreate';
 import ListEvents from './components/events/ListEvents';
 import Event from './components/events/Event'
+import MainMap from './components/maps/MainMap'
+import {EventService} from './components/events/EventService';
 
 
 class App extends Component {
@@ -21,6 +23,8 @@ class App extends Component {
     super(props)
     this.state = { loggedInUser: null , profileType: null};
     this.service = new AuthService();
+    
+    console.log("state en constructor", this.state)
   }
 
   getTheUser= (userObj) => {
@@ -54,6 +58,7 @@ class App extends Component {
 
   componentWillMount(){
     this.fetchUser()
+    this.getList();
   }
   updateProfileType = (profileType) => {
       this.setState({loggedInUser: this.state.loggedInUser, profileType: profileType})
@@ -63,6 +68,15 @@ class App extends Component {
   update = (res) => {
     debugger
       this.setState({loggedInUser: res})
+  }
+  getList = () => {
+    EventService.getall()
+  .then( response => {
+      console.log("RESPONSE", response)
+      this.setState({events: response.events});
+  })
+  .catch( error => console.log(error)) 
+
   }
 
   render() {
@@ -77,6 +91,7 @@ class App extends Component {
           <main className="App-main">
           <Switch>
               <Route exact path='/all' render={() => <ListEvents getUser={this.state.loggedInUser}/>}/>
+              <Route exact path='' render={() => <MainMap events={this.state.events} id="mainMap"options={{center: { lat: 40.3827563, lng: -3.692763 }, zoom: 13}}/>}/>
               <Route exact path='/newevent' render={() => <EventCreate update={this.update} getUser={this.state.loggedInUser}/>}/>
               <Route exact path='/user/edit' render={() => <EditProfile update={this.update} user={this.state.loggedInUser}/>}/>
               <Route exact path={"/event/:id"} render={(props)=> <Event id={props.match.params.id} update={this.update} user={this.state.loggedInUser} events={this.state.events}/>}/>
