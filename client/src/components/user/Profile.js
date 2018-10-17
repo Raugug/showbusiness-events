@@ -12,19 +12,17 @@ import {clock} from 'react-icons-kit/icomoon/clock'
 
 class Profile extends Component {
     constructor(props){
-        alert("HOLA CONSTRUCTOR")
         super(props);
         this.state = {username:'', password:'', email:'', photo:'', placeType:'',
                       address:'', eventsHost:[], eventsGo: [], favUsers:[], favPlaces:[], location:''}
         this.service = UserService;
-        if(this.props.id){
+        /* if(this.props.match.params.id){
             this.service.getuser(this.props.id).then(response => this.setState(response))
         }
-        console.log("PROPS En CONSTRUCTOR", this.props.id, this.props.user)
+        console.log("PROPS En CONSTRUCTOR", this.props.id, this.props.user) */
     }
 
-    componentWilReceiveProps(){
-        alert("HOLA")
+    componentWillReceiveProps(){debugger;
         if(this.props.id){
             this.service.getuser(this.props.id).then(response => this.setState(response))
         }
@@ -35,22 +33,32 @@ class Profile extends Component {
         console.log("RECIEVE", this.state)
         }
     }
-    componentWillMount(){
-        if(this.props.id){
-            this.service.getuser(this.props.id).then(response => this.setState(response))
-        }
-        else{
+    // componentWillMount(){debugger;
+    //     if(this.props.id){
+    //         this.service.getuser(this.props.id).then(response => this.setState(response))
+    //     }
+    //     else{
 
-            const state = this.props.user
+    //         const state = this.props.user
             
-            this.setState(state)
-            console.log("WILLMOUNT", this.state)
-        }
+    //         this.setState(state)
+    //         console.log("WILLMOUNT", this.state)
+    //     }
 
-    }
+    // }
+    /* componentWillUpdate(){
+        debugger
+        if(this.props.type==="standard"){
+            this.setState({name: "dani"})
+        }
+        if(this.props.type==="specific"){
+            this.setState({name: "raul"})
+        }
+    } */
 
     componentDidMount(){
-        alert("HOLA DID MOUNT")
+        debugger;
+
         if(this.props.id){
             this.service.getuser(this.props.id).then(response => this.setState(response))
         }
@@ -78,6 +86,11 @@ class Profile extends Component {
         })
     }
 
+    redirect = (e, id) => {
+        debugger
+        this.service.getuser(id).then(response => this.setState(response))
+    }
+
     render(){
         
         console.log("state EN RENDER", this.state)
@@ -86,6 +99,7 @@ class Profile extends Component {
         if (placeType==="User")
         return(
             <div className="main-profile">
+            <p>{this.props.type}</p>
                 <div className="content-profile">
                     <div className="left-profile">
                         <img src={photo} alt=""/>
@@ -142,7 +156,7 @@ class Profile extends Component {
                     {favUsers.map(user =>
                         <li>
                             <img src={user.photo} alt=""/>
-                            <h4><Link to={"/user/"+user._id}>{user.username}</Link></h4>
+                            <h4><Link onClick={() =>this.props.updateProfileType("specific")} to={"/user/"+user._id}>{user.username}</Link></h4>
                         </li>
                         
                         )}

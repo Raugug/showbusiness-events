@@ -19,7 +19,7 @@ class App extends Component {
 
   constructor(props){
     super(props)
-    this.state = { loggedInUser: null };
+    this.state = { loggedInUser: null , profileType: null};
     this.service = new AuthService();
   }
 
@@ -55,12 +55,14 @@ class App extends Component {
   componentWillMount(){
     this.fetchUser()
   }
+  updateProfileType = (profileType) => {
+      this.setState({loggedInUser: this.state.loggedInUser, profileType: profileType})
+
+  }
 
   update = (res) => {
-    //debugger
-    this.setState({loggedInUser: res})
-    //debugger
-
+    debugger
+      this.setState({loggedInUser: res})
   }
 
   render() {
@@ -70,17 +72,17 @@ class App extends Component {
       return (
         <div className="App">
           <header className="App-header">
-            <Navbar userInSession={this.state.loggedInUser} logout={this.logout} />
+            <Navbar update={this.update} updateProfileType={this.updateProfileType} userInSession={this.state.loggedInUser} logout={this.logout} />
           </header>
           <main className="App-main">
           <Switch>
               <Route exact path='/all' render={() => <ListEvents getUser={this.state.loggedInUser}/>}/>
-              <Route exact path='/profile' render={() => <Profile update={this.update} user={this.state.loggedInUser}/>}/>
               <Route exact path='/newevent' render={() => <EventCreate update={this.update} getUser={this.state.loggedInUser}/>}/>
               <Route exact path='/user/edit' render={() => <EditProfile update={this.update} user={this.state.loggedInUser}/>}/>
               <Route exact path={"/event/:id"} render={(props)=> <Event id={props.match.params.id} update={this.update} user={this.state.loggedInUser} events={this.state.events}/>}/>
-              <Route exact path={"/user/:id"} render={(props)=> <Profile id={props.match.params.id} update={this.update} user={this.state.loggedInUser}/>}/>
-              <Route exact path={"/place/:id"} render={(props)=> <Profile id={props.match.params.id} update={this.update} user={this.state.loggedInUser}/>}/>
+              <Route exact path='/profile' render={ () => <Profile updateProfileType={this.updateProfileType} update={this.update} user={this.state.loggedInUser} type={this.state.profileType}/>}/>
+              <Route exact path={"/user/:id"} render={(props)=> <Profile updateProfileType={this.updateProfileType} id={props.match.params.id} update={this.update} type={this.state.profileType} user={this.state.loggedInUser}/>}/>
+              <Route exact path={"/place/:id"} render={(props)=> <Profile updateProfileType={this.updateProfileType} id={props.match.params.id} update={this.update} user={this.state.loggedInUser} type={this.state.profileType}/>}/>
 
             </Switch>
           </main>
