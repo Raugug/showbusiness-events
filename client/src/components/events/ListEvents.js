@@ -40,6 +40,7 @@ class ListEvents extends Component {
                         <div className="eventInList">
                             <div>#</div>
                             <div>EVENT</div>
+                            <div>TYPE</div>
                             <div>DATE</div>
                             <div>PLACE</div>
                             </div>
@@ -50,6 +51,7 @@ class ListEvents extends Component {
                                     <div className="eventInList">
                                         <img src={event.photo}></img>
                                         <Link to={"/event/"+event._id}>{event.title}</Link>
+                                        <p>{event.type}</p>
                                         <div>    
                                         <Icon icon={calendar}/><p>{event.datestr}</p>
                                         <Icon icon={clock}/><p>{event.time}</p>

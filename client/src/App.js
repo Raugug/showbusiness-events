@@ -57,7 +57,9 @@ class App extends Component {
   }
 
   update = (res) => {
+    //debugger
     this.setState({loggedInUser: res})
+    //debugger
 
   }
 
@@ -74,7 +76,7 @@ class App extends Component {
           <Switch>
               <Route exact path='/all' render={() => <ListEvents getUser={this.state.loggedInUser}/>}/>
               <Route exact path='/profile' render={() => <Profile update={this.update} user={this.state.loggedInUser}/>}/>
-              <Route exact path='/newevent' render={() => <EventCreate getUser={this.state.loggedInUser}/>}/>
+              <Route exact path='/newevent' render={() => <EventCreate update={this.update} getUser={this.state.loggedInUser}/>}/>
               <Route exact path='/user/edit' render={() => <EditProfile update={this.update} user={this.state.loggedInUser}/>}/>
               <Route exact path={"/event/:id"} render={(props)=> <Event id={props.match.params.id} update={this.update} user={this.state.loggedInUser} events={this.state.events}/>}/>
               <Route exact path={"/user/:id"} render={(props)=> <Profile id={props.match.params.id} update={this.update} user={this.state.loggedInUser}/>}/>
@@ -99,8 +101,7 @@ class App extends Component {
               <Route exact path='/signup' render={() => <Signup getUser={this.getTheUser}/>}/>
               <Route exact path='/signuplocal' render={() => <Signuplocal getUser={this.getTheUser}/>}/>
               <Route exact path='/login' render={() => <Login getUser={this.getTheUser}/>}/>
-              <Route exact path='/profile' render={() => <Profile user={this.state.loggedInUser}/>}/>
-            </Switch>
+           </Switch>
           </main>
           <footer>
           <Footer></Footer>

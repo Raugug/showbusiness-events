@@ -12,9 +12,10 @@ import {clock} from 'react-icons-kit/icomoon/clock'
 
 class Profile extends Component {
     constructor(props){
+        alert("HOLA CONSTRUCTOR")
         super(props);
         this.state = {username:'', password:'', email:'', photo:'', placeType:'',
-                      address:'', eventsHost:[], eventsGo: [], favUsers:'', favPlaces:'', location:''}
+                      address:'', eventsHost:[], eventsGo: [], favUsers:[], favPlaces:[], location:''}
         this.service = UserService;
         if(this.props.id){
             this.service.getuser(this.props.id).then(response => this.setState(response))
@@ -22,28 +23,66 @@ class Profile extends Component {
         console.log("PROPS En CONSTRUCTOR", this.props.id, this.props.user)
     }
 
-    componentWillReceiveProps(){
+    componentWilReceiveProps(){
+        alert("HOLA")
+        if(this.props.id){
+            this.service.getuser(this.props.id).then(response => this.setState(response))
+        }
+        else{
+        
         const state = this.props.user
         this.setState(state)
         console.log("RECIEVE", this.state)
+        }
     }
     componentWillMount(){
-        const state = this.props.user
-        
-        this.setState(state)
-        console.log("WILLMOUNT", this.state)
+        if(this.props.id){
+            this.service.getuser(this.props.id).then(response => this.setState(response))
+        }
+        else{
+
+            const state = this.props.user
+            
+            this.setState(state)
+            console.log("WILLMOUNT", this.state)
+        }
 
     }
 
     componentDidMount(){
+        alert("HOLA DID MOUNT")
+        if(this.props.id){
+            this.service.getuser(this.props.id).then(response => this.setState(response))
+        }
+        else{
         const state = this.props.user
         this.setState(state)
         console.log("DIDMOUNT", this.state)
+        }
+    }
+
+    handleFav = (e) => {
+        e.preventDefault();
+        UserService.favuser(this.props.user._id, this.props.id).then(response => {
+            console.log("response favuser", response)
+            this.props.update(response.user)
+            this.setState(response.userfollowed);
+        })
+    }
+    handleUnfav = (e) => {
+        e.preventDefault();
+        UserService.unfavuser(this.props.user._id, this.props.id).then(response => {
+            console.log("response UNfavuser", response)
+            this.props.update(response.user)
+            this.setState(response.userfollowed);
+        })
     }
 
     render(){
+        
         console.log("state EN RENDER", this.state)
         let {username, password, email, photo, placeType, address, eventsHost, eventsGo, favUsers, favPlaces, location} = this.state
+        let isInFavUsers =this.props.user.favUsers.filter(userfav => {return (userfav._id===this.props.id)})
         if (placeType==="User")
         return(
             <div className="main-profile">
@@ -56,6 +95,15 @@ class Profile extends Component {
                         <h3>{email}</h3>
                         {(!this.props.id)?
                         <Link to='/user/edit'>EDIT</Link>:<div/>}
+                        {(isInFavUsers.length === 0) ?
+                        <div className="buttons">
+                            <button class="btn btn-success" onClick={(e) => this.handleFav(e)}>FOLLOW</button>
+                        </div>
+                        :
+                        <div className="buttons">
+                            <button class="btn btn-danger" onClick={(e) => this.handleUnfav(e)}>UNFOLLOW</button>
+                        </div>
+                    }
                         
                     </div>
 
@@ -63,7 +111,7 @@ class Profile extends Component {
                 
                 <div className="list-profile">
                     <hr/>
-                    <h1>My Events</h1>
+                    <h1>Events Going</h1>
                     <hr/>
                     <ul className="eventsList">
                         {eventsGo.map(event =>{
@@ -74,24 +122,30 @@ class Profile extends Component {
                                         <Icon icon={clock}/><p>{event.time}</p>
                                         </div>
                                         <Link to={"/event/"+event._id}>{event.title}</Link>
+                                        <Link to={"/place/"+event.place._id}>{event.place.username}</Link>
                                     </div>
                                     </li>
 
                         })}
                     </ul>
                     <hr/>
-                    <h1>My Places</h1>
+                    <h1>Favourite Places</h1>
                     <hr/>
                     <ul className="placesList">
                         <li>Place 1</li>
                         <li>Place 2</li>
                     </ul>
                     <hr/>
-                    <h1>My Friends</h1>
+                    <h1>Favourite Users</h1>
                     <hr/>
                     <ul className="favsList">
-                        <li>User 1</li>
-                        <li>User 2</li>
+                    {favUsers.map(user =>
+                        <li>
+                            <img src={user.photo} alt=""/>
+                            <h4><Link to={"/user/"+user._id}>{user.username}</Link></h4>
+                        </li>
+                        
+                        )}
                     </ul>
                 </div>
                 
@@ -137,6 +191,8 @@ class Profile extends Component {
                                         <Icon icon={clock}/><p>{event.time}</p>
                                         </div>
                                         <Link to={"/event/"+event._id}>{event.title}</Link>
+                                        <Link to={"/place/"+event.place._id}>{event.place.username}</Link>
+
                                     </div>
                                     </li>
 

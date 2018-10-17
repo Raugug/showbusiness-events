@@ -19,12 +19,20 @@ class EventCreate extends Component {
       event.preventDefault();
       let {title, description, artist, photo, artistURL, video, date, time, price, type, place} = this.state;
       //const place = this.props.getUser
+      const that = this;
   
       this.service.create(title, description, artist, photo, artistURL, video, date, date, time, price, type, place)
       .then( response => {
-          this.setState({redirect: true, title: '', description: '', artist: '', photo: null, artistURL:'',video:'',
+        console.log("RESPONSE USER EN CREATE", response.user)
+        debugger
+        that.props.update(response.user)
+        debugger
+        this.setState({
+          redirect: true
+        });
+          /* this.setState({redirect: true, title: '', description: '', artist: '', photo: null, artistURL:'',video:'',
                          date:'', datestr: '', time:'', price:'', type:'', place:this.props.getUser._id});
-          //console.log("EVENT CREATED IN FRONT", response.event)
+          //console.log("EVENT CREATED IN FRONT", response.event) */
           console.log("EVENT CREATED IN FRONT", this.state.redirect)
       })
       .catch( error => console.log(error) )
@@ -63,7 +71,7 @@ class EventCreate extends Component {
     render() {
       console.log("STATE IN FORM AFTER CHANGE", this.state)
       if(this.state.redirect){
-          return <Redirect to='/'/>;
+          return <Redirect to='/profile'/>;
         }
 
       return(

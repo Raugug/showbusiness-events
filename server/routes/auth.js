@@ -21,7 +21,7 @@ const login = (req, user) => {
 
       
       if(err) {
-        reject(new Error('Something went wrong'))
+        reject(console.log(err)/* new Error('Something went wrong') */)
       }else{
         resolve(user);
       }
@@ -64,8 +64,8 @@ router.post('/signup', [ensureLoggedOut(), uploadCloud.single('photo')], (req, r
   }
 
   //USERNAME EXISTS
-  User.findOne({ username }).populate('eventsGo').populate('favUsers')
-  .populate('eventsHost').populate('favPlaces').populate('followUsers').populate('followPlaces')
+  User.findOne({ username })/* .populate('eventsGo').populate('eventsGo.place').populate('favUsers')
+  .populate('eventsHost').populate('favPlaces').populate('followUsers').populate('followPlaces') */
   .then( foundUser => {
     if (foundUser) throw new Error('Username already exists');
 
@@ -95,8 +95,8 @@ router.post('/login', (req, res, next) => {
     if (!theUser) next(failureDetails)
 
     // Return user and logged in
-    login(req, theUser).populate('eventsGo').populate('favUsers')
-    .populate('eventsHost').populate('favPlaces').populate('followUsers').populate('followPlaces').then(user => res.status(200).json(req.user));
+    login(req, theUser)/* .populate('eventsGo').populate('favUsers').populate('eventsGo.place')
+    .populate('eventsHost').populate('favPlaces').populate('followUsers').populate('followPlaces') */.then(user => res.status(200).json(req.user));
 
   })(req, res, next);
 });

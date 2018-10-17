@@ -17,10 +17,10 @@ router.post('/create', [ensureLoggedIn(), uploadCloud.single('photo')], (req, re
     console.log("ENTRA")
     console.log('USE LOGED',req.user)
   console.log("REQ FILE", req.file)
-    Event.create({title, description, artist, photo, artistURL, video, date, datestr, time, price, type, place}).populate('place').populate('joined')
+    Event.create({title, description, artist, photo, artistURL, video, date, datestr, time, price, type, place})/* .populate('place').populate('joined') */
     .then(event => 
-        User.findByIdAndUpdate(event.place, {$push: {eventsHost: event._id}}).populate('eventsGo').populate('favUsers')
-        .populate('eventsHost').populate('favPlaces').populate('followUsers').populate('followPlaces')
+        User.findByIdAndUpdate(event.place, {$push: {eventsHost: event._id}}, {new:true}).populate('eventsGo').populate('favUsers')
+        .populate('eventsHost').populate('eventsGo.place').populate('favPlaces').populate('followUsers').populate('followPlaces')
         .then(user =>
             res.json({status: 'EVENT CREATED IN BACK, USER UPDATED', user, event})
 

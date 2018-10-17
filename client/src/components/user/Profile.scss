@@ -7,7 +7,7 @@
 
     button{
         display: inline-block;
-        width: 100px;
+        width: 150px;
         margin: 10px auto;
         text-decoration: none;
     }
@@ -66,4 +66,19 @@ hr {
     border-radius: 2%;
     text-decoration: none;
     text-shadow: 0px 0px black;
+}
+
+.favsList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    li{
+        padding-right: 1%;
+        img{
+            width: 100px;
+            height: 100px;
+            border-radius:50%;
+        }
+
+    }
 }
