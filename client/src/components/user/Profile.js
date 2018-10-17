@@ -14,59 +14,26 @@ class Profile extends Component {
     constructor(props){
         super(props);
         this.state = {username:'', password:'', email:'', photo:'', placeType:'',
-                      address:'', eventsHost:[], eventsGo: [], favUsers:[], favPlaces:[], location:''}
+                      address:'', eventsHost:[], eventsGo: [], favUsers:[], favPlaces:[], followPlaces:[], location:''}
         this.service = UserService;
-        /* if(this.props.match.params.id){
-            this.service.getuser(this.props.id).then(response => this.setState(response))
-        }
-        console.log("PROPS En CONSTRUCTOR", this.props.id, this.props.user) */
-    }
-
-    componentWillReceiveProps(){debugger;
         if(this.props.id){
             this.service.getuser(this.props.id).then(response => this.setState(response))
         }
-        else{
-        
-        const state = this.props.user
-        this.setState(state)
-        console.log("RECIEVE", this.state)
-        }
+        console.log("PROPS En CONSTRUCTOR", this.props.id, this.props.user)
     }
-    // componentWillMount(){debugger;
-    //     if(this.props.id){
-    //         this.service.getuser(this.props.id).then(response => this.setState(response))
-    //     }
-    //     else{
 
-    //         const state = this.props.user
-            
-    //         this.setState(state)
-    //         console.log("WILLMOUNT", this.state)
-    //     }
-
-    // }
-    /* componentWillUpdate(){
-        debugger
-        if(this.props.type==="standard"){
-            this.setState({name: "dani"})
-        }
-        if(this.props.type==="specific"){
-            this.setState({name: "raul"})
-        }
-    } */
-
-    componentDidMount(){
-        debugger;
-
-        if(this.props.id){
-            this.service.getuser(this.props.id).then(response => this.setState(response))
-        }
-        else{
-        const state = this.props.user
-        this.setState(state)
-        console.log("DIDMOUNT", this.state)
-        }
+    componentWillReceiveProps(nextProps){
+        if(nextProps.type==="specific"){
+            this.service.getuser(nextProps.id).then(response => 
+                 this.setState(response)
+                )
+                
+            }else {
+                    
+                let state = this.props.user
+                this.setState(state)
+                console.log("RECIEVE", this.state)
+            }
     }
 
     handleFav = (e) => {
@@ -86,6 +53,23 @@ class Profile extends Component {
         })
     }
 
+    handleFavplace = (e) => {
+        e.preventDefault();
+        UserService.followplace(this.props.user._id, this.props.id).then(response => {
+            console.log("response followplace", response)
+            this.props.update(response.user)
+            this.setState(response.placefollowed);
+        })
+    }
+    handleUnfavplace = (e) => {
+        e.preventDefault();
+        UserService.unfollowplace(this.props.user._id, this.props.id).then(response => {
+            console.log("response UNfollowplace", response)
+            this.props.update(response.user)
+            this.setState(response.placefollowed);
+        })
+    }
+
     redirect = (e, id) => {
         debugger
         this.service.getuser(id).then(response => this.setState(response))
@@ -94,8 +78,9 @@ class Profile extends Component {
     render(){
         
         console.log("state EN RENDER", this.state)
-        let {username, password, email, photo, placeType, address, eventsHost, eventsGo, favUsers, favPlaces, location} = this.state
+        let {username, password, email, photo, placeType, address, eventsHost, eventsGo, favUsers, favPlaces, followPlaces, location} = this.state
         let isInFavUsers =this.props.user.favUsers.filter(userfav => {return (userfav._id===this.props.id)})
+        let isInFavPlaces =this.props.user.favPlaces.filter(placefav => {return (placefav._id===this.props.id)})
         if (placeType==="User")
         return(
             <div className="main-profile">
@@ -145,9 +130,14 @@ class Profile extends Component {
                     <hr/>
                     <h1>Favourite Places</h1>
                     <hr/>
-                    <ul className="placesList">
-                        <li>Place 1</li>
-                        <li>Place 2</li>
+                    <ul className="favsList">
+                    {favPlaces.map(user =>
+                        <li>
+                            <img src={user.photo} alt=""/>
+                            <h4><Link onClick={() =>this.props.updateProfileType("specific")} to={"/user/"+user._id}>{user.username}</Link></h4>
+                        </li>
+                        
+                        )}
                     </ul>
                     <hr/>
                     <h1>Favourite Users</h1>
@@ -175,7 +165,16 @@ class Profile extends Component {
                         <h4>{username}</h4>
                         <h4>{email}</h4>
                         <h4>{placeType}</h4>
-                        <h4>{address}</h4>
+                        {/* <h4>{address}</h4> */}
+                        {(isInFavPlaces.length === 0) ?
+                        <div className="buttons">
+                            <button class="btn btn-success" onClick={(e) => this.handleFavplace(e)}>FOLLOW</button>
+                        </div>
+                        :
+                        <div className="buttons">
+                            <button class="btn btn-danger" onClick={(e) => this.handleUnfavplace(e)}>UNFOLLOW</button>
+                        </div>
+                    }
                     </div>
                     <div className="rigth-profile">
                         
@@ -223,8 +222,7 @@ class Profile extends Component {
                     </ul>
                 </div>
                 
-{/*                 <Route exact path='/user/edit' render={() => <EditProfile updated getUser={this.state.loggedInUser}/>}/>
- */}            </div>
+            </div>
 
         )
         

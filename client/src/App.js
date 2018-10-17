@@ -9,6 +9,7 @@ import Login from './components/auth/Login';
 import AuthService from './components/auth/AuthService';
 import Footer from './components/navbar/Footer';
 import Profile from './components/user/Profile';
+//import Profile2 from './components/user/Profile2';
 import EditProfile from './components/user/EditProfile';
 import EventCreate from './components/events/EventCreate';
 import ListEvents from './components/events/ListEvents';
@@ -80,7 +81,7 @@ class App extends Component {
               <Route exact path='/newevent' render={() => <EventCreate update={this.update} getUser={this.state.loggedInUser}/>}/>
               <Route exact path='/user/edit' render={() => <EditProfile update={this.update} user={this.state.loggedInUser}/>}/>
               <Route exact path={"/event/:id"} render={(props)=> <Event id={props.match.params.id} update={this.update} user={this.state.loggedInUser} events={this.state.events}/>}/>
-              <Route exact path='/profile' render={ () => <Profile updateProfileType={this.updateProfileType} update={this.update} user={this.state.loggedInUser} type={this.state.profileType}/>}/>
+              <Route exact path='/profile' render={ (props) => <Profile updateProfileType={this.updateProfileType} id={props.match.params.id} update={this.update} user={this.state.loggedInUser} type={this.state.profileType}/>}/>
               <Route exact path={"/user/:id"} render={(props)=> <Profile updateProfileType={this.updateProfileType} id={props.match.params.id} update={this.update} type={this.state.profileType} user={this.state.loggedInUser}/>}/>
               <Route exact path={"/place/:id"} render={(props)=> <Profile updateProfileType={this.updateProfileType} id={props.match.params.id} update={this.update} user={this.state.loggedInUser} type={this.state.profileType}/>}/>
 
