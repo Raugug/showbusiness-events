@@ -77,8 +77,8 @@ class App extends Component {
               <Route exact path='/newevent' render={() => <EventCreate getUser={this.state.loggedInUser}/>}/>
               <Route exact path='/user/edit' render={() => <EditProfile update={this.update} user={this.state.loggedInUser}/>}/>
               <Route exact path={"/event/:id"} render={(props)=> <Event id={props.match.params.id} update={this.update} user={this.state.loggedInUser} events={this.state.events}/>}/>
-              <Route exact path={"/user/:id"} render={(props)=> <Profile id={props.match.params.id} user={this.state.loggedInUser}/>}/>
-              <Route exact path={"/place/:id"} render={(props)=> <Profile id={props.match.params.id} user={this.state.loggedInUser}/>}/>
+              <Route exact path={"/user/:id"} render={(props)=> <Profile id={props.match.params.id} update={this.update} user={this.state.loggedInUser}/>}/>
+              <Route exact path={"/place/:id"} render={(props)=> <Profile id={props.match.params.id} update={this.update} user={this.state.loggedInUser}/>}/>
 
             </Switch>
           </main>

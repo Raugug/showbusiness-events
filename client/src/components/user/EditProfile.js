@@ -76,7 +76,8 @@ class EditProfile extends Component {
                   <input type="email" name="email" value={this.state.email} onChange={e => this.handleChange(e)} class="form-control" />
               </div>
       
-              <button class="btn btn-warning"> EDIT </button>
+              {/* <button class="btn btn-warning"> EDIT </button> */}
+              <Link to='/profile' onClick={e => this.handleFormSubmit(e)}>EDIT</Link>
             </form>
       
             <h1>{this.state.error ? 'Error' : ''}</h1>

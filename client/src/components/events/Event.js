@@ -50,9 +50,7 @@ class Event extends Component {
 
     render (){
         let {title, description, artist, photo, artistURL, video, date, datestr, time, price, type, place, joined} = this.state;
-        let isInJoined =this.state.joined.filter(userjoined => {
-            return (userjoined._id===this.props.user._id)
-        })
+        let isInJoined =this.state.joined.filter(userjoined => {return (userjoined._id===this.props.user._id)})
         return(
             <div className="main-event">
                 <div className="header-event">
@@ -62,7 +60,16 @@ class Event extends Component {
                     <div className="header-right">
                         <h1>{title}</h1>
                         <h3>by</h3>
-                        <h1>{artist}</h1>
+                        <h1><a href={"http://"+artistURL} target="_blank" rel="noopener noreferrer">{artist}</a></h1>
+                        {(isInJoined.length == 0) ?
+                        <div className="buttons">
+                            <button class="btn btn-success" onClick={(e) => this.handleJoin(e)}>JOIN</button>
+                        </div>
+                        :
+                        <div className="buttons">
+                            <button class="btn btn-danger" onClick={(e) => this.handleLeave(e)}>LEAVE</button>
+                        </div>
+                    }
                     </div>
                 </div>
                 <div className="content-event">
@@ -74,15 +81,7 @@ class Event extends Component {
                         <div><Icon icon={calendar}/><p>{datestr}</p></div>
                         <div><Icon icon={clock}/><p>{time}</p></div>
                     </div>
-                    {(isInJoined.length == 0) ?
-                        <div className="buttons">
-                            <button class="btn btn-success" onClick={(e) => this.handleJoin(e)}>JOIN</button>
-                        </div>
-                        :
-                        <div className="buttons">
-                            <button class="btn btn-danger" onClick={(e) => this.handleLeave(e)}>LEAVE</button>
-                        </div>
-                    }
+                    
                     <div className="content-profile">
                     <div className="left-profile-place">
                         <img src={place.photo} alt=""/>
@@ -111,7 +110,8 @@ class Event extends Component {
                     <button className="btn btn-primary">BUY</button>
                     </div>
                     <hr/>
-                    <iframe width="560" height="315" src={"//www.youtube.com/embed/"+video} frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    <iframe width="560" height="315" src={"//www.youtube.com/embed/"+video} 
+                    frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
                     <h3>Users joined</h3>
                     <hr/>

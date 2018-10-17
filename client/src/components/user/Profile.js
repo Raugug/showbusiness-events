@@ -54,7 +54,8 @@ class Profile extends Component {
                     <div className="rigth-profile">
                         <h3>{username}</h3>
                         <h3>{email}</h3>
-                        <button class="btn btn-warning"><Link to='/user/edit'>EDIT</Link></button>
+                        {(!this.props.id)?
+                        <Link to='/user/edit'>EDIT</Link>:<div/>}
                         
                     </div>
 

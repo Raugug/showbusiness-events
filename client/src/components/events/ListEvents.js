@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import {EventService} from './EventService';
-import { Switch, Route } from 'react-router-dom';
+//import { Switch, Route } from 'react-router-dom';
 import { Link, NavLink } from 'react-router-dom';
 import './ListEvent.scss'
-import Event from './Event'
+//import Event from './Event'
+import Icon from 'react-icons-kit';
+import {calendar} from 'react-icons-kit/icomoon/calendar'
+import {clock} from 'react-icons-kit/icomoon/clock'
 
 
 class ListEvents extends Component {
@@ -30,7 +33,37 @@ class ListEvents extends Component {
         console.log("STATE LIST", this.state.events)
         const events = this.state.events
         return(
-            <div className="listall">
+            <div className="eventsList">
+            
+                    <ul >
+                        <li >
+                        <div className="eventInList">
+                            <div>#</div>
+                            <div>EVENT</div>
+                            <div>DATE</div>
+                            <div>PLACE</div>
+                            </div>
+                        </li>
+                        {events.map(event =>{
+                            return  <li >
+                                    <hr/>
+                                    <div className="eventInList">
+                                        <img src={event.photo}></img>
+                                        <Link to={"/event/"+event._id}>{event.title}</Link>
+                                        <div>    
+                                        <Icon icon={calendar}/><p>{event.datestr}</p>
+                                        <Icon icon={clock}/><p>{event.time}</p>
+                                        </div>
+                                        <Link to={"/place/"+event.place._id}>{event.place.username}</Link>
+                                    </div>
+                                    </li>
+
+                        })}
+                    </ul>
+            
+            </div>
+            )
+            {/* <div className="listall">
                 <ul>
                     {events.map( e => {
                         return(
@@ -44,8 +77,8 @@ class ListEvents extends Component {
                     }
                 </ul>
                 <Route exact path={"event/:id"} render={(props)=> <Event id={props.match.params.id} events={this.state.events}/>}/>
-            </div>
-        )
+            </div> */}
+        
     }
 }
 

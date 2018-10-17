@@ -6,8 +6,8 @@ passport.serializeUser((loggedInUser, cb) => {
 });
 
 passport.deserializeUser((userIdFromSession, cb) => {
-  User.findById(userIdFromSession)/* .populate('eventsGo').populate('favUsers')
-  .populate('eventsHost').populate('favPlaces').populate('followUsers').populate('followPlaces') */
+  User.findById(userIdFromSession).populate('eventsGo').populate('favUsers')
+  .populate('eventsHost').populate('favPlaces').populate('followUsers').populate('followPlaces')
   .then(userDocument => {
     cb(null, userDocument);
   })
