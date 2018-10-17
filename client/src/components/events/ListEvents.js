@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {EventService} from './EventService';
 //import { Switch, Route } from 'react-router-dom';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './ListEvent.scss'
 //import Event from './Event'
 import Icon from 'react-icons-kit';
@@ -65,22 +65,6 @@ class ListEvents extends Component {
             
             </div>
             )
-            {/* <div className="listall">
-                <ul>
-                    {events.map( e => {
-                        return(
-                            <li>
-                                <div>
-                                    <a href={"/event/"+e._id} >{e.title}</a>
-                                </div>
-                            </li>
-                        )
-                    })
-                    }
-                </ul>
-                <Route exact path={"event/:id"} render={(props)=> <Event id={props.match.params.id} events={this.state.events}/>}/>
-            </div> */}
-        
     }
 }
 

@@ -32,7 +32,6 @@ class _EventService {
         'Content-Type': 'multipart/form-data',
       },
     })
-    //return this.service.post('/create', {title, description, artist, artistURL, video, date, time, type, place})
     .then(response =>response.data)
   }
 
@@ -46,12 +45,6 @@ class _EventService {
     return this.service.get(`/${id}`)
     .then(response => response.data)
   }
-  /* 
-
-  logout = () => {
-    return this.service.get('/logout',)
-    .then(response => response.data)
-  } */
 }
 
 export const EventService = new _EventService()

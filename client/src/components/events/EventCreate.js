@@ -41,7 +41,6 @@ class EventCreate extends Component {
     handleChange = (event) => {
       const {name, value} = event.target;
       this.setState({[name]: value});
-      //console.log("STATE IN FORM CHANGE FUNC", this.state)
     }
     handleChangePhoto = (event) => {
       this.setState({
@@ -66,8 +65,6 @@ class EventCreate extends Component {
       })
     }
 
-        
-  
     render() {
       console.log("STATE IN FORM AFTER CHANGE", this.state)
       if(this.state.redirect){

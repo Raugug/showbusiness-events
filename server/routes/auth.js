@@ -95,8 +95,7 @@ router.post('/login', (req, res, next) => {
     if (!theUser) next(failureDetails)
 
     // Return user and logged in
-    login(req, theUser)/* .populate('eventsGo').populate('favUsers').populate('eventsGo.place')
-    .populate('eventsHost').populate('favPlaces').populate('followUsers').populate('followPlaces') */.then(user => res.status(200).json(req.user));
+    login(req, theUser).then(user => res.status(200).json(req.user));
 
   })(req, res, next);
 });

@@ -35,6 +35,19 @@ class Profile extends Component {
                 console.log("RECIEVE", this.state)
             }
     }
+    componentDidMount(){
+        if(this.props.type==="specific"){
+            this.service.getuser(this.props.id).then(response => 
+                 this.setState(response)
+                )
+                
+            }else {
+                    
+                let state = this.props.user
+                this.setState(state)
+                console.log("RECIEVE", this.state)
+            }
+    }
 
     handleFav = (e) => {
         e.preventDefault();
@@ -81,6 +94,7 @@ class Profile extends Component {
         let {username, password, email, photo, placeType, address, eventsHost, eventsGo, favUsers, favPlaces, followPlaces, location} = this.state
         let isInFavUsers =this.props.user.favUsers.filter(userfav => {return (userfav._id===this.props.id)})
         let isInFavPlaces =this.props.user.favPlaces.filter(placefav => {return (placefav._id===this.props.id)})
+        let isInFollowPlaces =this.props.user.followPlaces.filter(placefollowers => {return (placefollowers._id===this.props.id)})
         if (placeType==="User")
         return(
             <div className="main-profile">
@@ -94,13 +108,15 @@ class Profile extends Component {
                         <h3>{email}</h3>
                         {(!this.props.id)?
                         <Link to='/user/edit'>EDIT</Link>:<div/>}
+                        
                         {(isInFavUsers.length === 0) ?
+                        
                         <div className="buttons">
-                            <button class="btn btn-success" onClick={(e) => this.handleFav(e)}>FOLLOW</button>
+                            {this.props.type!=="standard" ? <button class="btn btn-success" onClick={(e) => this.handleFav(e)}>FOLLOW</button>:<div/>}
                         </div>
                         :
                         <div className="buttons">
-                            <button class="btn btn-danger" onClick={(e) => this.handleUnfav(e)}>UNFOLLOW</button>
+                            {this.props.type!=="standard" ? <button class="btn btn-danger" onClick={(e) => this.handleUnfav(e)}>UNFOLLOW</button>:<div/>}
                         </div>
                     }
                         
@@ -152,8 +168,6 @@ class Profile extends Component {
                         )}
                     </ul>
                 </div>
-                
-            {/* <Route exact path='/user/edit' render={() => <EditProfile updated getUser={this.state.loggedInUser}/>}/> */}
             </div>
         )
         else
@@ -167,12 +181,13 @@ class Profile extends Component {
                         <h4>{placeType}</h4>
                         {/* <h4>{address}</h4> */}
                         {(isInFavPlaces.length === 0) ?
+                        
                         <div className="buttons">
-                            <button class="btn btn-success" onClick={(e) => this.handleFavplace(e)}>FOLLOW</button>
+                            {this.props.type!=="standard" ? <button class="btn btn-success" onClick={(e) => this.handleFavplace(e)}>FOLLOW</button>:<br/>}
                         </div>
                         :
                         <div className="buttons">
-                            <button class="btn btn-danger" onClick={(e) => this.handleUnfavplace(e)}>UNFOLLOW</button>
+                            {this.props.type!=="standard" ?<button class="btn btn-danger" onClick={(e) => this.handleUnfavplace(e)}>UNFOLLOW</button>:<br/>}
                         </div>
                     }
                     </div>
@@ -216,9 +231,14 @@ class Profile extends Component {
                     <hr/>
                     <h1>Followers</h1>
                     <hr/>
-                    <ul className="eventsList">
-                        <li>User 1</li>
-                        <li>User 2</li>
+                    <ul className="favsList">
+                    {followPlaces.map(user =>
+                        <li>
+                            <img src={user.photo} alt=""/>
+                            <h4><Link onClick={() =>this.props.updateProfileType("specific")} to={"/user/"+user._id}>{user.username}</Link></h4>
+                        </li>
+                        
+                        )}
                     </ul>
                 </div>
                 

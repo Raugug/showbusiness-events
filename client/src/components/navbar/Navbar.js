@@ -22,7 +22,7 @@ class Navbar extends Component {
     if (user) {
     return (
       <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="/"><img src="https://res.cloudinary.com/dvd0xwpmc/image/upload/v1539530818/showbusiness/logo.png" alt="Logo"/></a>
+        <Link className="navbar-brand" to="/"><img src="https://res.cloudinary.com/dvd0xwpmc/image/upload/v1539530818/showbusiness/logo.png" alt="Logo"/></Link>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -30,34 +30,28 @@ class Navbar extends Component {
           { user.placeType !== "User"?
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
+              <Link className="nav-link" to="/newevent">New Event <span class="sr-only">(current)</span></Link>
+            </li>
+            <li class="nav-item active">
               <a class="nav-link" href="/myprogram"> My Program <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="/newevent">New Event <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="/followers">Followers <span class="sr-only">(current)</span></a>
             </li>
           </ul>  
           :
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="/all"> All Events <span class="sr-only">(current)</span></a>
+              <Link className="nav-link" to="/all"> All Events <span class="sr-only">(current)</span></Link>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="/myprogram"> My Events <span class="sr-only">(current)</span></a>
+              <Link className="nav-link" to="/ListTheaters">Theaters <span class="sr-only">(current)</span></Link>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="/newevent">Theaters <span class="sr-only">(current)</span></a>
+              <Link className="nav-link" to="/ListBars">Bars <span class="sr-only">(current)</span></Link>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="/followers">Bars <span class="sr-only">(current)</span></a>
+              <Link className="nav-link" to="/ListCafe">Coffee Shops <span class="sr-only">(current)</span></Link>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="/followers">Coffee Shops <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="/followers">Clubs <span class="sr-only">(current)</span></a>
+              <Link className="nav-link" to="/ListClubs">Clubs <span class="sr-only">(current)</span></Link>
             </li>
           </ul>
           }
@@ -82,7 +76,7 @@ class Navbar extends Component {
           </ul>
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active" >
-              <a class="nav-link" id="logoutlink" onClick={this.handleLogout} href="/login">Log out <span class="sr-only">(current)</span></a>
+              <Link class="nav-link" id="logoutlink" onClick={this.handleLogout} to="/login">Log out <span class="sr-only">(current)</span></Link>
             </li>
           </ul>
 
@@ -91,15 +85,12 @@ class Navbar extends Component {
   } else {
     return (
       <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="/"><img src="https://res.cloudinary.com/dvd0xwpmc/image/upload/v1539530818/showbusiness/logo.png" alt="Logo"/></a>
+        <Link className="navbar-brand" to="/"><img src="https://res.cloudinary.com/dvd0xwpmc/image/upload/v1539530818/showbusiness/logo.png" alt="Logo"/></Link>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="/">Link <span class="sr-only">(current)</span></a>
-            </li>
             <li class="nav-item active"><Link to='/signup' class="nav-link">Signup <span class="sr-only">(current)</span></Link></li>
             <li class="nav-item active"><Link to='/signuplocal' class="nav-link">Have a place? Signup as Place <span class="sr-only">(current)</span></Link></li>
             <li class="nav-item active"><Link to='/login' class="nav-link">Login <span class="sr-only">(current)</span></Link></li>
