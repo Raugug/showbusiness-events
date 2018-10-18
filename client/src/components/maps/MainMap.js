@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {EventService} from '../events/EventService';
-import PlaceMap from '../user/PlaceMap';
+//import PlaceMap from '../user/PlaceMap';
 
 class MainMap extends Component {
   constructor(props) {
@@ -33,18 +33,21 @@ class MainMap extends Component {
       document.getElementById(this.props.id),
       this.props.options);
     this.onMapLoad(map)
+    //this.drop(map)
   }
   onMapLoad = (map) => {
     let bounds = new window.google.maps.LatLngBounds();
 
     let marker
+
+    
     this.props.places.map(place=>{
-      var icon = {
+      /* var icon = {
         url: place.photo, // url
         scaledSize: new window.google.maps.Size(50, 50), // scaled size
         origin: new window.google.maps.Point(0,0), // origin
         anchor: new window.google.maps.Point(0, 0) // anchor
-        };
+        }; */
 
         marker = new window.google.maps.Marker({
         position: { lat: place.location.coordinates[0], lng: place.location.coordinates[1] },
@@ -52,10 +55,10 @@ class MainMap extends Component {
         animation: window.google.maps.Animation.DROP,
         title: `${place.username} - ${place.address}`
       });
-      if (place.placeType === "Bar"){marker.setIcon(icon);}
-      if (place.placeType === "Club"){marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');}
-      if (place.placeType === "Theater"){marker.setIcon('http://maps.google.com/mapfiles/ms/icons/orange-dot.png');}
-      if (place.placeType === "Cafe"){marker.setIcon('http://maps.google.com/mapfiles/ms/icons/yellow-dot.png');}
+      if (place.placeType === "Bar"){marker.setIcon('http://maps.google.com/mapfiles/ms/icons/orange-dot.png');}
+      if (place.placeType === "Club"){marker.setIcon('http://maps.google.com/mapfiles/ms/icons/yellow-dot.png');}
+      if (place.placeType === "Theater"){marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');}
+      if (place.placeType === "Cafe"){marker.setIcon('http://maps.google.com/mapfiles/ms/icons/purple-dot.png');}
       marker.addListener('click', animation);
       
 
@@ -73,10 +76,14 @@ class MainMap extends Component {
 
   }
 
+  drop = (map) => {
+    for (let i=0; i<this.props.places.length; i++) {
+      setTimeout(() => {
+        this.onMapLoad(map);
+      }, i * 200);
+    }
+  }
   
-
-  
-
   componentDidMount() {
     this.getList();
     if (!window.google) {

@@ -29,7 +29,7 @@ router.get('/places/:placeType', (req, res, next) => {
 router.get('/:userId', /* ensureLoggedIn('../auth/currentuser'), */ (req, res, next) => {
     console.log("ENTRA EN GET POR ID")
     const userId = req.params.userId;
-    User.findById(userId).populate('eventsGo').populate('favUsers')
+    User.findById(userId).populate('eventsGo').populate('favUsers').populate('eventsGo.place')
     .populate('eventsHost').populate('eventsHost.place').populate('favPlaces').populate('followUsers').populate('followPlaces')
     .then(user => res.status(200).json(user))
 })
@@ -37,7 +37,7 @@ router.get('/:userId', /* ensureLoggedIn('../auth/currentuser'), */ (req, res, n
 //GET EDIT FORM
 router.get('/edit/:userId', (req, res, next) => {
     const userId = req.params.userId;
-    User.findById(userId).populate('eventsGo').populate('favUsers')
+    User.findById(userId).populate('eventsGo').populate('favUsers').populate('eventsGo.place')
     .populate('eventsHost').populate('favPlaces').populate('followUsers').populate('followPlaces')
     .then(user => res.status(200).json(user))
 })
@@ -47,7 +47,7 @@ router.put('/add/joinevent', (req, res, next)=> {
     let {id, eventId} = req.body;
     //console.log("ENTRA EN PUT", id, eventId)
     User.findByIdAndUpdate(id, {$push: {eventsGo: eventId}}, {new:true}).populate('eventsGo').populate('favUsers')
-    .populate('eventsHost').populate('favPlaces').populate('followUsers').populate('followPlaces')
+    .populate('eventsHost').populate('favPlaces').populate('followUsers').populate('followPlaces').populate('eventsGo.place')
         .then( user =>{
             Event.findByIdAndUpdate(eventId, {$push: {joined: id}}, {new:true}).populate('place').populate('joined')
                 .then(event=>{
@@ -60,7 +60,7 @@ router.put('/add/favuser', (req, res, next)=> {
     let {id, favId} = req.body;
     //console.log("ENTRA EN PUT", id, eventId)
     User.findByIdAndUpdate(id, {$push: {favUsers: favId}}, {new:true}).populate('eventsGo').populate('favUsers')
-    .populate('eventsHost').populate('favPlaces').populate('followUsers').populate('followPlaces')
+    .populate('eventsHost').populate('favPlaces').populate('followUsers').populate('followPlaces').populate('eventsGo.place')
         .then( user =>{
             User.findByIdAndUpdate(favId, {$push: {followUsers: id}}, {new:true}).populate('eventsGo').populate('favUsers')
             .populate('eventsHost').populate('favPlaces').populate('followUsers').populate('followPlaces')

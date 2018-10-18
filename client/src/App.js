@@ -16,6 +16,7 @@ import Event from './components/events/Event'
 import MainMap from './components/maps/MainMap'
 //import {EventService} from './components/events/EventService';
 import {UserService} from './components/user/UserService';
+import ListPlaces from './components/user/ListPlaces';
 
 
 class App extends Component {
@@ -91,6 +92,10 @@ class App extends Component {
           <main className="App-main">
           <Switch>
               <Route exact path='/all' render={() => <ListEvents getUser={this.state.loggedInUser}/>}/>
+              <Route exact path='/ListTheaters' render={() => <ListPlaces placeType="Theater" getUser={this.state.loggedInUser}/>}/>
+              <Route exact path='/ListBars' render={() => <ListPlaces placeType="Bar" getUser={this.state.loggedInUser}/>}/>
+              <Route exact path='/ListCafe' render={() => <ListPlaces placeType="Cafe" getUser={this.state.loggedInUser}/>}/>
+              <Route exact path='/ListClubs' render={() => <ListPlaces placeType="Club" getUser={this.state.loggedInUser}/>}/>
               {(this.state.loading===false)?<Route exact path='/' render={() => <MainMap places={this.state.places} id="mainMap"options={{center: { lat: 40.4167321, lng: -3.706984 }, zoom: 13}}/>}/>:<></>}
               <Route exact path='/newevent' render={() => <EventCreate update={this.update} getUser={this.state.loggedInUser}/>}/>
               <Route exact path='/user/edit' render={() => <EditProfile update={this.update} user={this.state.loggedInUser}/>}/>

@@ -8,7 +8,7 @@ passport.use(new LocalStrategy({
     passwordField: 'password'
   }, 
   (username, password, done) => {
-    User.findOne({ username }).populate('eventsGo').populate('favUsers').populate('eventsGo.place')
+    User.findOne({ username }).populate('eventsGo').populate('eventsGo.place').populate('favUsers')
     .populate('eventsHost').populate('favPlaces').populate('followUsers').populate('followPlaces').then(foundUser => {
       if (!foundUser) {
         done(null, false, { message: 'Incorrect username' });

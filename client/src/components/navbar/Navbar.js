@@ -41,9 +41,9 @@ class Navbar extends Component {
             <li class="nav-item active">
               <Link className="nav-link" to="/all"> All Events <span class="sr-only">(current)</span></Link>
             </li>
-            <li class="nav-item active">
+            {/* <li class="nav-item active">
               <Link className="nav-link" to="/map">Map <span class="sr-only">(current)</span></Link>
-            </li>
+            </li> */}
             <li class="nav-item active">
               <Link className="nav-link" to="/ListTheaters">Theaters <span class="sr-only">(current)</span></Link>
             </li>

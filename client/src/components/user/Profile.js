@@ -11,7 +11,7 @@ import {clock} from 'react-icons-kit/icomoon/clock'
 class Profile extends Component {
     constructor(props){
         super(props);
-        this.state = {username:'', password:'', email:'', photo:'', placeType:'',
+        this.state = { _id:'', username:'', password:'', email:'', photo:'', placeType:'',
                       address:'', eventsHost:[], eventsGo: [], favUsers:[], favPlaces:[], followPlaces:[], location:''}
         this.service = UserService;
         if(this.props.id){
@@ -89,7 +89,7 @@ class Profile extends Component {
     render(){
         
         console.log("state EN RENDER", this.state)
-        let {username, email, photo, placeType, address, eventsHost, eventsGo, favUsers, favPlaces, followPlaces, location} = this.state
+        let {_id, username, email, photo, placeType, address, eventsHost, eventsGo, favUsers, favPlaces, followPlaces, location} = this.state
         let isInFavUsers =this.props.user.favUsers.filter(userfav => {return (userfav._id===this.props.id)})
         let isInFavPlaces =this.props.user.favPlaces.filter(placefav => {return (placefav._id===this.props.id)})
         //let isInFollowPlaces =this.props.user.followPlaces.filter(placefollowers => {return (placefollowers._id===this.props.id)})
@@ -160,8 +160,13 @@ class Profile extends Component {
                     {favUsers.map(user =>
                         <li>
                             <img src={user.photo} alt=""/>
+                            
+                            {this.props.user._id!==user._id ?
                             <h4><Link onClick={() =>this.props.updateProfileType("specific")} to={"/user/"+user._id}>{user.username}</Link></h4>
-                        </li>
+                            :
+                            <h4><Link onClick={() =>this.props.updateProfileType("standard")} to={"/profile"}>{user.username}</Link></h4>
+                            }
+                            </li>
                         
                         )}
                     </ul>
@@ -181,11 +186,11 @@ class Profile extends Component {
                         {(isInFavPlaces.length === 0) ?
                         
                         <div className="buttons">
-                            {this.props.type!=="standard" ? <button class="btn btn-success" onClick={(e) => this.handleFavplace(e)}>FOLLOW</button>:<br/>}
+                            <button class="btn btn-success" onClick={(e) => this.handleFavplace(e)}>FOLLOW</button>
                         </div>
                         :
                         <div className="buttons">
-                            {this.props.type!=="standard" ?<button class="btn btn-danger" onClick={(e) => this.handleUnfavplace(e)}>UNFOLLOW</button>:<br/>}
+                            <button class="btn btn-danger" onClick={(e) => this.handleUnfavplace(e)}>UNFOLLOW</button>
                         </div>
                     }
                     </div>
