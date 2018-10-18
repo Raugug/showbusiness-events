@@ -12,6 +12,7 @@ class MainMap extends Component {
     };
     this.onScriptLoad = this.onScriptLoad.bind(this)
     this.getList();
+    console.log("props", this.props)
     
   }
 
@@ -40,14 +41,7 @@ class MainMap extends Component {
 
     let marker
 
-    
-    this.props.places.map(place=>{
-      /* var icon = {
-        url: place.photo, // url
-        scaledSize: new window.google.maps.Size(50, 50), // scaled size
-        origin: new window.google.maps.Point(0,0), // origin
-        anchor: new window.google.maps.Point(0, 0) // anchor
-        }; */
+    this.props.places.map(place => {
 
         marker = new window.google.maps.Marker({
         position: { lat: place.location.coordinates[0], lng: place.location.coordinates[1] },
