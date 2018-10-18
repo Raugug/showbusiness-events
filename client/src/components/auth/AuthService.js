@@ -1,4 +1,5 @@
 import axios from 'axios';
+require('dotenv').config()
 
 class AuthService {
   constructor() {
@@ -38,6 +39,7 @@ class AuthService {
   }
 
   loggedin = () => {
+    console.log(process.env.REACT_APP_API_URL)
     return this.service.get('/auth/currentUser',)
     .then(response => response.data)
   }
