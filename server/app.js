@@ -109,6 +109,11 @@ const eventRoutes = require('./routes/event');
 app.use('/api/event', eventRoutes);
 const userRoutes = require('./routes/users')
 app.use('/api/user', userRoutes);
+
+app.use((req, res, next) => {
+  // If no routes match, send them the React HTML.
+  res.sendFile(__dirname + "/public/index.html");
+});
       
 
 module.exports = app;
