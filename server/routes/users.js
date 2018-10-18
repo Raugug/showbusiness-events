@@ -5,23 +5,32 @@ const router = express.Router();
 const passport = require('passport');
 const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
 
-/* router.get('/myprofile', ensureLoggedIn(), (req, res, next) => {
-    User.findById(req.user._id)
-    .then(user => {
-      let owner= true;
-      res.render('user/profile', {player,
-        owner, 
-        playerStr: JSON.stringify(player)
-      });
-    }).catch(err => next(err))
-}); */
+//GET ALL PLACES LIST
+router.get('/places/all', (req, res, next) => {
+    console.log("ENTRA EN PLACES ALL")
+    User.find({ placeType: { $ne: "User" } }).populate('eventsGo').populate('favUsers')
+    .populate('eventsHost').populate('eventsHost.place').populate('favPlaces').populate('followUsers').populate('followPlaces')
+    .then(places => {
+        console.log("ALL PLACES DE VUeLTA", places)
+        res.status(200).json(places)})
+    .catch(e => console.log(e))
+})
 
-// GET PROFILE BY ID
+//GET PLACES BY TYPE
+router.get('/places/:placeType', (req, res, next) => {
+    let placeType = req.params.placeType;
+    User.find({ placeType: placeType}).populate('eventsGo').populate('favUsers')
+    .populate('eventsHost').populate('eventsHost.place').populate('favPlaces').populate('followUsers').populate('followPlaces')
+    .then(places => res.status(200).json(places))
+    .catch(e => console.log(e))
+})
+
+//GET PROFILE BY ID
 router.get('/:userId', /* ensureLoggedIn('../auth/currentuser'), */ (req, res, next) => {
     console.log("ENTRA EN GET POR ID")
     const userId = req.params.userId;
     User.findById(userId).populate('eventsGo').populate('favUsers')
-    .populate('eventsHost').populate('favPlaces').populate('followUsers').populate('followPlaces')
+    .populate('eventsHost').populate('eventsHost.place').populate('favPlaces').populate('followUsers').populate('followPlaces')
     .then(user => res.status(200).json(user))
 })
 

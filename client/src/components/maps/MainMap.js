@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
 import {EventService} from '../events/EventService';
+import PlaceMap from '../user/PlaceMap';
 
 class MainMap extends Component {
   constructor(props) {
     super(props);
     this.state = {
       markers: [{ title: "Marker", position: { lat: '', lng: '' }}],
+      places:[],
       events:[]
     };
     this.onScriptLoad = this.onScriptLoad.bind(this)
     this.getList();
-    console.log("props en constructor", this.props)
     
   }
 
   getList = () => {
     EventService.getall()
   .then( response => {
-      console.log(response)
       this.setState({events: response.events});
   })
   .catch( error => console.log(error)) 
@@ -35,21 +35,47 @@ class MainMap extends Component {
     this.onMapLoad(map)
   }
   onMapLoad = (map) => {
-    console.log("EN MAPLOAD", this.props)
     let bounds = new window.google.maps.LatLngBounds();
 
     let marker
-    this.props.events.map(event=>{
-        console.log("EN MAP", event)
+    this.props.places.map(place=>{
+      var icon = {
+        url: place.photo, // url
+        scaledSize: new window.google.maps.Size(50, 50), // scaled size
+        origin: new window.google.maps.Point(0,0), // origin
+        anchor: new window.google.maps.Point(0, 0) // anchor
+        };
+
         marker = new window.google.maps.Marker({
-        position: { lat: event.place.location.coordinates[0], lng: event.place.location.coordinates[1] },
+        position: { lat: place.location.coordinates[0], lng: place.location.coordinates[1] },
         map: map,
-        title: `${event.title}`
+        animation: window.google.maps.Animation.DROP,
+        title: `${place.username} - ${place.address}`
       });
-      //console.log("MARKER", marker)
+      if (place.placeType === "Bar"){marker.setIcon(icon);}
+      if (place.placeType === "Club"){marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');}
+      if (place.placeType === "Theater"){marker.setIcon('http://maps.google.com/mapfiles/ms/icons/orange-dot.png');}
+      if (place.placeType === "Cafe"){marker.setIcon('http://maps.google.com/mapfiles/ms/icons/yellow-dot.png');}
+      marker.addListener('click', animation);
+      
+
+      bounds.extend(marker.position);
     })
-    bounds.extend(marker.position);
+    map.fitBounds(bounds);
+
+    const animation = () => {
+      if (marker.getAnimation() !== null) {
+        marker.setAnimation(null);
+      } else {
+        marker.setAnimation(window.google.maps.Animation.BOUNCE);
+      }
+    };
+
   }
+
+  
+
+  
 
   componentDidMount() {
     this.getList();
@@ -70,7 +96,7 @@ class MainMap extends Component {
   }
 
   render() {
-      console.log("STATE EN RENDER", this.state)
+      //console.log("STATE EN RENDER", this.state)
     return (
       <div style={{ width: '80%', height: '80vh' }} id={this.props.id} />
     );

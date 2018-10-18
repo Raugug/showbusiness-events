@@ -14,7 +14,7 @@ import EventCreate from './components/events/EventCreate';
 import ListEvents from './components/events/ListEvents';
 import Event from './components/events/Event'
 import MainMap from './components/maps/MainMap'
-import {EventService} from './components/events/EventService';
+//import {EventService} from './components/events/EventService';
 import {UserService} from './components/user/UserService';
 
 
@@ -25,7 +25,6 @@ class App extends Component {
     this.state = { loggedInUser: null , profileType: null, loading: true};
     this.service = new AuthService();
     
-    console.log("state en constructor", this.state)
   }
 
   getTheUser= (userObj) => {
@@ -59,8 +58,9 @@ class App extends Component {
 
   componentWillMount(){
     this.fetchUser()
-    this.getList();
+    this.getPlacesList();
   }
+
   updateProfileType = (profileType) => {
       this.setState({loggedInUser: this.state.loggedInUser, profileType: profileType})
 
@@ -70,13 +70,12 @@ class App extends Component {
     debugger
       this.setState({loggedInUser: res})
   }
-  getList = () => {
-    EventService.getall()
-  .then( response => {
-      console.log("RESPONSE", response)
-      this.setState({events: response.events, loading: false});
-  })
-  .catch( error => console.log(error)) 
+  getPlacesList = () => {
+    UserService.getplaces()
+    .then( response => {
+      this.setState({places: response, loading: false});
+    })
+    .catch( error => console.log(error)) 
 
   }
 
@@ -92,7 +91,7 @@ class App extends Component {
           <main className="App-main">
           <Switch>
               <Route exact path='/all' render={() => <ListEvents getUser={this.state.loggedInUser}/>}/>
-              {(this.state.loading===false)?<Route exact path='/' render={() => <MainMap events={this.state.events} id="mainMap"options={{center: { lat: 40.4167321, lng: -3.706984 }, zoom: 13}}/>}/>:<></>}
+              {(this.state.loading===false)?<Route exact path='/' render={() => <MainMap places={this.state.places} id="mainMap"options={{center: { lat: 40.4167321, lng: -3.706984 }, zoom: 13}}/>}/>:<></>}
               <Route exact path='/newevent' render={() => <EventCreate update={this.update} getUser={this.state.loggedInUser}/>}/>
               <Route exact path='/user/edit' render={() => <EditProfile update={this.update} user={this.state.loggedInUser}/>}/>
               <Route exact path={"/event/:id"} render={(props)=> <Event id={props.match.params.id} update={this.update} user={this.state.loggedInUser} events={this.state.events}/>}/>

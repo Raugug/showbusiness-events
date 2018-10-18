@@ -56,7 +56,15 @@ class _UserService {
     .then(response => response.data)
   }
   getplaces = () => {
-    return this.service.get('/places').then(response =>response.data)
+    console.log("service getplaces")
+    return this.service.get(`/places/all`).then(response => response.data)
+  }
+
+  getplacesbytype = (placeType) => {
+    console.log("placeType En METODO GET", placeType)
+    return this.service.get(`/places/${placeType}`)
+    .then(response => response.data)
+
   }
 }
 
