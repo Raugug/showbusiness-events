@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './Profile.scss';
 import PlaceMap from './PlaceMap'
-import { Switch, Route } from 'react-router-dom';
-import EditProfile from './EditProfile';
 import {UserService} from './UserService';
 import Icon from 'react-icons-kit';
 import {calendar} from 'react-icons-kit/icomoon/calendar'
@@ -91,10 +89,10 @@ class Profile extends Component {
     render(){
         
         console.log("state EN RENDER", this.state)
-        let {username, password, email, photo, placeType, address, eventsHost, eventsGo, favUsers, favPlaces, followPlaces, location} = this.state
+        let {username, email, photo, placeType, address, eventsHost, eventsGo, favUsers, favPlaces, followPlaces, location} = this.state
         let isInFavUsers =this.props.user.favUsers.filter(userfav => {return (userfav._id===this.props.id)})
         let isInFavPlaces =this.props.user.favPlaces.filter(placefav => {return (placefav._id===this.props.id)})
-        let isInFollowPlaces =this.props.user.followPlaces.filter(placefollowers => {return (placefollowers._id===this.props.id)})
+        //let isInFollowPlaces =this.props.user.followPlaces.filter(placefollowers => {return (placefollowers._id===this.props.id)})
         if (placeType==="User")
         return(
             <div className="main-profile">

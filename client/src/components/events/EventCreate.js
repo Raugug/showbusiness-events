@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import {EventService} from './EventService'
-import {Link} from 'react-router-dom';
-import { Switch, Route } from 'react-router-dom';
 import { Redirect } from 'react-router'
 
 
@@ -52,7 +50,7 @@ class EventCreate extends Component {
       let regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
       let match = url.match(regExp);
   
-      if (match && match[2].length == 11) {
+      if (match && match[2].length === 11) {
           return match[2];
       } else {
           return 'error';

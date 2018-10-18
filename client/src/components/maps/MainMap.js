@@ -36,17 +36,19 @@ class MainMap extends Component {
   }
   onMapLoad = (map) => {
     console.log("EN MAPLOAD", this.props)
+    let bounds = new window.google.maps.LatLngBounds();
 
-    //let marker
-    this.state.events.map(event=>{
+    let marker
+    this.props.events.map(event=>{
         console.log("EN MAP", event)
-        return new window.google.maps.Marker({
+        marker = new window.google.maps.Marker({
         position: { lat: event.place.location.coordinates[0], lng: event.place.location.coordinates[1] },
         map: map,
-        title: ''
+        title: `${event.title}`
       });
-    //console.log("MARKER", marker)
+      //console.log("MARKER", marker)
     })
+    bounds.extend(marker.position);
   }
 
   componentDidMount() {

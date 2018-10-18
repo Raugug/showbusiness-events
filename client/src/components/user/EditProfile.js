@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './Profile.scss';
-import PlaceMap from './PlaceMap'
 import {UserService} from './UserService'
 //import Profile from './Profile';
 import { Redirect } from 'react-router'
@@ -57,7 +56,7 @@ class EditProfile extends Component {
 
     render(){
         console.log("STATE EN RENDER", this.state)
-        let {username, password, email, photo, placeType, address, eventsHost, eventsGo, favUsers, favPlaces, location} = this.state
+        let {placeType} = this.state
         if(this.state.redirect){
             return <Redirect to='/profile'/>;
           }

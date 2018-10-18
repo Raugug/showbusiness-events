@@ -49,7 +49,7 @@ class ListEvents extends Component {
                             return  <li >
                                     <hr/>
                                     <div className="eventInList">
-                                        <img src={event.photo}></img>
+                                        <img src={event.photo} alt=""></img>
                                         <Link to={"/event/"+event._id}>{event.title}</Link>
                                         <p>{event.type}</p>
                                         <div>    

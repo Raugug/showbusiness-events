@@ -55,6 +55,9 @@ class _UserService {
     return this.service.put(`/delete/followplace`, {id, placeId})
     .then(response => response.data)
   }
+  getplaces = () => {
+    return this.service.get('/places').then(response =>response.data)
+  }
 }
 
 export const UserService = new _UserService();

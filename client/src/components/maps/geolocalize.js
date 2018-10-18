@@ -9,6 +9,6 @@ const geolocalize = () => {
           resolve(center);
         }, reject)
     });
-  }
+}
 
-  module.exports = geolocalize;
+module.exports = geolocalize;

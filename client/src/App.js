@@ -15,13 +15,14 @@ import ListEvents from './components/events/ListEvents';
 import Event from './components/events/Event'
 import MainMap from './components/maps/MainMap'
 import {EventService} from './components/events/EventService';
+import {UserService} from './components/user/UserService';
 
 
 class App extends Component {
 
   constructor(props){
     super(props)
-    this.state = { loggedInUser: null , profileType: null};
+    this.state = { loggedInUser: null , profileType: null, loading: true};
     this.service = new AuthService();
     
     console.log("state en constructor", this.state)
@@ -73,7 +74,7 @@ class App extends Component {
     EventService.getall()
   .then( response => {
       console.log("RESPONSE", response)
-      this.setState({events: response.events});
+      this.setState({events: response.events, loading: false});
   })
   .catch( error => console.log(error)) 
 
@@ -91,7 +92,7 @@ class App extends Component {
           <main className="App-main">
           <Switch>
               <Route exact path='/all' render={() => <ListEvents getUser={this.state.loggedInUser}/>}/>
-              <Route exact path='' render={() => <MainMap events={this.state.events} id="mainMap"options={{center: { lat: 40.3827563, lng: -3.692763 }, zoom: 13}}/>}/>
+              {(this.state.loading===false)?<Route exact path='/' render={() => <MainMap events={this.state.events} id="mainMap"options={{center: { lat: 40.4167321, lng: -3.706984 }, zoom: 13}}/>}/>:<></>}
               <Route exact path='/newevent' render={() => <EventCreate update={this.update} getUser={this.state.loggedInUser}/>}/>
               <Route exact path='/user/edit' render={() => <EditProfile update={this.update} user={this.state.loggedInUser}/>}/>
               <Route exact path={"/event/:id"} render={(props)=> <Event id={props.match.params.id} update={this.update} user={this.state.loggedInUser} events={this.state.events}/>}/>

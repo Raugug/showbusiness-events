@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './Event.scss';
 //import PlaceMap from './PlaceMap'
-import { Redirect } from 'react-router'
 import {EventService} from './EventService'
 import {UserService} from '../user/UserService'
-import { EPROTO } from 'constants';
+//import { EPROTO } from 'constants';
 import Icon from 'react-icons-kit';
 import {calendar} from 'react-icons-kit/icomoon/calendar'
 import {clock} from 'react-icons-kit/icomoon/clock'
@@ -49,19 +48,19 @@ class Event extends Component {
     }
 
     render (){
-        let {title, description, artist, photo, artistURL, video, date, datestr, time, price, type, place, joined} = this.state;
+        let {title, description, artist, photo, artistURL, video, datestr, time, price, place, joined} = this.state;
         let isInJoined =this.state.joined.filter(userjoined => {return (userjoined._id===this.props.user._id)})
         return(
             <div className="main-event">
                 <div className="header-event">
                     <div className="header-left">
-                        <img src={photo}></img>
+                        <img src={photo} alt=""></img>
                     </div>
                     <div className="header-right">
                         <h1>{title}</h1>
                         <h3>by</h3>
                         <h1><a href={"http://"+artistURL} target="_blank" rel="noopener noreferrer">{artist}</a></h1>
-                        {(isInJoined.length == 0) ?
+                        {(isInJoined.length === 0) ?
                         <div className="buttons">
                             <button class="btn btn-success" onClick={(e) => this.handleJoin(e)}>JOIN</button>
                         </div>
