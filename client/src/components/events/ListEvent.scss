@@ -23,7 +23,7 @@ a {
 
     .eventInList{
         display: flex;
-        justify-content: space-evenly;
+        justify-content: space-between;
         align-content: center;
         img{
             width: 180px;
@@ -33,7 +33,7 @@ a {
         
         *{
             display: flex;
-            //width: 50%;
+            width: 16%;
             p{
                 padding-left: 10px;
                 padding-right: 10px;

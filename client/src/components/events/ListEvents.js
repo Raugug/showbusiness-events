@@ -14,6 +14,7 @@ class ListEvents extends Component {
         super(props);
         this.state = {events:[]};
         this.service = EventService;
+        //this.getList();
         
     }
 
@@ -29,6 +30,62 @@ class ListEvents extends Component {
     componentWillMount (){
         this.getList();
     }
+
+    compareEvents = (a,b) => {
+        if (a.datestr < b.datestr)
+        return -1;
+        if (a.datestr > b.datestr)
+        return 1;
+        if (a.datestr === b.datestr){
+            if (a.time < b.time)
+            return -1;
+            if (a.time > b.time)
+            return 1;
+            return 0;
+        }
+    }
+
+    compareEvents = (a,b) => {
+        if (a.datestr < b.datestr)
+        return -1;
+        if (a.datestr > b.datestr)
+        return 1;
+        if (a.datestr === b.datestr){
+            if (a.time < b.time)
+            return -1;
+            if (a.time > b.time)
+            return 1;
+            return 0;
+        }
+    }
+    typeSort= (e, events) =>{
+        e.preventDefault();
+        let typeSorted = events.sort((a,b) => {return (a.type < b.type)})
+        this.setState({events: typeSorted})
+    }
+    timeSort= (e, events) =>{
+        e.preventDefault();
+        let timeSorted = events.sort(this.compareEvents)
+        this.setState({events: timeSorted})
+    }
+
+    placeSort= (e, events) =>{
+        e.preventDefault();
+        let placeSorted = events.sort((a,b) => {return (a.title < b.title)})
+        this.setState({events: placeSorted})
+    }
+    priceSort= (e, events) =>{
+        e.preventDefault();
+        let priceSorted = events.sort((a,b) => {return (a.price.slice(0, -1) < b.price.slice(0, -1))})
+        this.setState({events: priceSorted})
+    }
+    nameSort= (e, events) =>{
+        e.preventDefault();
+        let nameSorted = events.sort((a,b) => {return (a.title > b.title)})
+        this.setState({events: nameSorted})
+    }
+
+
     render(){
         console.log("STATE LIST", this.state.events)
         const events = this.state.events
@@ -38,11 +95,12 @@ class ListEvents extends Component {
                     <ul >
                         <li >
                         <div className="eventInList">
-                            <div>#</div>
-                            <div>EVENT</div>
-                            <div>TYPE</div>
-                            <div>DATE</div>
-                            <div>PLACE</div>
+                            <button class="btn btn-info" >#</button>
+                            <button class="btn btn-info" onClick={(e)=>{this.nameSort(e, events)}}>EVENT</button>
+                            <button class="btn btn-info" onClick={(e)=>{this.typeSort(e, events)}}>TYPE</button>
+                            <button class="btn btn-info" onClick={(e)=>{this.priceSort(e, events)}}>PRICE</button>
+                            <button class="btn btn-info" onClick={(e)=>{this.timeSort(e, events)}}>DATE</button>
+                            <button class="btn btn-info" onClick={(e)=>{this.placeSort(e, events)}}>PLACE</button>
                             </div>
                         </li>
                         {events.map(event =>{
@@ -52,6 +110,7 @@ class ListEvents extends Component {
                                         <img src={event.photo} alt=""></img>
                                         <Link to={"/event/"+event._id}>{event.title}</Link>
                                         <p>{event.type}</p>
+                                        <p>{event.price}</p>
                                         <div>    
                                         <Icon icon={calendar}/><p>{event.datestr}</p>
                                         <Icon icon={clock}/><p>{event.time}</p>

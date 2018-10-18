@@ -85,14 +85,27 @@ class Profile extends Component {
         debugger
         this.service.getuser(id).then(response => this.setState(response))
     }
+    compareEvents = (a,b) => {
+        if (a.datestr < b.datestr)
+        return -1;
+        if (a.datestr > b.datestr)
+        return 1;
+        if (a.datestr === b.datestr){
+            if (a.time < b.time)
+            return -1;
+            if (a.time > b.time)
+            return 1;
+            return 0;
+        }
+    }
 
     render(){
-        
         console.log("state EN RENDER", this.state)
-        let {_id, username, email, photo, placeType, address, eventsHost, eventsGo, favUsers, favPlaces, followPlaces, location} = this.state
+        let {username, email, photo, placeType, address, eventsHost, eventsGo, favUsers, favPlaces, followPlaces, location} = this.state
         let isInFavUsers =this.props.user.favUsers.filter(userfav => {return (userfav._id===this.props.id)})
         let isInFavPlaces =this.props.user.favPlaces.filter(placefav => {return (placefav._id===this.props.id)})
         //let isInFollowPlaces =this.props.user.followPlaces.filter(placefollowers => {return (placefollowers._id===this.props.id)})
+        let eventsGoOrdered = eventsGo.sort(this.compareEvents);
         if (placeType==="User")
         return(
             <div className="main-profile">
@@ -127,7 +140,7 @@ class Profile extends Component {
                     <h1>Events Going</h1>
                     <hr/>
                     <ul className="eventsList">
-                        {eventsGo.map(event =>{
+                        {eventsGoOrdered.map(event =>{
                             return  <li >
                                     <div className="eventInList">
                                         <div>
@@ -173,7 +186,12 @@ class Profile extends Component {
                 </div>
             </div>
         )
-        else
+        else{
+            let eventsHostOrdered = eventsHost.sort(this.compareEvents);
+            console.log(eventsHostOrdered);
+              
+              
+                
         return (
             <div className="main-profile">
                 <div className="content-profile">
@@ -214,15 +232,15 @@ class Profile extends Component {
                     <h1>Program</h1>
                     <hr/>
                     <ul className="eventsList">
-                        {eventsHost.map(event =>{
+                        {eventsHostOrdered.map(event =>{
                             return  <li >
                                     <div className="eventInList">
                                         <div>
                                         <Icon icon={calendar}/><p>{event.datestr}</p>
                                         <Icon icon={clock}/><p>{event.time}</p>
                                         </div>
-                                        <Link to={"/event/"+event._id}>{event.title}</Link>
-                                        <Link to={"/place/"+event.place._id}>{event.place.username}</Link>
+                                        <Link to={"/event/"+event._id}><span>{event.title}</span></Link>
+                                        <Link to={"/place/"+event.place._id}><span>{event.place.username}</span></Link>
 
                                     </div>
                                     </li>
@@ -247,7 +265,7 @@ class Profile extends Component {
                 
             </div>
 
-        )
+        )}
         
     }
 }

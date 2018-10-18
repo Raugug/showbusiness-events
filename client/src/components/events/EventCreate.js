@@ -22,9 +22,7 @@ class EventCreate extends Component {
       this.service.create(title, description, artist, photo, artistURL, video, date, date, time, price, type, place)
       .then( response => {
         console.log("RESPONSE USER EN CREATE", response.user)
-        debugger
         that.props.update(response.user)
-        debugger
         this.setState({
           redirect: true
         });

@@ -50,6 +50,7 @@ class ListPlaces extends Component {
                         <div className="eventInList">
                             <div>#</div>
                             <div>PLACE</div>
+                            <div>FOLLOWERS</div>
                             <div>ADDRESS</div>
                             </div>
                         </li>
