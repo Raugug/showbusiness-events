@@ -41,7 +41,10 @@ class AuthService {
   loggedin = () => {
     console.log(process.env.REACT_APP_API_URL)
     return this.service.get('/auth/currentUser',)
-    .then(response => response.data)
+    .then(response =>{ 
+      console.log(response)
+      ;return response.data})
+      .catch(err => console.log(err))
   }
 
   logout = () => {
