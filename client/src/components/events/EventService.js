@@ -4,7 +4,7 @@ import axios from 'axios';
 class _EventService {
   constructor() {
     this.service = axios.create({
-      baseURL: 'http://localhost:3001/api/event',
+      baseURL: 'http://localhost:3001/api',
       withCredentials: true
     });
   }
@@ -27,7 +27,7 @@ class _EventService {
     formData.append("place", place)
 
     console.log('DEBUG formData', formData.get("photo"));
-    return this.service.post('/create', formData, {
+    return this.service.post('/event/create', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -36,13 +36,13 @@ class _EventService {
   }
 
   getall = () => {
-    return this.service.get('/all')
+    return this.service.get('/event/all')
     .then(response => response.data)
   }
   
 
   getEvent = (id) => {
-    return this.service.get(`/${id}`)
+    return this.service.get(`/event/${id}`)
     .then(response => response.data)
   }
 }

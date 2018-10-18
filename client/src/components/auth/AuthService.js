@@ -3,7 +3,7 @@ import axios from 'axios';
 class AuthService {
   constructor() {
     this.service = axios.create({
-      baseURL: 'http://localhost:3001/api/auth',
+      baseURL: 'http://localhost:3001/api',
       withCredentials: true
     });
   }
@@ -23,7 +23,7 @@ class AuthService {
     formData.append("longitude", longitude)
 
     console.log('DEBUG formData', formData.get("photo"));
-    return this.service.post('/signup', formData, {
+    return this.service.post('/auth/signup', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -33,17 +33,17 @@ class AuthService {
   }
 
   login = (username, password) => {
-    return this.service.post('/login', {username, password})
+    return this.service.post('/auth/login', {username, password})
     .then(response => response.data)
   }
 
   loggedin = () => {
-    return this.service.get('/currentUser',)
+    return this.service.get('/auth/currentUser',)
     .then(response => response.data)
   }
 
   logout = () => {
-    return this.service.get('/logout',)
+    return this.service.get('/auth/logout',)
     .then(response => response.data)
   }
 }
