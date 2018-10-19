@@ -38,6 +38,10 @@ class _EventService {
     return this.service.get('/event/all')
     .then(response => response.data)
   }
+  getweek = () => {
+    return this.service.get('/event/thisweek')
+    .then(response => response.data)
+  }
   
 
   getEvent = (id) => {

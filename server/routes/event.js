@@ -44,7 +44,7 @@ router.get('/today', (req, res, next) => {
 router.get('/thisweek', (req, res, next) => {
     let thisweek = moment().endOf('isoWeek')
     console.log("THIS WEEK", thisweek)
-    Event.find({date: { $lte: thisweek }}).populate('place').populate('joined').then(events => 
+    Event.find({date: { $lte: thisweek }}).sort({date: 1, time: 1}).populate('place').populate('joined').then(events => 
         res.json({status: 'EVENTS THIS WEEK', events})
     ).catch(e => console.log(e))
 })

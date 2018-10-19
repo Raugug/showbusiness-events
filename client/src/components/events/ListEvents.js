@@ -12,7 +12,7 @@ import {clock} from 'react-icons-kit/icomoon/clock'
 class ListEvents extends Component {
     constructor(props){
         super(props);
-        this.state = {events:[]};
+        this.state = {events:[], eventsweek: [], all:true};
         this.service = EventService;
         //this.getList();
         
@@ -24,10 +24,19 @@ class ListEvents extends Component {
           this.setState({events: response.events});
       })
       .catch( error => console.log(error)) 
-
     }
+
+    getListWeek = () => {
+        this.service.getweek()
+      .then( response => {
+          this.setState({eventsweek: response.events});
+      })
+      .catch( error => console.log(error)) 
+    }
+
     componentWillMount (){
         this.getList();
+        this.getListWeek();
     }
 
     compareEvents = (a,b) => {
@@ -44,61 +53,75 @@ class ListEvents extends Component {
         }
     }
 
-    compareEvents = (a,b) => {
-        if (a.datestr < b.datestr)
-        return -1;
-        if (a.datestr > b.datestr)
-        return 1;
-        if (a.datestr === b.datestr){
-            if (a.time < b.time)
-            return -1;
-            if (a.time > b.time)
-            return 1;
-            return 0;
-        }
-    }
     typeSort= (e, events) =>{
         e.preventDefault();
-        let typeSorted = events.sort((a,b) => {return (a.type < b.type)})
-        this.setState({events: typeSorted})
+        let typeSorted = events.sort((a,b) => { if(a.type < b.type) return -1;
+                                                if(a.type > b.type) return 1;
+                                                return 0;})
+        //this.setState({events: typeSorted})
+        this.state.all ? this.setState({events: typeSorted}) : this.setState({eventsweek: typeSorted})
     }
     timeSort= (e, events) =>{
         e.preventDefault();
         let timeSorted = events.sort(this.compareEvents)
-        this.setState({events: timeSorted})
+        //this.setState({events: timeSorted})
+        this.state.all ? this.setState({events: timeSorted}) : this.setState({eventsweek: timeSorted})
     }
 
     placeSort= (e, events) =>{
         e.preventDefault();
-        let placeSorted = events.sort((a,b) => {return (a.title < b.title)})
-        this.setState({events: placeSorted})
+        let placeSorted = events.sort((a,b) => { if(a.place.username < b.place.username) return -1;
+                                                 if(a.place.username > b.place.username) return 1;
+                                                 return 0;})
+        //this.setState({events: placeSorted})
+        this.state.all ? this.setState({events: placeSorted}) : this.setState({eventsweek: placeSorted})
     }
     priceSort= (e, events) =>{
         e.preventDefault();
         let priceSorted = events.sort((a,b) => {return (a.price.slice(0, -1) - b.price.slice(0, -1))})
-        this.setState({events: priceSorted})
+        //this.setState({events: priceSorted})
+        this.state.all ? this.setState({events: priceSorted}) : this.setState({eventsweek: priceSorted})
     }
     nameSort= (e, events) =>{
         e.preventDefault();
-        let nameSorted = events.sort((a,b) => {return (a.title > b.title)})
-        this.setState({events: nameSorted})
+        let nameSorted = events.sort((a,b) => { if(a.title < b.title) return -1;
+                                                if(a.title > b.title) return 1;
+                                                return 0;})
+        //this.setState({events: nameSorted})
+        this.state.all ? this.setState({events: nameSorted}) : this.setState({eventsweek: nameSorted})
     }
     joinedSort= (e, events) =>{
         e.preventDefault();
-        let joinedSorted = events.sort((a,b) => {return (this.calculateJoined(a) < this.calculateJoined(b))})
-        this.setState({events: joinedSorted})
+        let joinedSorted = events.sort((a,b) => {return (this.calculateJoined(b) - this.calculateJoined(a))})
+        this.state.all ? this.setState({events: joinedSorted}) : this.setState({eventsweek: joinedSorted})
     }
+
     calculateJoined = (event) => {
         return event.joined.length;
     }
 
+    allSort= (e, events) =>{
+        e.preventDefault();
+        this.setState({all: true})
+    }
+    weekSort= (e, events) =>{
+        e.preventDefault();
+        this.setState({all: false})
+    }
+
 
     render(){
-        const events = this.state.events
+        const events = this.state.all ? this.state.events : this.state.eventsweek;
         return(
             <div className="eventsList">
             
                     <ul >
+                    <li >
+                        <div className="eventInList">
+                            <button class="btn btn-light" onClick={(e)=>{this.weekSort(e, events)}}>THIS WEEK</button>
+                            <button class="btn btn-light" onClick={(e)=>{this.allSort(e, events)}}>ALL</button>
+                            </div>
+                        </li>
                         <li >
                         <div className="eventInList">
                             <button class="btn btn-info" >#</button>
