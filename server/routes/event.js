@@ -14,9 +14,6 @@ const uploadCloud = require('../config/cloudinary.js');
 router.post('/create', [ensureLoggedIn(), uploadCloud.single('photo')], (req, res, next)=>{
     let {title, description, artist, artistURL, video, date, datestr, time, price, type, place} = req.body;
     const photo = req.file.url;
-    console.log("ENTRA")
-    console.log('USE LOGED',req.user)
-  console.log("REQ FILE", req.file)
     Event.create({title, description, artist, photo, artistURL, video, date, datestr, time, price, type, place})
     .then(event => 
         User.findByIdAndUpdate(event.place, {$push: {eventsHost: event._id}}, {new:true}).populate('eventsGo').populate('eventsGo.place')
@@ -38,7 +35,7 @@ router.get('/all', (req, res, next) => {
 //EVENTS LIST TODAY, THIS WEEK & MONTH
 router.get('/today', (req, res, next) => {
     let thisweek = moment().endOf('day')
-    console.log("THIS WEEK", today)
+    console.log("THIS DAY", today)
     Event.find({date: { $lte: thisweek }}).populate('place').populate('joined').then(events => 
         res.json({status: 'EVENTS THIS WEEK', events})
     ).catch(e => console.log(e))

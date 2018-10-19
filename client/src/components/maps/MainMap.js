@@ -12,7 +12,6 @@ class MainMap extends Component {
     };
     this.onScriptLoad = this.onScriptLoad.bind(this)
     this.getList();
-    console.log("props", this.props)
     
   }
 
@@ -26,8 +25,12 @@ class MainMap extends Component {
   }
 
   componentWillMount (){
+    this.setState({places: this.props.places})
     this.getList();
-}
+  }
+  componentWillReceiveProps (nextProps){
+    this.setState({places: nextProps.places})
+  }
 
   onScriptLoad() {
     const map = new window.google.maps.Map(
@@ -41,7 +44,7 @@ class MainMap extends Component {
 
     let marker
 
-    this.props.places.map(place => {
+    this.state.places.map(place => {
 
         marker = new window.google.maps.Marker({
         position: { lat: place.location.coordinates[0], lng: place.location.coordinates[1] },
@@ -97,7 +100,6 @@ class MainMap extends Component {
   }
 
   render() {
-      //console.log("STATE EN RENDER", this.state)
     return (
       <div style={{ width: '80%', height: '80vh' }} id={this.props.id} />
     );

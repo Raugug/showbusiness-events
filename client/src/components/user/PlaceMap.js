@@ -26,7 +26,7 @@ class PlaceMap extends Component {
         map: map,
         title: this.props.adr
       });
-    console.log("MARKER", marker)
+    //console.log("MARKER", marker)
     
   }
 

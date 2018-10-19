@@ -32,18 +32,13 @@ class Navbar extends Component {
             <li class="nav-item active">
               <Link className="nav-link" to="/newevent">New Event <span class="sr-only">(current)</span></Link>
             </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="/myprogram"> My Program <span class="sr-only">(current)</span></a>
-            </li>
+        
           </ul>  
-          :
+          :<div></div>}
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
               <Link className="nav-link" to="/all"> All Events <span class="sr-only">(current)</span></Link>
             </li>
-            {/* <li class="nav-item active">
-              <Link className="nav-link" to="/map">Map <span class="sr-only">(current)</span></Link>
-            </li> */}
             <li class="nav-item active">
               <Link className="nav-link" to="/ListTheaters">Theaters <span class="sr-only">(current)</span></Link>
             </li>
@@ -57,7 +52,7 @@ class Navbar extends Component {
               <Link className="nav-link" to="/ListClubs">Clubs <span class="sr-only">(current)</span></Link>
             </li>
           </ul>
-          }
+        
         </div>
         <form class="form-inline">
           <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"/>

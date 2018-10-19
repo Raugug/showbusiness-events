@@ -20,20 +20,17 @@ class Event extends Component {
     }
 
     componentWillMount(){
-        console.log("PROPS EN DETAIL", this.props.id, this.props.user)
         this.service.getEvent(this.props.id).then((event) =>
         {
-
-            console.log("EVENT", event)
             this.setState(event)
         })
-        console.log("STATE EN CONST", this.state)
+        //console.log("STATE EN CONST", this.state)
 
     }
     handleJoin = (e) => {
         e.preventDefault();
         UserService.joinevent(this.props.user._id, this.props.id).then(response => {
-            console.log("response joinevent", response)
+            //console.log("response joinevent", response)
             this.props.update(response.user)
             this.setState(response.event);
         })
@@ -41,7 +38,7 @@ class Event extends Component {
     handleLeave = (e) => {
         e.preventDefault();
         UserService.unjoinevent(this.props.user._id, this.props.id).then(response => {
-            console.log("response UNjoinevent", response)
+            //console.log("response UNjoinevent", response)
             this.props.update(response.user)
             this.setState(response.event);
         })

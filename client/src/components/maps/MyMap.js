@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-//import { render } from 'react-dom';
 import geolocalize from './geolocalize'
 
 class MyMap extends Component {
@@ -32,7 +31,6 @@ class MyMap extends Component {
           lat:e.latLng.lat(),
           lng:e.latLng.lng()
         }
-        console.log(clickPos);
         marker.setPosition(clickPos);
         this.props.getLoc(clickPos.lat, clickPos.lng)
 
@@ -54,27 +52,8 @@ class MyMap extends Component {
             position: { lat: clickPos.lat, lng: clickPos.lng }
           }
       })
-        console.log("MARKER: ", this.state.marker);
-      });
-
-        /* let marker = new window.google.maps.Marker({
-          position: { lat: clickPos.lat, lng: clickPos.long },
-          map: map,
-          title: 'Hello!'
-        }); */
-      
-      /* this.props.getLoc(clickPos.lat, clickPos.lng)
-      //marker.setPosition(clickPos);
-      this.setState({
-        marker:
-          {
-            title: "Marker",
-            position: { lat: clickPos.lat, lng: clickPos.lng }
-          }
-      }) */
-    //});
-
-    
+        //console.log("MARKER: ", this.state.marker);
+      });    
   }
 
   componentDidMount() {

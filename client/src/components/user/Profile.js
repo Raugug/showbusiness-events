@@ -6,6 +6,7 @@ import {UserService} from './UserService';
 import Icon from 'react-icons-kit';
 import {calendar} from 'react-icons-kit/icomoon/calendar'
 import {clock} from 'react-icons-kit/icomoon/clock'
+import {user} from 'react-icons-kit/icomoon/user'
 
 
 class Profile extends Component {
@@ -17,7 +18,6 @@ class Profile extends Component {
         if(this.props.id){
             this.service.getuser(this.props.id).then(response => this.setState(response))
         }
-        console.log("PROPS En CONSTRUCTOR", this.props.id, this.props.user)
     }
 
     componentWillReceiveProps(nextProps){
@@ -30,7 +30,6 @@ class Profile extends Component {
                     
                 let state = this.props.user
                 this.setState(state)
-                console.log("RECIEVE", this.state)
             }
     }
     componentDidMount(){
@@ -43,7 +42,6 @@ class Profile extends Component {
                     
                 let state = this.props.user
                 this.setState(state)
-                console.log("RECIEVE", this.state)
             }
     }
 
@@ -82,7 +80,7 @@ class Profile extends Component {
     }
 
     redirect = (e, id) => {
-        debugger
+        //debugger
         this.service.getuser(id).then(response => this.setState(response))
     }
     compareEvents = (a,b) => {
@@ -100,16 +98,15 @@ class Profile extends Component {
     }
 
     render(){
-        console.log("state EN RENDER", this.state)
         let {username, email, photo, placeType, address, eventsHost, eventsGo, favUsers, favPlaces, followPlaces, location} = this.state
         let isInFavUsers =this.props.user.favUsers.filter(userfav => {return (userfav._id===this.props.id)})
         let isInFavPlaces =this.props.user.favPlaces.filter(placefav => {return (placefav._id===this.props.id)})
         //let isInFollowPlaces =this.props.user.followPlaces.filter(placefollowers => {return (placefollowers._id===this.props.id)})
         let eventsGoOrdered = eventsGo.sort(this.compareEvents);
+
         if (placeType==="User")
         return(
             <div className="main-profile">
-            <p>{this.props.type}</p>
                 <div className="content-profile">
                     <div className="left-profile">
                         <img src={photo} alt=""/>
@@ -143,13 +140,15 @@ class Profile extends Component {
                         {eventsGoOrdered.map(event =>{
                             return  <li >
                                     <div className="eventInList">
-                                        <div>
+                                        
                                         <Icon icon={calendar}/><p>{event.datestr}</p>
                                         <Icon icon={clock}/><p>{event.time}</p>
-                                        </div>
+                                        
                                         <Link to={"/event/"+event._id}>{event.title}</Link>
-                                        <Link to={"/place/"+event.place._id}>{event.place.username}</Link>
+                                        <Icon icon={user}/><p>{event.joined.length} </p>
+
                                     </div>
+                                    <hr/> 
                                     </li>
 
                         })}
@@ -186,12 +185,9 @@ class Profile extends Component {
                 </div>
             </div>
         )
-        else{
-            let eventsHostOrdered = eventsHost.sort(this.compareEvents);
-            console.log(eventsHostOrdered);
-              
-              
-                
+        else {
+
+        let eventsHostOrdered = eventsHost.sort(this.compareEvents);        
         return (
             <div className="main-profile">
                 <div className="content-profile">
@@ -200,7 +196,6 @@ class Profile extends Component {
                         <h4>{username}</h4>
                         <h4>{email}</h4>
                         <h4>{placeType}</h4>
-                        {/* <h4>{address}</h4> */}
                         {(isInFavPlaces.length === 0) ?
                         
                         <div className="buttons">
@@ -235,14 +230,14 @@ class Profile extends Component {
                         {eventsHostOrdered.map(event =>{
                             return  <li >
                                     <div className="eventInList">
-                                        <div>
+                                        
                                         <Icon icon={calendar}/><p>{event.datestr}</p>
                                         <Icon icon={clock}/><p>{event.time}</p>
-                                        </div>
                                         <Link to={"/event/"+event._id}><span>{event.title}</span></Link>
-                                        <Link to={"/place/"+event.place._id}><span>{event.place.username}</span></Link>
+                                        <Icon icon={user}/><p>{event.joined.length} </p>
 
                                     </div>
+                                    <hr/>
                                     </li>
 
                         })}
@@ -250,7 +245,7 @@ class Profile extends Component {
                     <hr/>
                     
                     <hr/>
-                    <h1>Followers</h1>
+                    <h1>Followers ({followPlaces.length})</h1>
                     <hr/>
                     <ul className="favsList">
                     {followPlaces.map(user =>

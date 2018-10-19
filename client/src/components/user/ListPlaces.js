@@ -17,7 +17,6 @@ class ListPlaces extends Component {
     getPlacesList = (placeType) => {
             UserService.getplacesbytype(placeType)
             .then( response => {
-                console.log("RESPONSE EN getPlacesList", response)
               this.setState({places: response});
             })
             .catch( error => console.log(error)) 
@@ -26,7 +25,6 @@ class ListPlaces extends Component {
     getList = () => {
         this.service.getall()
       .then( response => {
-          console.log(response)
           this.setState({events: response.events});
       })
       .catch( error => console.log(error)) 
@@ -39,8 +37,10 @@ class ListPlaces extends Component {
     componentWillMount() {
         this.getPlacesList(this.props.placeType);
     }
+
+    followers = (place) => place.followPlaces.length
+
     render(){
-        console.log("PLACE STATE LIST", this.state.places)
         const places = this.state.places
         return(
             <div className="eventsList">
@@ -60,7 +60,7 @@ class ListPlaces extends Component {
                                     <div className="eventInList">
                                         <img src={place.photo} alt=""></img>
                                         <Link to={"/place/"+place._id}>{place.username}</Link>
-                                        <p>{place.placeType}</p>
+                                        <p>{this.followers(place)}</p>
                                         <p>{place.address}</p>
                                         
                                     </div>

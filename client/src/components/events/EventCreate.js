@@ -21,15 +21,12 @@ class EventCreate extends Component {
   
       this.service.create(title, description, artist, photo, artistURL, video, date, date, time, price, type, place)
       .then( response => {
-        console.log("RESPONSE USER EN CREATE", response.user)
         that.props.update(response.user)
+        
         this.setState({
           redirect: true
         });
-          /* this.setState({redirect: true, title: '', description: '', artist: '', photo: null, artistURL:'',video:'',
-                         date:'', datestr: '', time:'', price:'', type:'', place:this.props.getUser._id});
-          //console.log("EVENT CREATED IN FRONT", response.event) */
-          console.log("EVENT CREATED IN FRONT", this.state.redirect)
+          //console.log("EVENT CREATED IN FRONT", this.state.redirect)
       })
       .catch( error => console.log(error) )
     }
@@ -62,7 +59,7 @@ class EventCreate extends Component {
     }
 
     render() {
-      console.log("STATE IN FORM AFTER CHANGE", this.state)
+      //console.log("STATE IN FORM AFTER CHANGE", this.state)
       if(this.state.redirect){
           return <Redirect to='/profile'/>;
         }

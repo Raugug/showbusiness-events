@@ -16,8 +16,6 @@ class EditProfile extends Component {
         this.state.error = false;
 
         this.service = UserService;
-
-        console.log(this.state)
     }
 
     handleFormSubmit = (event) => {
@@ -55,7 +53,6 @@ class EditProfile extends Component {
 
 
     render(){
-        console.log("STATE EN RENDER", this.state)
         let {placeType} = this.state
         if(this.state.redirect){
             return <Redirect to='/profile'/>;

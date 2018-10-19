@@ -45,7 +45,6 @@ class App extends Component {
     if( this.state.loggedInUser === null ){
       this.service.loggedin()
       .then(response =>{
-        console.log(response)
         this.setState({
           loggedInUser:  response
         }) 
@@ -72,6 +71,10 @@ class App extends Component {
     //debugger
       this.setState({loggedInUser: res})
   }
+  updateMap = () => {
+    this.setState({loading: true});
+    this.getPlacesList();
+  }
   getPlacesList = () => {
     UserService.getplaces()
     .then( response => {
@@ -83,7 +86,6 @@ class App extends Component {
 
   render() {
     this.fetchUser()
-    console.log(this.state)
     if(this.state.loggedInUser){
       return (
         <div className="App">
@@ -97,7 +99,7 @@ class App extends Component {
               <Route exact path='/ListBars' render={() => <ListPlaces placeType="Bar" getUser={this.state.loggedInUser}/>}/>
               <Route exact path='/ListCafe' render={() => <ListPlaces placeType="Cafe" getUser={this.state.loggedInUser}/>}/>
               <Route exact path='/ListClubs' render={() => <ListPlaces placeType="Club" getUser={this.state.loggedInUser}/>}/>
-              {(this.state.loading===false)?<Route exact path='/' render={() => <MainMap places={this.state.places} id="mainMap"options={{center: { lat: 40.4167321, lng: -3.706984 }, zoom: 13}}/>}/>:<p></p>}
+              {(this.state.loading===false)?<Route exact path='/' render={() => <MainMap update={this.updateMap} places={this.state.places} id="mainMap"options={{center: { lat: 40.4167321, lng: -3.706984 }, zoom: 13}}/>}/>:<p></p>}
               <Route exact path='/newevent' render={() => <EventCreate update={this.update} getUser={this.state.loggedInUser}/>}/>
               <Route exact path='/user/edit' render={() => <EditProfile update={this.update} user={this.state.loggedInUser}/>}/>
               <Route exact path={"/event/:id"} render={(props)=> <Event id={props.match.params.id} update={this.update} user={this.state.loggedInUser} events={this.state.events}/>}/>
@@ -121,8 +123,10 @@ class App extends Component {
           </header>
           <main className="App-main">
           <Switch>
+              <Route exact path='/' render={() => <div><div class="logo"><b><span>S</span>ho<span>w</span> Bu<span>s</span>ine<span>ss</span> E<span>v</span>ent<span>s</span></b></div>
+                                                  <div class="sublogo"><h3>Find the best live events in the best places in town.</h3></div></div>}/>}
               <Route exact path='/signup' render={() => <Signup getUser={this.getTheUser}/>}/>
-              <Route exact path='/signuplocal' render={() => <Signuplocal getUser={this.getTheUser}/>}/>
+              <Route exact path='/signuplocal' render={() => <Signuplocal updateMap={this.updateMap} getUser={this.getTheUser}/>}/>
               <Route exact path='/login' render={() => <Login getUser={this.getTheUser}/>}/>
            </Switch>
           </main>

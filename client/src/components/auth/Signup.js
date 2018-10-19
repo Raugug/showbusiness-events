@@ -20,8 +20,6 @@ class Signup extends Component {
     const latitude = this.state.latitude;
     const longitude = this.state.longitude;
 
-    console.log("PHOTO EN HS", photo)
-
     this.service.signup(username, password, password2, email, photo, placeType, address, latitude, longitude)
     .then( response => {
         this.setState({
@@ -32,7 +30,6 @@ class Signup extends Component {
             photo: null,
             message: response.message
         });
-        console.log(this.state.message)
         this.props.getUser(response.user)
     })
     .catch( error => console.log(error) )

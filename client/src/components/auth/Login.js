@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 //import { Link } from 'react-router-dom';
 import AuthService from './AuthService'
+import { Redirect } from 'react-router'
 
 class Login extends Component {
   constructor(props) {
     super(props);
-    this.state = { username: '', password: '' };
+    this.state = { username: '', password: '', redirect: false};
     this.service = new AuthService();
   }
 
@@ -19,7 +20,8 @@ class Login extends Component {
         this.setState({
           username: username,
           password: password,
-          error: false
+          error: false,
+          redirect: true
         });
 
         this.props.getUser(response)
@@ -44,6 +46,9 @@ class Login extends Component {
   }
 
   render() {
+    if(this.state.redirect){
+      return <Redirect to='/'/>;
+    }
 
     return (<div>
       <h3>What are you waiting for?</h3>

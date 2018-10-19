@@ -5,7 +5,6 @@ import geolocalize from './geolocalize'
 
  
 const Marker = props => {
-    //console.log(props)
     return <div className="Marker"><img src='http://maps.google.com/mapfiles/ms/icons/red-dot.png' alt="ALT"/>
             </div>
   }
@@ -41,9 +40,7 @@ class SimpleMap extends Component {
           });
         };
         setPosOnForm = (lat, lng) => {
-            console.log("ENTRA")
             document.addEventListener('DOMContentLoaded', () => {
-                console.log("ENTRA 2")
                 document.getElementById('lat-pos').value = lat;
                 document.getElementById('lng-pos').value = lng;
             }, false);
@@ -53,7 +50,6 @@ class SimpleMap extends Component {
 
  
   render() {
-    console.log(this.state)
     return (
       // Important! Always set the container height explicitly
       <div style={{ height: '50vh', width: '100%' }}>

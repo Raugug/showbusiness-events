@@ -10,7 +10,6 @@ class _EventService {
   }
 
   create = (title, description, artist, photo, artistURL, video, date, datestr, time, price, type, place) => {
-    console.log("EN EVENT SERVICE", title, description, artist, photo, artistURL, video, date, datestr, time, price, type, place)
 
     const formData = new FormData();
     formData.append("title", title)
@@ -26,7 +25,7 @@ class _EventService {
     formData.append("type", type)
     formData.append("place", place)
 
-    console.log('DEBUG formData', formData.get("photo"));
+    //console.log('DEBUG formData', formData.get("photo"));
     return this.service.post('/event/create', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',

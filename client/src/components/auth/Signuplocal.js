@@ -24,6 +24,7 @@ class Signuplocal extends Component {
 
     this.service.signup(username, password, password2, email, photo, placeType, address, latitude, longitude)
     .then( response => {
+      this.props.updateMap()
         this.setState({
             username: "", 
             password: "",
@@ -52,17 +53,15 @@ class Signuplocal extends Component {
   }
 
   getLocation = (lat, long) => {
-    console.log("LATLONG EN PADRE", lat, long)
+    //console.log("LATLONG EN PADRE", lat, long)
     let copy = {lat: lat, long: long}
-    //let copy = !this.state.isOn 
     this.setState({latitude: copy.lat, longitude: copy.long})
-    //console.log("STATE", this.state)
+    
 
   }
       
 
   render() {
-    console.log("STATE EN RENDER", this.state)
     return(
       <div>
         

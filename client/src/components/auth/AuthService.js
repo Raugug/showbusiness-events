@@ -10,7 +10,7 @@ class AuthService {
   }
 
   signup = (username, password, password2, email, photo, placeType, address, latitude, longitude) => {
-    console.log("EN SIGNUP SERVICE", username, password, password2, email, photo, placeType, address, latitude, longitude)
+    //console.log("EN SIGNUP SERVICE", username, password, password2, email, photo, placeType, address, latitude, longitude)
 
     const formData = new FormData();
     formData.append("username", username)
@@ -23,7 +23,7 @@ class AuthService {
     formData.append("latitude", latitude)
     formData.append("longitude", longitude)
 
-    console.log('DEBUG formData', formData.get("photo"));
+    //console.log('DEBUG formData', formData.get("photo"));
     return this.service.post('/auth/signup', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -39,10 +39,10 @@ class AuthService {
   }
 
   loggedin = () => {
-    console.log(process.env.REACT_APP_API_URL)
+    //console.log(process.env.REACT_APP_API_URL)
     return this.service.get('/auth/currentUser',)
     .then(response =>{ 
-      console.log(response)
+      //console.log(response)
       ;return response.data})
       .catch(err => console.log(err))
   }

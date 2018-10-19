@@ -21,7 +21,6 @@ class ListEvents extends Component {
     getList = () => {
         this.service.getall()
       .then( response => {
-          console.log(response)
           this.setState({events: response.events});
       })
       .catch( error => console.log(error)) 
@@ -76,7 +75,7 @@ class ListEvents extends Component {
     }
     priceSort= (e, events) =>{
         e.preventDefault();
-        let priceSorted = events.sort((a,b) => {return (a.price.slice(0, -1) < b.price.slice(0, -1))})
+        let priceSorted = events.sort((a,b) => {return (a.price.slice(0, -1) - b.price.slice(0, -1))})
         this.setState({events: priceSorted})
     }
     nameSort= (e, events) =>{
@@ -84,10 +83,17 @@ class ListEvents extends Component {
         let nameSorted = events.sort((a,b) => {return (a.title > b.title)})
         this.setState({events: nameSorted})
     }
+    joinedSort= (e, events) =>{
+        e.preventDefault();
+        let joinedSorted = events.sort((a,b) => {return (this.calculateJoined(a) < this.calculateJoined(b))})
+        this.setState({events: joinedSorted})
+    }
+    calculateJoined = (event) => {
+        return event.joined.length;
+    }
 
 
     render(){
-        console.log("STATE LIST", this.state.events)
         const events = this.state.events
         return(
             <div className="eventsList">
@@ -99,6 +105,7 @@ class ListEvents extends Component {
                             <button class="btn btn-info" onClick={(e)=>{this.nameSort(e, events)}}>EVENT</button>
                             <button class="btn btn-info" onClick={(e)=>{this.typeSort(e, events)}}>TYPE</button>
                             <button class="btn btn-info" onClick={(e)=>{this.priceSort(e, events)}}>PRICE</button>
+                            <button class="btn btn-info" onClick={(e)=>{this.joinedSort(e, events)}}>JOINED</button>
                             <button class="btn btn-info" onClick={(e)=>{this.timeSort(e, events)}}>DATE</button>
                             <button class="btn btn-info" onClick={(e)=>{this.placeSort(e, events)}}>PLACE</button>
                             </div>
@@ -111,6 +118,7 @@ class ListEvents extends Component {
                                         <Link to={"/event/"+event._id}>{event.title}</Link>
                                         <p>{event.type}</p>
                                         <p>{event.price}</p>
+                                        <p>{this.calculateJoined(event)}</p>
                                         <div>    
                                         <Icon icon={calendar}/><p>{event.datestr}</p>
                                         <Icon icon={clock}/><p>{event.time}</p>
