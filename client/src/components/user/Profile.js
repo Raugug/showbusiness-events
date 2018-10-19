@@ -160,7 +160,7 @@ class Profile extends Component {
                     {favPlaces.map(user =>
                         <li>
                             <img src={user.photo} alt=""/>
-                            <h4><Link onClick={() =>this.props.updateProfileType("specific")} to={"/user/"+user._id}>{user.username}</Link></h4>
+                            <h4><Link onClick={() =>this.props.updateProfileType("specific")} to={"/place/"+user._id}>{user.username}</Link></h4>
                         </li>
                         
                         )}
