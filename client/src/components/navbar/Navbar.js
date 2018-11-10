@@ -66,7 +66,6 @@ class Navbar extends Component {
                {user.username}
               </a>
               <div class="dropdown-menu" style={{width:'100'}} aria-labelledby="navbarDropdown">
-              {/* <a class="dropdown-item" href="/profile">Profile</a> */}
               <Link to='/profile'  onClick={() => this.props.updateProfileType("standard")} class="dropdown-item">Profile <span class="sr-only">(current)</span></Link>
               </div>
             </li>
@@ -97,8 +96,7 @@ class Navbar extends Component {
       </nav>
     )
   }
-  }
-    
+  }   
 }
 
 export default Navbar;

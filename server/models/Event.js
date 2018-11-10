@@ -26,5 +26,3 @@ const eventSchema = new Schema({
 
 const Event = mongoose.model('Event', eventSchema);
 module.exports = Event;
-
-//title, description, artist, artistURL, date, time, type, place

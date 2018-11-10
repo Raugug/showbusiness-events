@@ -16,7 +16,6 @@ class EventCreate extends Component {
     handleFormSubmit = (event) => {
       event.preventDefault();
       let {title, description, artist, photo, artistURL, video, date, time, price, type, place} = this.state;
-      //const place = this.props.getUser
       const that = this;
   
       this.service.create(title, description, artist, photo, artistURL, video, date, date, time, price, type, place)
@@ -26,7 +25,6 @@ class EventCreate extends Component {
         this.setState({
           redirect: true
         });
-          //console.log("EVENT CREATED IN FRONT", this.state.redirect)
       })
       .catch( error => console.log(error) )
     }
@@ -59,7 +57,6 @@ class EventCreate extends Component {
     }
 
     render() {
-      //console.log("STATE IN FORM AFTER CHANGE", this.state)
       if(this.state.redirect){
           return <Redirect to='/profile'/>;
         }

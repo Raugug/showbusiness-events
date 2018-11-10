@@ -7,11 +7,9 @@ const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
 
 //GET ALL PLACES LIST
 router.get('/places/all', (req, res, next) => {
-    console.log("ENTRA EN PLACES ALL")
     User.find({ placeType: { $ne: "User" } }).populate('eventsGo').populate('favUsers')
     .populate('eventsHost').populate('eventsHost.place').populate('favPlaces').populate('followUsers').populate('followPlaces')
     .then(places => {
-        console.log("ALL PLACES DE VUeLTA", places)
         res.status(200).json(places)})
     .catch(e => console.log(e))
 })
@@ -26,8 +24,7 @@ router.get('/places/:placeType', (req, res, next) => {
 })
 
 //GET PROFILE BY ID
-router.get('/:userId', /* ensureLoggedIn('../auth/currentuser'), */ (req, res, next) => {
-    console.log("ENTRA EN GET POR ID")
+router.get('/:userId', (req, res, next) => {
     const userId = req.params.userId;
     User.findById(userId).populate('eventsGo').populate('favUsers').populate('eventsGo.place')
     .populate('eventsHost').populate('eventsHost.place').populate('favPlaces').populate('followUsers').populate('followPlaces')
@@ -45,7 +42,6 @@ router.get('/edit/:userId', (req, res, next) => {
 //PUT ADD EVENT, ADD PLACE, ADD FAVUSER
 router.put('/add/joinevent', (req, res, next)=> {
     let {id, eventId} = req.body;
-    //console.log("ENTRA EN PUT", id, eventId)
     User.findByIdAndUpdate(id, {$push: {eventsGo: eventId}}, {new:true}).populate('eventsGo').populate('favUsers')
     .populate('eventsHost').populate('favPlaces').populate('followUsers').populate('followPlaces').populate('eventsGo.place')
         .then( user =>{
@@ -58,7 +54,6 @@ router.put('/add/joinevent', (req, res, next)=> {
 
 router.put('/add/favuser', (req, res, next)=> {
     let {id, favId} = req.body;
-    //console.log("ENTRA EN PUT", id, eventId)
     User.findByIdAndUpdate(id, {$push: {favUsers: favId}}, {new:true}).populate('eventsGo').populate('favUsers')
     .populate('eventsHost').populate('favPlaces').populate('followUsers').populate('followPlaces').populate('eventsGo.place')
         .then( user =>{
@@ -73,7 +68,6 @@ router.put('/add/favuser', (req, res, next)=> {
 
 router.put('/add/followplace', (req, res, next)=> {
     let {id, placeId} = req.body;
-    //console.log("ENTRA EN PUT", id, eventId)
     User.findByIdAndUpdate(id, {$push: {favPlaces: placeId}}, {new:true}).populate('eventsGo').populate('favUsers')
     .populate('eventsHost').populate('favPlaces').populate('followUsers').populate('followPlaces')
         .then( user =>{ 
@@ -90,7 +84,6 @@ router.put('/add/followplace', (req, res, next)=> {
 
 router.put('/delete/joinevent', (req, res, next)=> {
     let {id, eventId} = req.body;
-    //console.log("ENTRA EN PUT", id, eventId)
     User.findByIdAndUpdate(id, {$pull: {eventsGo: eventId}}, {new:true}).populate('eventsGo').populate('favUsers')
     .populate('eventsHost').populate('favPlaces').populate('followUsers').populate('followPlaces')
         .then( user =>{
@@ -103,7 +96,6 @@ router.put('/delete/joinevent', (req, res, next)=> {
 
 router.put('/delete/favuser', (req, res, next)=> {
     let {id, favId} = req.body;
-    //console.log("ENTRA EN PUT", id, eventId)
     User.findByIdAndUpdate(id, {$pull: {favUsers: favId}}, {new:true}).populate('eventsGo').populate('favUsers')
     .populate('eventsHost').populate('favPlaces').populate('followUsers').populate('followPlaces')
         .then( user =>{
@@ -118,7 +110,6 @@ router.put('/delete/favuser', (req, res, next)=> {
 
 router.put('/delete/followplace', (req, res, next)=> {
     let {id, placeId} = req.body;
-    //console.log("ENTRA EN PUT", id, eventId)
     User.findByIdAndUpdate(id, {$pull: {favPlaces: placeId}}, {new:true}).populate('eventsGo').populate('favUsers')
     .populate('eventsHost').populate('favPlaces').populate('followUsers').populate('followPlaces')
         .then( user =>{ 
@@ -137,22 +128,12 @@ router.put('/delete/followplace', (req, res, next)=> {
 ////PUT EDIT
 router.put('/edit', (req, res, next)=> {
     let {id, username, email, placeType} = req.body;
-    console.log("ENTRA EN PUT", id)
     
     
     //Check fields
     if (!username || !email){
         next(new Error('You must provide valid fields'));
     }
-    
-    //Username exists
-   /*  User.findOne({$and: [{_id: {$ne: id}},{username: username}]})
-    .then( foundUser => {
-        console.log("IDDD", id)
-        console.log("foundUser", foundUser)
-    if (foundUser) {
-        throw new Error('Username already exists');
-    }}).catch(e => console.log(e)); */
     if (placeType == "User"){
 
         User.findByIdAndUpdate(id, {username, email}, {new:true}).populate('eventsGo').populate('favUsers')
@@ -172,9 +153,6 @@ router.put('/edit', (req, res, next)=> {
             .catch(e => console.log(e));
 
     }
-    })
-//})
-
-
+})
 
 module.exports = router;

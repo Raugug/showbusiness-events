@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import './Profile.scss';
 import {UserService} from './UserService'
-//import Profile from './Profile';
 import { Redirect } from 'react-router'
-//import { Switch, Route } from 'react-router-dom';
 
 
 class EditProfile extends Component {
@@ -71,8 +69,6 @@ class EditProfile extends Component {
                   <label>Email</label>
                   <input type="email" name="email" value={this.state.email} onChange={e => this.handleChange(e)} class="form-control" />
               </div>
-      
-              {/* <button class="btn btn-warning"> EDIT </button> */}
               <Link to='/profile' onClick={e => this.handleFormSubmit(e)}>EDIT</Link>
             </form>
       

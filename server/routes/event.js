@@ -1,5 +1,4 @@
 const express = require("express");
-//const passport = require('passport');
 const router = express.Router();
 const User = require("../models/User");
 const Event = require("../models/Event");
@@ -35,7 +34,6 @@ router.get('/all', (req, res, next) => {
 //EVENTS LIST TODAY, THIS WEEK & MONTH
 router.get('/today', (req, res, next) => {
     let thisweek = moment().endOf('day')
-    console.log("THIS DAY", today)
     Event.find({date: { $lte: thisweek }}).populate('place').populate('joined').then(events => 
         res.json({status: 'EVENTS THIS WEEK', events})
     ).catch(e => console.log(e))
@@ -43,7 +41,6 @@ router.get('/today', (req, res, next) => {
 
 router.get('/thisweek', (req, res, next) => {
     let thisweek = moment().endOf('isoWeek')
-    console.log("THIS WEEK", thisweek)
     Event.find({date: { $lte: thisweek }}).sort({date: 1, time: 1}).populate('place').populate('joined').then(events => 
         res.json({status: 'EVENTS THIS WEEK', events})
     ).catch(e => console.log(e))
@@ -51,7 +48,6 @@ router.get('/thisweek', (req, res, next) => {
 
 router.get('/thismonth', (req, res, next) => {
     let thismonth = moment().endOf('month')
-    console.log("THIS MONTH", thismonth)
     Event.find({date: { $lte: thismonth }}).populate('place').populate('joined').then(events => 
         res.json({status: 'EVENTS THIS MONTH', events})
     ).catch(e => console.log(e))

@@ -16,8 +16,6 @@ const bcryptSalt = 10;
 const login = (req, user) => {
   return new Promise((resolve,reject) => {
     req.login(user, err => {
-      console.log('req.login ')
-      console.log(user)
 
       
       if(err) {
@@ -31,9 +29,6 @@ const login = (req, user) => {
 
 // SIGNUP
 router.post('/signup', [ensureLoggedOut(), uploadCloud.single('photo')], (req, res, next) => {
-  console.log("ENTRA")
-  console.log("REQ FILE", req.file)
-  //console.log("FILE URL", req.file.url)
   const {username, email, placeType="User", address, password, password2} = req.body;
   let location = {
     type: 'Point',
@@ -44,13 +39,8 @@ router.post('/signup', [ensureLoggedOut(), uploadCloud.single('photo')], (req, r
     location.coordinates[1]=0;
   }
 
-  console.log('username', username)
-  console.log('password', password)
-  console.log('location', location)
-
   //CHECK IF PHOTO
   if (!req.file){
-    //res.status(500).json({message:'You must provide a supported image file'})
     next(new Error('You must provide a supported image file'));
   }
   const photo = req.file.url;
@@ -64,14 +54,12 @@ router.post('/signup', [ensureLoggedOut(), uploadCloud.single('photo')], (req, r
   }
 
   //USERNAME EXISTS
-  User.findOne({ username })/* .populate('eventsGo').populate('eventsGo.place').populate('favUsers')
-  .populate('eventsHost').populate('favPlaces').populate('followUsers').populate('followPlaces') */
+  User.findOne({ username })
   .then( foundUser => {
     if (foundUser) throw new Error('Username already exists');
 
     const salt     = bcrypt.genSaltSync(10);
     const hashPass = bcrypt.hashSync(password, salt);
-    console.log('USER TO CREATE');
     return new User({
       username,
       password: hashPass,
@@ -102,7 +90,6 @@ router.post('/login', (req, res, next) => {
 
 
 router.get('/currentuser', (req,res,next) => {
-  console.log(req.user)
   if(req.user){
     res.status(200).json(req.user);
   }else{

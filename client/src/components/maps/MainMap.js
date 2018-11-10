@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {EventService} from '../events/EventService';
 import InfoWindow from './InfoWindow';
-import { Link } from 'react-router-dom';
 
 
 class MainMap extends Component {
@@ -59,7 +58,6 @@ class MainMap extends Component {
       if (place.placeType === "Club"){marker.setIcon('http://maps.google.com/mapfiles/ms/icons/yellow-dot.png');}
       if (place.placeType === "Theater"){marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');}
       if (place.placeType === "Cafe"){marker.setIcon('http://maps.google.com/mapfiles/ms/icons/purple-dot.png');}
-      //marker.addListener('click', animation);
       marker.addListener('click', e => {
         this.createInfoWindow(e, map, place)})
       
@@ -99,8 +97,6 @@ class MainMap extends Component {
       s.src = `https://maps.google.com/maps/api/js?key=YOUR_API_KEY`;
       var x = document.getElementsByTagName('script')[0];
       x.parentNode.insertBefore(s, x);
-      // Below is important. 
-      //We cannot access google.maps until it's finished loading
       s.addEventListener('load', e => {
         this.onScriptLoad()
       })

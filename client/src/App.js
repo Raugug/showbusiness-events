@@ -14,7 +14,6 @@ import EventCreate from './components/events/EventCreate';
 import ListEvents from './components/events/ListEvents';
 import Event from './components/events/Event'
 import MainMap from './components/maps/MainMap'
-//import {EventService} from './components/events/EventService';
 import {UserService} from './components/user/UserService';
 import ListPlaces from './components/user/ListPlaces';
 
@@ -68,7 +67,6 @@ class App extends Component {
   }
 
   update = (res) => {
-    //debugger
       this.setState({loggedInUser: res})
   }
   updateMap = () => {

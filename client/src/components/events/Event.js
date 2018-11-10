@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import './Event.scss';
-//import PlaceMap from './PlaceMap'
 import {EventService} from './EventService'
 import {UserService} from '../user/UserService'
-//import { EPROTO } from 'constants';
 import Icon from 'react-icons-kit';
 import {calendar} from 'react-icons-kit/icomoon/calendar'
 import {clock} from 'react-icons-kit/icomoon/clock'
@@ -24,13 +22,11 @@ class Event extends Component {
         {
             this.setState(event)
         })
-        //console.log("STATE EN CONST", this.state)
 
     }
     handleJoin = (e) => {
         e.preventDefault();
         UserService.joinevent(this.props.user._id, this.props.id).then(response => {
-            //console.log("response joinevent", response)
             this.props.update(response.user)
             this.setState(response.event);
         })
@@ -38,7 +34,6 @@ class Event extends Component {
     handleLeave = (e) => {
         e.preventDefault();
         UserService.unjoinevent(this.props.user._id, this.props.id).then(response => {
-            //console.log("response UNjoinevent", response)
             this.props.update(response.user)
             this.setState(response.event);
         })
@@ -120,17 +115,12 @@ class Event extends Component {
                         
                         )}
                     </ul>
-                
-
-
+               
                 </div>
-            </div>
-            
+            </div>   
         )
     }
 }
-
-
 
 export default Event;
 

@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import {EventService} from './EventService';
-//import { Switch, Route } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import './ListEvent.scss'
-//import Event from './Event'
 import Icon from 'react-icons-kit';
 import {calendar} from 'react-icons-kit/icomoon/calendar'
 import {clock} from 'react-icons-kit/icomoon/clock'
@@ -13,9 +11,7 @@ class ListEvents extends Component {
     constructor(props){
         super(props);
         this.state = {events:[], eventsweek: [], all:true};
-        this.service = EventService;
-        //this.getList();
-        
+        this.service = EventService;  
     }
 
     getList = () => {
@@ -58,13 +54,11 @@ class ListEvents extends Component {
         let typeSorted = events.sort((a,b) => { if(a.type < b.type) return -1;
                                                 if(a.type > b.type) return 1;
                                                 return 0;})
-        //this.setState({events: typeSorted})
         this.state.all ? this.setState({events: typeSorted}) : this.setState({eventsweek: typeSorted})
     }
     timeSort= (e, events) =>{
         e.preventDefault();
         let timeSorted = events.sort(this.compareEvents)
-        //this.setState({events: timeSorted})
         this.state.all ? this.setState({events: timeSorted}) : this.setState({eventsweek: timeSorted})
     }
 
@@ -73,13 +67,11 @@ class ListEvents extends Component {
         let placeSorted = events.sort((a,b) => { if(a.place.username < b.place.username) return -1;
                                                  if(a.place.username > b.place.username) return 1;
                                                  return 0;})
-        //this.setState({events: placeSorted})
         this.state.all ? this.setState({events: placeSorted}) : this.setState({eventsweek: placeSorted})
     }
     priceSort= (e, events) =>{
         e.preventDefault();
         let priceSorted = events.sort((a,b) => {return (a.price.slice(0, -1) - b.price.slice(0, -1))})
-        //this.setState({events: priceSorted})
         this.state.all ? this.setState({events: priceSorted}) : this.setState({eventsweek: priceSorted})
     }
     nameSort= (e, events) =>{
@@ -87,7 +79,6 @@ class ListEvents extends Component {
         let nameSorted = events.sort((a,b) => { if(a.title < b.title) return -1;
                                                 if(a.title > b.title) return 1;
                                                 return 0;})
-        //this.setState({events: nameSorted})
         this.state.all ? this.setState({events: nameSorted}) : this.setState({eventsweek: nameSorted})
     }
     joinedSort= (e, events) =>{

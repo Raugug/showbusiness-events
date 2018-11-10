@@ -8,7 +8,6 @@ const hbs = require('hbs');
 const mongoose = require('mongoose');
 const logger = require('morgan');
 const path = require('path');
-const moment = require('moment')
 const session = require("express-session");
 const MongoStore = require('connect-mongo')(session);
 const flash = require("connect-flash");
@@ -55,23 +54,8 @@ app.use(require('node-sass-middleware')({
   sourceMap: true
 }));
       
-
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
-
-
-hbs.registerHelper('ifUndefined', (value, options) => {
-  if (arguments.length < 2)
-      throw new Error("Handlebars Helper ifUndefined needs 1 parameter");
-  if (typeof value !== undefined ) {
-      return options.inverse(this);
-  } else {
-      return options.fn(this);
-  }
-});
-  
+app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico'))); 
 
 // default value for title local
 app.locals.title = 'Show Business Events';
@@ -111,7 +95,6 @@ const userRoutes = require('./routes/users')
 app.use('/api/user', userRoutes);
 
 app.use("*",(req, res, next) => {
-  // If no routes match, send them the React HTML.
   res.sendFile((path.join(__dirname + "/public/index.html")));
 });
       

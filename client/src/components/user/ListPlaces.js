@@ -2,16 +2,12 @@ import React, { Component } from 'react';
 import {UserService} from './UserService';
 import { Link } from 'react-router-dom';
 import '../events/ListEvent.scss';
-//import Icon from 'react-icons-kit';
-//import {calendar} from 'react-icons-kit/icomoon/calendar'
-//import {clock} from 'react-icons-kit/icomoon/clock'
 
 
 class ListPlaces extends Component {
     constructor(props){
         super(props);
         this.state = {places:[]};
-        //this.service = UserService;
         
     }
     getPlacesList = (placeType) => {

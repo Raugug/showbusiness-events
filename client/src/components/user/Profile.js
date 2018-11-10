@@ -48,7 +48,6 @@ class Profile extends Component {
     handleFav = (e) => {
         e.preventDefault();
         UserService.favuser(this.props.user._id, this.props.id).then(response => {
-            console.log("response favuser", response)
             this.props.update(response.user)
             this.setState(response.userfollowed);
         })
@@ -56,7 +55,6 @@ class Profile extends Component {
     handleUnfav = (e) => {
         e.preventDefault();
         UserService.unfavuser(this.props.user._id, this.props.id).then(response => {
-            console.log("response UNfavuser", response)
             this.props.update(response.user)
             this.setState(response.userfollowed);
         })
@@ -65,7 +63,6 @@ class Profile extends Component {
     handleFavplace = (e) => {
         e.preventDefault();
         UserService.followplace(this.props.user._id, this.props.id).then(response => {
-            console.log("response followplace", response)
             this.props.update(response.user)
             this.setState(response.placefollowed);
         })
@@ -73,14 +70,12 @@ class Profile extends Component {
     handleUnfavplace = (e) => {
         e.preventDefault();
         UserService.unfollowplace(this.props.user._id, this.props.id).then(response => {
-            console.log("response UNfollowplace", response)
             this.props.update(response.user)
             this.setState(response.placefollowed);
         })
     }
 
     redirect = (e, id) => {
-        //debugger
         this.service.getuser(id).then(response => this.setState(response))
     }
     compareEvents = (a,b) => {
@@ -101,7 +96,6 @@ class Profile extends Component {
         let {username, email, photo, placeType, address, eventsHost, eventsGo, favUsers, favPlaces, followPlaces, location} = this.state
         let isInFavUsers =this.props.user.favUsers.filter(userfav => {return (userfav._id===this.props.id)})
         let isInFavPlaces =this.props.user.favPlaces.filter(placefav => {return (placefav._id===this.props.id)})
-        //let isInFollowPlaces =this.props.user.followPlaces.filter(placefollowers => {return (placefollowers._id===this.props.id)})
         let eventsGoOrdered = eventsGo.sort(this.compareEvents);
 
         if (placeType==="User")

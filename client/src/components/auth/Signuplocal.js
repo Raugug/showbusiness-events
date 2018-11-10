@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import AuthService from './AuthService'
-//import SimpleMap from '../maps/Map'
 import MyMap from '../maps/MyMap'
 
 class Signuplocal extends Component {
@@ -53,7 +52,6 @@ class Signuplocal extends Component {
   }
 
   getLocation = (lat, long) => {
-    //console.log("LATLONG EN PADRE", lat, long)
     let copy = {lat: lat, long: long}
     this.setState({latitude: copy.lat, longitude: copy.long})
     
@@ -129,9 +127,6 @@ class Signuplocal extends Component {
             </div>
 
           </div>
-
-          
-
           
           <button class="btn btn-success"> Sign Up </button>
         </form>

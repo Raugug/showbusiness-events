@@ -1,5 +1,4 @@
 import axios from 'axios';
-//import moment from 'moment';
 
 class _EventService {
   constructor() {
@@ -24,8 +23,6 @@ class _EventService {
     formData.append("price", price)
     formData.append("type", type)
     formData.append("place", place)
-
-    //console.log('DEBUG formData', formData.get("photo"));
     return this.service.post('/event/create', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
